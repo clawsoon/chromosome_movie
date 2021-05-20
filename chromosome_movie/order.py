@@ -14,13 +14,12 @@ class Order():
         random.seed(1234)
 
     def write_db(self):
-        # TODO: Add more order options.
-        if self.cfg.order == 'traveller_45e_30s_105w_40s':
-            # There's probably a cleaner way to do this.
+        # There's probably a cleaner way to do this.
 
-            # WARNING: Everything will go kablooie if you don't use a valid
-            # column name, or if you re-use an existing column name that isn't
-            # meant for ordering.  No guardrails here.
+        # WARNING: Everything will go kablooie if you don't use a valid
+        # column name, or if you re-use an existing column name that isn't
+        # meant for ordering.  No guardrails here.
+        if self.cfg.order == 'traveller_45e_30s_105w_40s':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from Indian Ocean east of South Africa to southern Pacific west of South America.'
             self.create_order_description(column_name, description)
@@ -37,6 +36,12 @@ class Order():
             description = 'Travelling salesman heuristic from south of South Africa to Mexico City with max route length of 1000.'
             self.create_order_description(column_name, description)
             self.traveller((19, -39), (-99, 19), column_name, 1000)
+
+        elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000.'
+            self.create_order_description(column_name, description)
+            self.traveller((19, -39), (19, -39), column_name, 1000)
 
         else:
             raise Exception('Order "%s" not implemented.' % self.cfg.order)
@@ -97,26 +102,6 @@ class Order():
                 for variant_id in self.traveller_sort(start_location, end_location, rows):
                     write_cursor.execute(update_template, (order, variant_id))
                     order += 1
-
-            ## Start isn't a real location.  It's an arbitrary point we picked.
-            #locations = [start_location]
-            #variant_ids = [-1]
-            #for row in read_cursor:
-            #    locations.append((row['average_longitude'], row['average_latitude']))
-            #    variant_ids.append(row['id'])
-            ## End isn't a real location.  It's an arbitrary point we picked.
-            #locations.append(end_location)
-            #variant_ids.append(-1)
-
-            #route = travelling_genome.main(locations)
-            ## ...so we don't include start_location and end_location in the
-            ## final route.
-            #sorted_variant_ids = [variant_ids[i] for i in route[1:-1]]
-
-            #for variant_id in sorted_variant_ids:
-            #    #print(variant_id, order)
-            #    write_cursor.execute(update_template, (order, variant_id))
-            #    order += 1
 
         database.commit()
         database.close()

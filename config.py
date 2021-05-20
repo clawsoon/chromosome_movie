@@ -16,8 +16,9 @@ treeseq_type = 'sgdp'
 # This needs to be a valid SQL table name, since that what it's going to become.
 # See the order module to add choices.
 #order = 'traveller_45e_30s_105w_40s'
-order = 'traveller_19e_39s_99w_19n'
+#order = 'traveller_19e_39s_99w_19n'
 #order = 'traveller_19e_39s_99w_19n_max1000'
+order = 'traveller_roundtrip_19e_39s_max1000'
 #order = 'average_longitude'
 
 
@@ -64,6 +65,7 @@ layer_names = [
     'clef',
     'max_local',
     'average_location',
+    'all_average_locations',
     'local_frequencies',
     'caption',
     'date',
@@ -88,25 +90,38 @@ movie_layers = [
 # kinda work.
 shadows = True
 
+map_projection = 'natural_earth_2'
+map_rotation = -11  # I like either -11 or -150.
+
+# This has to be manually created for now.  I've been using G.Projector.
+default_world_map = images/f'blue_marble_{map_projection}_{map_rotation}.png'
+
+map_center = (int(0.5*width), int((1440/2-36)/1440*height))
+map_height = int(1024/1440*height)
+map_width = int(2048/1440*height)
+
+shadowfolder = images/('shadows' if shadows else 'noshadows')
+mapfolder = images/f'{map_projection}_{map_rotation}'
+
 layers = Stub()
 for name in layer_names:
     layer = Stub()
     setattr(layers, name, layer)
-    shadowfolder = name + ('_shadows' if shadows else '')
-    if name == 'average_location':
-        # Average location indexing on longitude_latitude.
-        layer.svg = images/name/'svg'/f'{name}.%s_%s.svg'
-        layer.png = images/name/'png'/f'{name}.%s_%s.png'
+    if name in ['world_map', 'max_local', 'average_location', 'all_average_locations', 'local_frequencies']:
+        layer.svg = mapfolder/name/'svg'/f'{name}.%08d.svg'
+        layer.png = mapfolder/name/'png'/f'{name}.%08d.png'
+        layer.center = map_center
+        layer.height = map_height
+        layer.width = map_width
     elif name == 'clef':
         # Clef indexing on note name.
-        layer.svg = images/shadowfolder/'svg'/f'{name}.%s.svg'
-        layer.png = images/shadowfolder/'png'/f'{name}.%s.png'
+        layer.svg = shadowfolder/name/'svg'/f'{name}.%s.svg'
+        layer.png = shadowfolder/name/'png'/f'{name}.%s.png'
     elif name in ['chromosome_map', 'caption', 'date', 'worldwide_frequency']:
         # Only use shadows for black lines/text.
-        layer.svg = images/shadowfolder/'svg'/f'{name}.%08d.svg'
-        layer.png = images/shadowfolder/'png'/f'{name}.%08d.png'
+        layer.svg = shadowfolder/name/'svg'/f'{name}.%08d.svg'
+        layer.png = shadowfolder/name/'png'/f'{name}.%08d.png'
     else:
-        # Everything else has a more conventional index.
         layer.svg = images/name/'svg'/f'{name}.%08d.svg'
         layer.png = images/name/'png'/f'{name}.%08d.png'
     # ffmpeg concat files, used so that we only have to generate the frames
@@ -126,15 +141,6 @@ layers.chromosome_map.sections = [
     {'axis': 'width', 'start': (1440, 1280), 'end': (1312, 1320)},
 ]
 layers.chromosome_map.radius = 8
-
-default_world_map = images/'blue_marble_natural_earth_2_minus_150.png'
-# We mostly use these world_map config items in the AverageLocationDots and
-# LocalFrequencyDots classes, in order to place the dots correctly.
-layers.world_map.rotation = -150
-layers.world_map.projection = 'natural_earth_2'
-layers.world_map.center = (int(0.5*width), int((1440/2-36)/1440*height))
-layers.world_map.height = int(1024/1440*height)
-layers.world_map.width = int(2048/1440*height)
 
 layers.max_local.max_radius = 16/1440*height
 layers.max_local.stroke_width = 0
@@ -178,7 +184,7 @@ layers.date.style = 'font-family:sans-serif;'
 layers.date.multiplier = 10000
 
 movie_limit = 0 # Limit the number of frames created.  0 = no limit.
-movie_time = 20 # Select a specific time.  0 = all times.
+movie_time = 3 # Select a specific time.  0 = all times.
 
 audio_midi = audio/f'{order}_{movie_limit}.midi'
 audio_wav = audio/f'{order}_{movie_limit}.wav'
@@ -200,6 +206,6 @@ audio_notes = {
     ('T', 'A'): 'C4',
 }
 
-movie_mp4 = movie/f'{order}_{"shadows" if shadows else "noshadows"}_{movie_time}_{movie_limit}.mp4'
+movie_mp4 = movie/f'{map_projection}_{map_rotation}_{order}_{"shadows" if shadows else "noshadows"}_{movie_time}_{movie_limit}.mp4'
 
 

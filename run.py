@@ -99,6 +99,13 @@ if 'average_location' in commands or ('all' in commands and 'average_location' i
     obj.write_svg()
     obj.write_png()
 
+# Convenience class to see all spots covered by average locations.  PNG.
+# Not run by 'all'.
+# Has an additional requirement of PIL.
+if 'all_average_locations' in commands:
+    obj = chromosome_movie.locations.AllAverageLocations(config)
+    obj.write_png()
+
 # World map local frequency red dots.  SVG, PNG.
 # One per unique local frequency set.
 # Indexed by ID of first variant it appears in.

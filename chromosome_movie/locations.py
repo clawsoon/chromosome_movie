@@ -20,7 +20,7 @@ class Locations():
     def __init__(self, cfg):
         self.cfg = cfg
 
-        self.projection = projections.get_projection(self.cfg.layers.world_map.projection, self.cfg.layers.world_map.rotation)
+        self.projection = projections.get_projection(self.cfg.map_projection, self.cfg.map_rotation)
 
         self.database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
         self.database.row_factory = sqlite3.Row
@@ -28,8 +28,8 @@ class Locations():
 
     def location_on_image(self, longitude, latitude):
         map_x, map_y = self.projection(longitude, latitude)
-        x = map_x * self.cfg.layers.world_map.height / 2 + self.cfg.layers.world_map.center[0]
-        y = map_y * self.cfg.layers.world_map.height / 2 + self.cfg.layers.world_map.center[1]
+        x = map_x * self.cfg.map_height / 2 + self.cfg.map_width / 2
+        y = map_y * self.cfg.map_height / 2 + self.cfg.map_height / 2
         return x, y
 
 
@@ -39,7 +39,7 @@ class Locations():
 
 
     def write_general_svg(self, path, locations):
-        svg = f'<svg viewBox="0 0 {self.cfg.width} {self.cfg.height}" xmlns="http://www.w3.org/2000/svg">\n'
+        svg = f'<svg viewBox="0 0 {self.cfg.map_width} {self.cfg.map_height}" xmlns="http://www.w3.org/2000/svg">\n'
 
         # Add location circles.
         for longitude, latitude, local_frequency in locations:
@@ -93,37 +93,40 @@ class AverageLocation(Locations):
         super().__init__(cfg)
         self.layercfg = self.cfg.layers.average_location
 
-        # Rounding to one digit after the decimal should give us
-        # sub-pixel resolution while cutting down on the number of
-        # images we need to make.  Hopefully SQLite and Python's
-        # round() functions both work exactly the same way.
-        self.digits = 1
-
     def select(self):
         cursor = self.database.cursor()
-        cursor.execute('SELECT DISTINCT ROUND(average_longitude, ?) AS average_longitude, ROUND(average_latitude, ?) AS average_latitude FROM variant', (self.digits, self.digits))
-        return cursor
+        cursor.execute('SELECT DISTINCT average_longitude, average_latitude FROM variant')
+        seen = set()
+        for variant in cursor:
+            index = self.index(variant)
+            if index in seen:
+                # Skip the repeats.
+                continue
+            seen.add(index)
+            yield variant
 
+    def index(self, variant):
+        # Clipping to one decimal gives us sub-pixel resolution while
+        # cutting down on the number of images we need to generate and
+        # allowing us to put the full index into 8 digits.
+        return int((variant['average_longitude']%360)*10)*10000 + int((variant['average_latitude']%360))
 
     def write_svg(self):
-        seen = set()
         for variant in self.select():
             location = (variant['average_longitude'], variant['average_latitude'], 1.0)
-            if location in seen:
-                continue
             self.write_general_svg(self.svg_path(variant, None), [location])
 
     def write_png(self):
 
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)
-        svg2png.svg2png(self.cfg, svg, png, self.select(), frame_convert=tuple)
+        svg2png.svg2png(self.cfg, svg, png, self.select(), frame_convert=self.index)
 
     def svg_path(self, variant, frame):
-        return str(self.layercfg.svg) % (round(variant['average_longitude'], self.digits), round(variant['average_latitude'], self.digits))
+        return str(self.layercfg.svg) % self.index(variant)
 
     def png_path(self, variant, frame):
-        return str(self.layercfg.png) % (round(variant['average_longitude'], self.digits), round(variant['average_latitude'], self.digits))
+        return str(self.layercfg.png) % self.index(variant)
 
 
 
@@ -152,4 +155,33 @@ class MaxLocal(Locations):
 
     def png_path(self, variant, frame):
         return str(self.layercfg.png) % 0
+
+
+class AllAverageLocations(AverageLocation):
+
+    '''
+    Convenience class to see all spots covered by average locations.
+    '''
+
+    def __init__(self, cfg):
+        super().__init__(cfg)
+        self.layercfg = self.cfg.layers.all_average_locations
+
+    def write_png(self):
+        import numpy
+        import PIL.Image
+        data = numpy.full((self.layercfg.height, self.layercfg.width, 4), (0,0,0,0), dtype=numpy.uint8)
+
+        seen = set()
+        for variant in self.select():
+            location = (variant['average_longitude'], variant['average_latitude'], 1.0)
+            if location in seen:
+                continue
+            x, y = self.location_on_image(variant['average_longitude'], variant['average_latitude'])
+            x = int(round(x))
+            y = int(round(y))
+            data[y-4:y+4, x-4:x+4] = (255,255,255,255)
+        image = PIL.Image.fromarray(data, 'RGBA')
+        image.save(str(self.layercfg.png) % 0)
+
 

@@ -3,7 +3,8 @@ import math
 def natural_earth_2(rotation=0):
     def projection(longitude, latitude):
         '''
-        Scaled to (0, 90) degrees = (0, 1.0).  I.e. scaled to a map height of one.
+        Scaled to (-90, 0, 90) degrees = (-1.0, 0, 1.0).
+        I.e. scaled to a map height of two with the center at 0,0.
 
         Based on:
         https://github.com/d3/d3-geo-projection/blob/master/src/naturalEarth2.js
