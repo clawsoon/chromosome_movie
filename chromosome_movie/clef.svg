@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xml:space="preserve"
+   width="1200"
+   height="1200"
+   style="fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   viewBox="0 0 2386.4454 17186.157"
+   id="svg2"
+   sodipodi:version="0.34"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="Notes5-spaces.svg"
+   version="1.1"
+   inkscape:export-filename="C:\Users\Andrew Klaassen\Videos\tskit\minus_150\images\Note3_shadow.png"
+   inkscape:export-xdpi="96.012001"
+   inkscape:export-ydpi="96.012001"
+   inkscape:label="clef">
+   <metadata
+   id="metadata22"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+   inkscape:window-height="1058"
+   inkscape:window-width="1858"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   borderopacity="1.0"
+   bordercolor="#666666"
+   pagecolor="#ffffff"
+   id="base"
+   inkscape:zoom="0.5025993"
+   inkscape:cx="521.01681"
+   inkscape:cy="801.1261"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:current-layer="svg2"
+   inkscape:document-rotation="0"
+   showgrid="false"
+   inkscape:window-maximized="1"
+   viewbox-x="0"
+   units="px" />
+ <defs
+   id="defs4"><style
+   type="text/css"
+   id="style6">
+   
+    .note {
+        font-style:normal;
+        font-variant:normal;
+        font-weight:bold;
+        font-stretch:normal;
+        font-size:2749.79px;
+        line-height:1.25;
+        font-family:sans-serif;
+        -inkscape-font-specification:'sans-serif Bold';
+        white-space:pre;
+        inline-size:0;
+        fill:#ff0000;
+        fill-opacity:1;
+        fill-rule:evenodd;
+        stroke:#000000;
+        stroke-width:14.3218;
+        stroke-opacity:1;
+        image-rendering:optimizeQuality;
+        shape-rendering:geometricPrecision;
+        text-rendering:geometricPrecision;
+    }
+   .line {
+        fill:none;
+        fill-rule:evenodd;
+        stroke:#000000;
+        stroke-width:286.436;
+        stroke-linecap:butt;
+        stroke-linejoin:miter;
+        stroke-miterlimit:4;
+        stroke-dasharray:none;
+        stroke-opacity:1;
+        image-rendering:optimizeQuality;
+        shape-rendering:geometricPrecision;
+        text-rendering:geometricPrecision;
+    }
+    .clef {
+        fill:#000000;
+        fill-opacity:1;
+        stroke:#000000;
+        stroke-width:11.4438;
+        stroke-opacity:1;
+    }
+   
+  </style>
+
+  <filter
+   style="color-interpolation-filters:sRGB"
+   inkscape:label="Drop Shadow"
+   id="dropshadow"><feFlood
+     flood-opacity="0.5"
+     flood-color="rgb(0,0,0)"
+     result="flood"
+     id="feFlood11318" /><feComposite
+     in="flood"
+     in2="SourceGraphic"
+     operator="in"
+     result="composite1"
+     id="feComposite11320" /><feGaussianBlur
+     in="composite1"
+     stdDeviation="200"
+     result="blur"
+     id="feGaussianBlur11322" /><feOffset
+     dx="0"
+     dy="0"
+     result="offset"
+     id="feOffset11324" /><feComposite
+     in="SourceGraphic"
+     in2="offset"
+     operator="over"
+     result="composite2"
+     id="feComposite11326" />
+   </filter>
+
+  </defs>
+  <path
+   class="clef shadow"
+   d="m -2548.4508,9393.0625 c -233.0921,64.9987 -443.2565,208.9959 -638.1366,429.9915 -194.879,224.996 -290.4085,471.991 -290.4085,738.985 0,166.997 57.3174,357.993 168.1313,559.989 110.8139,204.996 278.9461,353.994 496.7531,448.992 72.6016,14.999 106.992,52.999 106.992,106.998 0,18.999 -26.7477,37.999 -91.7078,52.999 -347.7269,-87.999 -634.3145,-273.995 -855.9425,-551.99 -221.6277,-281.994 -336.2634,-601.988 -343.9061,-966.91 11.4635,-392.9919 129.9201,-757.9847 355.3697,-1092.9782 229.2704,-338.9933 523.5008,-578.9886 882.6912,-719.9858 l -263.6618,-1351.9734 c -588.4598,486.9904 -1066.1068,993.9804 -1436.7607,1526.97 -370.6539,528.9896 -561.712,1103.9783 -576.9973,1724.9664 7.6427,277.994 64.9599,547.989 171.953,806.984 106.9931,262.995 267.4827,498.99 481.4678,715.986 431.7929,430.991 993.505,654.987 1677.4944,677.986 233.0922,-14.999 481.4679,-56.998 748.9504,-124.997 z m 275.1244,-37.9993 596.1023,2927.9428 c 588.4611,-235.996 882.69149,-749.986 882.69149,-1534.97 -34.39036,-261.995 -110.81384,-497.99 -240.73409,-707.986 -126.099,-212.9961 -294.2303,-380.9928 -508.2164,-502.9904 -213.9853,-120.9976 -454.7191,-181.9964 -729.8433,-181.9964 z M -3056.6673,5394.141 c 126.0992,-75.9985 271.3034,-208.9958 427.9712,-395.9922 156.6689,-182.9964 309.5158,-399.9921 454.7201,-642.9873 149.0261,-247.9952 267.4816,-498.9902 355.3686,-753.9852 87.887,-251.9951 129.9198,-491.9904 129.9198,-711.986 0,-95.9981 -7.6417,-190.9963 -26.7476,-274.9946 -15.2852,-136.9973 -57.3175,-242.9953 -129.9201,-315.9938 -72.6026,-67.9987 -164.3104,-105.9979 -278.946,-105.9979 -229.2705,0 -435.613,140.9972 -619.0295,421.9917 -141.3835,243.9952 -259.8401,533.9895 -343.906,860.9831 -87.8869,330.9934 -137.5617,658.987 -145.2044,989.9805 19.1061,376.9926 80.2453,685.9865 175.7739,928.9817 z m -240.7338,220.9957 c -171.9522,-616.9879 -267.4818,-1244.9755 -286.5879,-1884.963 3.8209,-410.9919 45.8539,-795.9843 126.0992,-1153.9773 76.4237,-357.9929 187.2374,-665.9869 332.4417,-932.9816 141.3834,-265.9948 305.6939,-467.9909 489.1104,-604.9882 164.3105,-121.99756 282.766,-186.99629 347.726,-186.99629 49.6757,0 91.7087,18.99963 129.92,53.99894 38.2122,33.99933 87.8869,90.99821 149.026,166.99675 454.7191,643.9873 683.9895,1420.972 683.9895,2326.9542 0,429.9916 -57.3175,848.9834 -171.9522,1267.9751 -110.8138,414.9919 -275.1243,810.9841 -492.9311,1179.9768 -221.6287,373.9927 -481.4677,696.9863 -783.3407,974.9809 l 309.5146,1500.9705 c 168.1323,-18.9996 282.767,-34.9993 347.7269,-34.9993 290.4096,0 550.2485,60.9988 790.9825,182.9964 240.7336,121.9976 447.07734,285.9944 615.20985,494.9903 168.13096,205.9959 298.05115,441.9913 389.75863,708.986 87.88707,265.9948 137.56297,543.9891 137.56297,833.9841 0,448.991 -118.45662,859.983 -355.36983,1229.975 -236.91207,368.993 -592.28152,638.988 -1069.92762,813.984 30.5684,186.997 84.0651,456.991 164.3105,803.985 76.4235,349.993 133.7407,627.987 171.9522,833.983 38.2119,205.996 53.4963,403.992 53.4963,597.988 0,300.995 -72.6015,566.989 -217.8068,802.985 -149.0254,235.995 -347.7271,418.991 -599.9244,548.989 -248.3755,128.997 -523.4997,193.996 -821.552,193.996 -420.3286,0 -787.1607,-117.998 -1100.4972,-349.993 -313.3366,-236.995 -481.4678,-552.989 -496.752,-955.981 11.4634,-178.997 53.4954,-346.993 129.9189,-506.99 76.4235,-159.997 179.5958,-288.995 313.3366,-387.993 129.92,-102.998 286.5878,-155.997 466.1835,-167.996 149.025,0 290.4086,41.999 424.1494,121.997 129.92,83.999 236.913,193.996 317.1573,334.994 76.4235,140.997 118.4566,296.994 118.4566,464.99 0,224.996 -76.4235,414.992 -229.2704,570.989 -152.847,155.997 -347.7269,235.996 -580.8182,235.996 h -87.887 c 149.0261,228.995 393.5808,346.993 733.6651,346.993 171.9531,0 347.727,-37.999 523.5008,-106.998 179.5947,-71.999 328.6208,-166.997 454.7191,-288.994 126.0991,-121.998 210.1654,-251.995 244.5557,-388.993 64.9599,-155.997 95.5295,-372.992 95.5295,-642.987 0,-182.997 -19.106,-365.993 -53.4963,-548.989 -34.3908,-178.997 -87.8871,-418.992 -160.4898,-715.986 -72.6026,-292.995 -126.0991,-520.99 -156.6677,-676.987 -229.2705,56.999 -466.1835,86.998 -714.56,86.998 -416.5078,0 -810.0886,-83.998 -1180.7415,-254.995 -370.654,-170.996 -695.4539,-406.992 -978.2209,-711.986 -278.9451,-304.994 -496.752,-647.987 -653.4199,-1035.979 -152.8468,-384.993 -233.0922,-787.9848 -236.9131,-1206.9766 15.2843,-388.9924 87.887,-761.985 225.4497,-1111.9781 137.5615,-353.9931 313.3356,-688.9865 531.1425,-1001.9804 217.807,-311.9938 443.2555,-596.9882 676.3479,-852.9832 236.9119,-250.9951 546.4276,-574.9887 936.1867,-966.981 z"
+   id="trebleclef" />
+  <g id="lines" class="line shadow">
+   <path d="m -6432.1428,3783.4584 15250.7312,0.5639" id="lineF5" />
+   <path d="m -6432.1429,6030.2327 15250.7311,0.5639" id="lineD5" />
+   <path d="m -6432.1429,8280.8149 15250.7308,0.5639" id="lineB4" />
+   <path d="m -6432.1429,10527.589 15250.7308,0.564" id="lineG4" />
+   <path d="m -6432.1429,12778.171 15250.7308,0.564" id="lineE4" />
+   <path d="m 399.35761,15032.117 7263.45309,1.174" id="lineC4" style="display:none" />
+  </g>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="G5t"
+   transform="translate(10346.744,2140.9197)">
+   <tspan
+     id="G5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">G5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="F5t"
+   transform="translate(10346.744,3102.1503)" >
+   <tspan
+     id="F5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">F5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="E5t"
+   transform="translate(10223.218,4391.1395)">
+   <tspan
+     id="E5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">E5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="D5t"
+   transform="translate(10223.218,5352.3701)" >
+   <tspan
+     id="D5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">D5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="C5t"
+   transform="translate(10346.744,6647.8648)">
+   <tspan
+     id="C5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">C5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="B4t"
+   transform="translate(10346.744,7609.0954)" >
+   <tspan
+     id="B4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">B4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="A4t"
+   transform="translate(10223.218,8904.59)">
+   <tspan
+     id="A4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">A4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="G4t"
+   transform="translate(10223.218,9865.8206)" >
+   <tspan
+     id="G4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">G4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="F4t"
+   transform="translate(10223.218,11141.165)">
+   <tspan
+     id="F4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">F4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="E4t"
+   transform="translate(10223.218,12102.396)" >
+   <tspan
+     id="E4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">E4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="D4t"
+   transform="translate(10223.218,13397.891)">
+   <tspan
+     id="D4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">D4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="C4t"
+   transform="translate(10223.218,14359.122)" >
+   <tspan
+     id="C4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none">C4</tspan>
+  </text>
+</svg>
+
+
