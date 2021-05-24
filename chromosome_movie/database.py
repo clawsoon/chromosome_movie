@@ -45,7 +45,7 @@ class Database():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS chromosome (
                 id INTEGER PRIMARY KEY,
-                name TEXT,
+                name TEXT UNIQUE,
                 first_site INTEGER,
                 last_site INTEGER,
                 map_rate REAL,
@@ -74,6 +74,7 @@ class Database():
                 chromosome_position INTEGER,
                 average_longitude REAL,
                 average_latitude REAL,
+                total_distance_to_average_location REAL,
                 local_counts_match_variant_id INTEGER
             );
         ''')
@@ -149,6 +150,11 @@ class Database():
         ''')
 
         cursor.execute('''
+            CREATE INDEX IF NOT EXISTS total_distance_to_average_location_idx
+                ON variant (total_distance_to_average_location);
+        ''')
+
+        cursor.execute('''
             CREATE INDEX IF NOT EXISTS variant_id_idx
                 ON variant_location (variant_id);
         ''')
@@ -162,7 +168,7 @@ class Database():
 
         # We look for conflicts on this combination.
         cursor.execute('''
-            CREATE INDEX IF NOT EXISTS variant_location_idx
+            CREATE UNIQUE INDEX IF NOT EXISTS variant_location_idx
                 ON variant_location (variant_id, longitude, latitude);
         ''')
 
@@ -221,10 +227,17 @@ class Database():
         y = numpy.average(numpy.cos(latitudes) * numpy.sin(longitudes))
         z = numpy.average(numpy.sin(latitudes))
 
-        average_longitude = math.degrees(math.atan2(y, x))
-        average_latitude = math.degrees(math.atan2(z, (x**2 + y**2)**0.5))
+        average_longitude = math.atan2(y, x)
+        average_latitude = math.atan2(z, (x**2 + y**2)**0.5)
 
-        return average_longitude, average_latitude
+        total_distance_to_average_location = numpy.sum(numpy.arccos(numpy.clip(
+            numpy.sin(latitudes) * numpy.sin(average_latitude)
+            + numpy.cos(latitudes) * numpy.cos(average_latitude)
+            * numpy.cos(numpy.absolute(longitudes - average_longitude)),
+            -1, 1)
+        ))
+
+        return math.degrees(average_longitude), math.degrees(average_latitude), math.degrees(total_distance_to_average_location)
 
 
     def add_variants(self):
@@ -291,6 +304,7 @@ class Database():
                     int(variant.position),
                     average_location[0],
                     average_location[1],
+                    average_location[2],
                     local_counts_match_variant_id,
                 )
 
@@ -307,10 +321,11 @@ class Database():
                             chromosome_position,
                             average_longitude,
                             average_latitude,
+                            total_distance_to_average_location,
                             local_counts_match_variant_id
                         )
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT
                         (id)
                     DO UPDATE SET
@@ -322,6 +337,7 @@ class Database():
                             chromosome_position=?,
                             average_longitude=?,
                             average_latitude=?,
+                            total_distance_to_average_location=?,
                             local_counts_match_variant_id=?
                     ''', entry + entry[1:])
 

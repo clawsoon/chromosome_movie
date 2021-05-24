@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import shutil
 
 class WorldMap():
@@ -11,6 +12,7 @@ class WorldMap():
     def write_png(self):
         source = self.cfg.default_world_map
         destination = str(self.laycfg.png) % 0
+        sys.stderr.write(f'Copying {source} -> {destination}\n')
         shutil.copy(source, destination)
 
     def svg_path(self, variant, frame):

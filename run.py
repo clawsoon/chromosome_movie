@@ -34,10 +34,14 @@ if not commands:
     chromosome_position
     world_map
     max_local
+    graticule_vertices
     average_location
     local_frequencies
     worldwide_frequency
     clef
+    variant
+    legend_frequency
+    legend_position
     date
     caption
     order
@@ -91,6 +95,12 @@ if 'max_local' in commands or ('all' in commands and 'max_local' in config.movie
     obj.write_svg()
     obj.write_png()
 
+# Pink dots at graticule vertices for checking map projections.
+if 'graticule_vertices' in commands or ('all' in commands and 'graticule_vertices' in config.movie_layers):
+    obj = chromosome_movie.locations.GraticuleVertices(config)
+    obj.write_svg()
+    obj.write_png()
+
 # World map average location blue dots.  SVG, PNG.
 # One per unique average location.
 # Indexed by ID of first variant it appears in.
@@ -127,6 +137,25 @@ if 'worldwide_frequency' in commands or ('all' in commands and 'worldwide_freque
 # One per unique variant, indexed by FromTo.
 if 'clef' in commands or ('all' in commands and 'clef' in config.movie_layers):
     obj = chromosome_movie.clef.Clef(config)
+    obj.write_svg()
+    obj.write_png()
+
+# Variant ID, chromosome position, count.  SVG, PNG.
+# One per variant, indexed by variant ID.
+if 'variant' in commands or ('all' in commands and 'variant' in config.movie_layers):
+    obj = chromosome_movie.text.Variant(config)
+    obj.write_svg()
+    obj.write_png()
+
+# Legend for local frequency circle sizes.  SVG, PNG.
+if 'legend_frequency' in commands or ('all' in commands and 'legend_frequency' in config.movie_layers):
+    obj = chromosome_movie.legend.Frequency(config)
+    obj.write_svg()
+    obj.write_png()
+
+# Legend for chromosome position and average location.  SVG, PNG.
+if 'legend_position' in commands or ('all' in commands and 'legend_position' in config.movie_layers):
+    obj = chromosome_movie.legend.Position(config)
     obj.write_svg()
     obj.write_png()
 

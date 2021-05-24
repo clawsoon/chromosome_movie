@@ -26,6 +26,13 @@ class ChromosomePosition():
         #    self.coordinates[row[0]] = (row[1], row[2])
 
 
+    def circle(self, x, y):
+        # TODO: Make this into a configurable style.
+        return f'''
+ <circle cx="{x}" cy="{y}" r="16" fill="orange" stroke="red" stroke-width="4.0"/>
+ <circle cx="{x}" cy="{y}" r="4" fill="black" stroke="rgb(160,160,160)" stroke-width="3.0"/>
+'''
+
     def write_svg(self):
 
         # I am 1000% sure that there's a more efficient way to create 14,000
@@ -39,11 +46,9 @@ class ChromosomePosition():
 
             path = str(self.layercfg.svg) % index
             with open(path, 'w') as svg:
-                svg.write(f'''<svg xmlns="http://www.w3.org/2000/svg" width="{self.cfg.width}" height="{self.cfg.height}" inkscape:export-xdpi="96" inkscape:export-ydpi="96">
- <circle cx="{x}" cy="{y}" r="16" fill="orange" stroke="red" stroke-width="4.0"/>
- <circle cx="{x}" cy="{y}" r="4" fill="black" stroke="rgb(160,160,160)" stroke-width="3.0"/>
-</svg>
-''')
+                svg.write(f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.cfg.width}" height="{self.cfg.height}" inkscape:export-xdpi="96" inkscape:export-ydpi="96">\n')
+                svg.write(self.circle(x, y))
+                svg.write('</svg>')
 
 
     def write_png(self):

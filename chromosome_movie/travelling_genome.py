@@ -10,7 +10,7 @@ Not unexpected, but I still bet that someone could make this much faster, and
 probably fix bugs in my algorithms.
 '''
 
-# Great cirlce based on:
+# Great circle based on:
 # https://python.plainenglish.io/calculating-great-circle-distances-in-python-cf98f64c1ea0
 
 # 2-opt initially based on:
@@ -18,6 +18,7 @@ probably fix bugs in my algorithms.
 # ...but improved.
 
 
+import sys
 from math import radians, degrees, sin, cos, acos
 import random
 #import itertools
@@ -25,7 +26,7 @@ import numpy
 
 
 def build_numpy_distance_matrix(locations):
-    print('start build')
+    #sys.stderr.write('Start distance matrix build\n')
     lon0 = numpy.radians(numpy.array([l[0] for l in locations], dtype=numpy.float16).reshape(1, len(locations)))
     lon1 = numpy.radians(numpy.array([l[0] for l in locations], dtype=numpy.float16).reshape(len(locations), 1))
     lat0 = numpy.radians(numpy.array([l[1] for l in locations], dtype=numpy.float16).reshape(1, len(locations)))
@@ -36,14 +37,13 @@ def build_numpy_distance_matrix(locations):
     #distance_matrix = numpy.arccos(clamped)
 
     distance_matrix = numpy.degrees(
-            numpy.arccos(
-                numpy.clip(
-                    numpy.sin(lat0) * numpy.sin(lat1) + numpy.cos(lat0) * numpy.cos(lat1) * numpy.cos(numpy.absolute(lon1-lon0)), -1, 1)
-                )
-            )
+        numpy.arccos(
+            numpy.clip(
+                numpy.sin(lat0) * numpy.sin(lat1) + numpy.cos(lat0) * numpy.cos(lat1) * numpy.cos(numpy.absolute(lon1-lon0)), -1, 1)
+        ))
     #distance_matrix = numpy.sin(lat0) * numpy.sin(lat1)
 
-    print('done build')
+    #sys.stderr.write(f'Distance matrix shape: {distance_matrix.shape}\n')
     return distance_matrix
     #return numpy.degrees(distance_matrix)
 
@@ -91,10 +91,10 @@ def route_distance(distance_matrix, route):
 
 
 def two_opt(distance_matrix, initial_route, improvement_threshold=0.01):
-    print(len(initial_route), improvement_threshold)
+    #sys.stderr.write(f'2-opt initial route length: {len(initial_route)}\n')
     route = initial_route
     distance = route_distance(distance_matrix, route)
-    print('distance ', distance)
+    #sys.stderr.write(f'2-opt initial route distance: {distance}\n')
     improvement_factor = 1
     length = len(initial_route)
 
@@ -136,13 +136,14 @@ def two_opt(distance_matrix, initial_route, improvement_threshold=0.01):
 
         improvement_factor = 1 - distance / previous_best
 
-    print('distance ', distance)
-    print('done')
+    #sys.stderr.write(f'2-opt final route distance: {distance}\n')
+    #sys.stderr.write(f'2-opt final route length: {len(route)}\n')
     return route
 
 
 def nearest_neighbour(distance_matrix):
     # There's probably a better way to do nearest neighbour.
+    #sys.stderr.write(f'Nearest neighbour matrix: {distance_matrix.shape}\n')
     first = 0
     last = len(distance_matrix) - 1
     visited = set()
@@ -162,8 +163,15 @@ def nearest_neighbour(distance_matrix):
         route.append(best_index)
         visited.add(best_index)
     route.append(last)
+    #sys.stderr.write(f'Nearest neighbour route length: {len(route)}\n')
     return route
 
+def nearest_neighbour_only(locations):
+    # When calling this function, put desired start and end at start and
+    # end and it should keep them there.
+    distance_matrix = build_numpy_distance_matrix(locations)
+    initial_route = nearest_neighbour(distance_matrix)
+    return initial_route
 
 def main(locations):
     # When calling this function, put desired start and end at start and

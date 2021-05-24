@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
-import sys
-
 import sqlite3
 
-from . import projections, svg2png
+from . import projections
+from . import svg2png
 
 # The SVG->PNG conversions from this script are the slowest part of the
 # whole process.  I tried to speed things up by putting all the dots
@@ -28,6 +27,7 @@ class Locations():
 
     def location_on_image(self, longitude, latitude):
         map_x, map_y = self.projection(longitude, latitude)
+        map_y = -map_y
         x = map_x * self.cfg.map_height / 2 + self.cfg.map_width / 2
         y = map_y * self.cfg.map_height / 2 + self.cfg.map_height / 2
         return x, y
@@ -184,4 +184,30 @@ class AllAverageLocations(AverageLocation):
         image = PIL.Image.fromarray(data, 'RGBA')
         image.save(str(self.layercfg.png) % 0)
 
+
+class GraticuleVertices(Locations):
+
+    def __init__(self, cfg):
+        super().__init__(cfg)
+        self.layercfg = self.cfg.layers.graticule_vertices
+
+    def write_svg(self):
+        locations = []
+        for longitude in range(-180, 181, self.layercfg.spacing):
+            for latitude in range(-90, 91, self.layercfg.spacing):
+                locations.append((longitude, latitude, 1.0))
+        self.write_general_svg(self.svg_path(None, None), locations)
+
+    def write_png(self):
+
+        svg = str(self.layercfg.svg)
+        png = str(self.layercfg.png)
+        frames = [0]
+        svg2png.svg2png(self.cfg, svg, png, frames)
+
+    def svg_path(self, variant, frame):
+        return str(self.layercfg.svg) % 0
+
+    def png_path(self, variant, frame):
+        return str(self.layercfg.png) % 0
 
