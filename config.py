@@ -7,7 +7,8 @@ import shutil
 chromosome = '22'
 
 # Path to source treeseq file.
-treeseq = 'sgdp_chr22.trees'
+#treeseq = 'sgdp_chr22.trees'
+treeseq = 'hgdp_1kg_sgdp_high_cov_ancients_chr22.dated.trees'
 
 # Different treeseqs store location data differently.
 # Modify database.Database.get_location() to add more choices.
@@ -417,16 +418,42 @@ layers.date.multiplier = 1
 #movie_laps.append((1, 4))
 #movie_time_name = 'lapsAAB'
 
-#movie_times = {
-#    'name': '1_120',
-#    'type': 'time_limit',
-#    'time_limits': [(1, 120)],
-#}
-
 movie_times = {
-    'name': 'full',
-    'type': None,
+    'name': 'scatter01',
+    'type': 'time_limit',
+    'time_limits': [
+        (80_000, 960),
+        (60_000, 960),
+        (40_000, 960),
+        (20_000, 960),
+        (10_000, 960),
+        (8_000, 960),
+        (6_000, 960),
+        (4_000, 960),
+        (2_000, 960),
+        (1_000, 960),
+        (800, 960),
+        (600, 960),
+        (400, 960),
+        (200, 960),
+        (100, 960),
+        (80, 960),
+        (60, 960),
+        (40, 960),
+        (20, 960),
+        (10, 960),
+        (8, 960),
+        (6, 960),
+        (4, 960),
+        (2, 960),
+        (1, 960),
+    ],
 }
+
+#movie_times = {
+#    'name': 'full',
+#    'type': None,
+#}
 
 #audio_midi = audio/f'{order}_{movie_time}_{movie_limit}.midi'
 #audio_wav = audio/f'{order}_{movie_time}_{movie_limit}.wav'

@@ -25,18 +25,18 @@ class Database():
 
         #self.chromosome_id = -1
 
-        if self.cfg.treeseq_type == '1kg':
-            with open(self.cfg.code/'data'/'igsr_populations.tsv') as tsv:
-                self.population_info = {}
-                for num, line in enumerate(tsv):
-                    # TODO: Use csv module instead?
-                    columns = line.split('\t')
-                    if not num:
-                        headers = columns
-                    else:
-                        values = columns
-                        population_info = dict(zip(headers, values))
-                        self.population_info[population_info['Population elastic ID']] = population_info
+        #if self.cfg.treeseq_type == '1kg':
+        with open(self.cfg.code/'data'/'igsr_populations.tsv') as tsv:
+            self.population_info = {}
+            for num, line in enumerate(tsv):
+                # TODO: Use csv module instead?
+                columns = line.split('\t')
+                if not num:
+                    headers = columns
+                else:
+                    values = columns
+                    population_info = dict(zip(headers, values))
+                    self.population_info[population_info['Population elastic ID']] = population_info
 
     def write_db(self):
         self.create_tables()
@@ -258,7 +258,8 @@ class Database():
         location_node_counts = collections.Counter()
         for sample in self.treeseq.samples():
             location = self.get_location(sample)
-            location_node_counts[location] += 1
+            if location:
+                location_node_counts[location] += 1
 
         # Only record the first variant ID for which a given combination
         # of local counts occurs, and have the other variants refer back
@@ -274,18 +275,34 @@ class Database():
         for tree in self.treeseq.trees():
             for variant in tree.mutations():
 
+
                 if num % 1000 == 0:
                     sys.stderr.write('Loading### %s\n' % num)
                     sys.stderr.flush()
 
                 node = self.treeseq.node(variant.node)
+                site = self.treeseq.site(variant.site)
 
+                if site.ancestral_state == variant.derived_state:
+                    # I'm not sure why some mutations are equal to the
+                    # original state.
+                    continue
+
+
+                #num_individuals = len(set(self.treeseq.node(leaf).individual for leaf in tree.leaves(node.id)))
+                #if num_individuals < 2:
+                #    continue
 
                 # Get sample totals for each location for this variant.
                 local_counts = collections.Counter()
                 for leaf in tree.leaves(node.id):
                     location = self.get_location(leaf)
-                    local_counts[location] += 1
+                    if location:
+                        local_counts[location] += 1
+                if sum(local_counts.values()) < 2:
+                    # If a variant only shows up in one individual, we
+                    # ignore it.
+                    continue
 
                 local_frequencies = frozenset((location, count/location_node_counts[location]) for location, count in local_counts.items())
 
@@ -333,9 +350,11 @@ class Database():
                     self.cfg.chromosome,
                     node.time,
                     tree.get_num_leaves(node.id)/self.treeseq.num_samples,
-                    self.treeseq.site(variant.site).ancestral_state,
+                    #self.treeseq.site(variant.site).ancestral_state,
+                    site.ancestral_state,
                     variant.derived_state,
-                    int(variant.position),
+                    #int(variant.position),
+                    site.position,
                     average_longitude,
                     average_latitude,
                     average_distance_to_average_location,
@@ -381,21 +400,30 @@ class Database():
         database.close()
 
 
-    def get_location(self, node_id):
+    def get_location(self, node_id, notfound=set()):
         individual = self.treeseq.individual(self.treeseq.node(node_id).individual)
-        if self.cfg.treeseq_type == 'sgdp':
+        #if self.cfg.treeseq_type == 'sgdp':
+        if any(individual.location):
             # Not sure why all the treeseqs don't store the location
             # with the individual.  SGDP does, though.
             latitude, longitude = individual.location
-        elif self.cfg.treeseq_type == '1kg':
-            population_name = json.loads(self.treeseq.population(self.treeseq.node(node_id).population).metadata)['name']
-            population_info = self.population_info[population_name]
-            latitude = float(population_info['Population latitude'])
-            longitude = float(population_info['Population longitude'])
-
-
+        #elif self.cfg.treeseq_type == '1kg':
         else:
-            raise Exception(f'Unknown treeseq type "{self.cfg.treeseq_type}".')
+            population_name = json.loads(self.treeseq.population(self.treeseq.node(node_id).population).metadata)['name']
+            if population_name not in self.population_info:
+                # This seems to successfully rule out ancients.
+                if population_name not in notfound:
+                    print('No location for population "%s", not including.' % population_name)
+                    notfound.add(population_name)
+                return None
+            else:
+                population_info = self.population_info[population_name]
+                latitude = float(population_info['Population latitude'])
+                longitude = float(population_info['Population longitude'])
+
+
+        #else:
+        #    raise Exception(f'Unknown treeseq type "{self.cfg.treeseq_type}".')
 
         # I am using (longitude, latitude) ordering everywhere in this code.
         return (longitude, latitude)

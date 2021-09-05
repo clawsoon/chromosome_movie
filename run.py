@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     if 'foreground' in commands or 'all' in commands or 'reorder' in commands:
         obj = chromosome_movie.composite.Foreground(config)
-        #obj.write_svg()
+        obj.write_svg()
         obj.write_png()
 
     if 'audio' in commands or 'all' in commands or 'reorder' in commands:
