@@ -27,7 +27,6 @@ treeseq_type = 'sgdp'
 #order = 'two_world_30w_0s_169w_65n_max480'
 #order = 'two_world_jaccard5_30w_30s_169w_65n_max480'
 order = 'two_world_jaccard20_30w_30s_169w_65n_max480'
-#order = 'two_world_jaccard20_30w_30s_169w_65n_max120'
 
 
 # Video parameters.
@@ -78,27 +77,27 @@ database_readonly_uri = f'file:{database_path.as_posix()}?mode=ro'
 # movies are resized to arbitrary sizes by the viewer, or when high-resolution
 # movies are viewed on low-resolution screens.  It's a hack, but it seems to
 # kinda work.
-shadows = True
+shadows = False
 
-#map_image = 'blue_marble'
-#map_projection = 'natural_earth_2'
-#map_rotation = (-150, 0)  # I like either -11 or -150.
-#map_format = 'png'
-#map_center = (w(1280), h(720-36))
-#map_width = w(2048)
-#map_height = h(1024)
-#map_scale = 1
-
-map_image = 'visionscarto_lightblue'
-#map_image = 'visionscarto_graticules'
-map_projection = 'bertin'
-map_rotation = (-16.5, -42)
-map_format = 'svg'
+map_image = 'blue_marble'
+map_projection = 'natural_earth_2'
+map_rotation = (-150, 0)  # I like either -11 or -150.
+map_format = 'png'
 map_center = (w(1280), h(720-36))
+map_width = w(2048)
 map_height = h(1024)
-# These are the specific visionscarto dimensions - 700x475.
-map_scale = map_height/475
-map_width = map_scale*700
+map_scale = 1
+
+#map_image = 'visionscarto_lightblue'
+##map_image = 'visionscarto_graticules'
+#map_projection = 'bertin'
+#map_rotation = (-16.5, -42)
+#map_format = 'svg'
+#map_center = (w(1280), h(720-36))
+#map_height = h(1024)
+## These are the specific visionscarto dimensions - 700x475.
+#map_scale = map_height/475
+#map_width = map_scale*700
 
 
 # Map images have to be manually created for now.
@@ -111,7 +110,6 @@ layer_names = [
     'chromosome_position',
     'worldwide_frequency',
     'clef',
-    #'note',
     'max_local',
     'graticule_vertices',
     'traces',
@@ -130,7 +128,7 @@ layer_names = [
 
 background_layers = [
     # For Natural Earth 2 PNG we put world map here to avoid large file sizes.
-    #'world_map',
+    'world_map',
     #'graticule_vertices',
     'chromosome_map',
     #'max_local',
@@ -141,16 +139,15 @@ background_layers = [
 
 foreground_layers = [
     # For Bertin SVG we put world map here to get cleaner traces overlays.
-    'world_map',
+    #'world_map',
     #'graticule_vertices',
     'chromosome_position',
-    #'note',
     'clef',
     'traces',
     'average_location',
     'local_frequencies',
     'variant',
-    #'caption',
+    'caption',
     #'citation',
     'date',
 ]
@@ -160,7 +157,6 @@ movie_layers = [
     #'chromosome_map',
     #'chromosome_position',
     #'clef',
-    #'note',
     #'traces',
     #'average_location',
     #'local_frequencies',
@@ -187,7 +183,6 @@ map_layers = set([
     'foreground',
 ])
 shadow_layers = set([
-    'note',
     'variant',
     'caption',
     'citation',
@@ -234,7 +229,6 @@ for name in layer_names:
 
     if name in background_layers or name in ['background', 'world_map']:
         frame_suffix = ''
-    #elif name == 'note':
     elif name == 'clef':
         frame_suffix = '.%s'
     else:
@@ -271,7 +265,7 @@ for name in layer_names:
 #        layer.center = map_center
 #        layer.height = map_height
 #        layer.width = map_width
-#    elif name in ['note']:
+#    elif name in ['clef']:
 #        # Clef indexing on note name.
 #        layer.svg = images/shadowfolder/name/'svg'/f'{name}.%s.svg'
 #        layer.png = images/shadowfolder/name/'png'/f'{name}.%s.png'
@@ -307,7 +301,7 @@ for name in layer_names:
 
 font_large = h(72)
 font_medium = h(54)
-font_small = h(54)
+font_small = h(36)
 font_tiny = h(30)
 
 layers.world_map.scale = map_scale
@@ -321,7 +315,7 @@ layers.chromosome_map.sections = [
     {'axis': 'width', 'start': (2560, 1280), 'end': (1440, 1440)},
     {'axis': 'width', 'start': (1440, 1280), 'end': (1312, 1320)},
 ]
-layers.chromosome_map.radius = 8
+layers.chromosome_map.radius = 4
 
 layers.max_local.max_radius = h(16)
 layers.max_local.stroke_width = 0
@@ -344,10 +338,10 @@ layers.local_frequencies.stroke_width = 4
 layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-opacity:0.5;'
 #layers.local_frequencies.color = '#ff0000ff'
 
-layers.traces.style = 'stroke:orange;stroke-width:5;stroke-linecap:round;fill:none;'
+layers.traces.style = 'stroke:orange;stroke-width:3;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
-layers.traces.prefer_pacific = False
+layers.traces.prefer_pacific = True
 
 layers.worldwide_frequency.center = (w(220), h(220))
 layers.worldwide_frequency.max_radius = h(100)
@@ -361,25 +355,25 @@ layers.worldwide_frequency.text_style = 'font-family:sans-serif;'
 # We're measuring clef from top left instead of centre.
 # Maybe it would be easier for ffmpeg setup to use centre for all layers?
 # In which case change this position to a center measurement.
-layers.clef.center = (w(2204), h(346))
+layers.clef.center = (w(2264), h(296))
 #layers.clef.scale = h(280/18000)
-layers.clef.width = h(360)
-layers.clef.height = h(360)
+layers.clef.width = h(280)
+layers.clef.height = h(280)
 
-layers.variant.center = (w(1980), h(1132))
+layers.variant.center = (w(2100), h(1132))
 layers.variant.font_size = font_small
 layers.variant.width = font_small * 24
 layers.variant.height = font_small * 4
 layers.variant.style = 'font-family:sans-serif;'
 
-layers.legend_frequency.center = (w(820), h(336))
+layers.legend_frequency.center = (w(600), h(296))
 layers.legend_frequency.font_size = font_small
-layers.legend_frequency.frequencies = [1.0, 0.5, 0.25, 0.125, 0.0625, .01]
+layers.legend_frequency.frequencies = [1.0, 0.5, 0.25, 0.125, 0.0625]
 layers.legend_frequency.width = font_small * 24
 layers.legend_frequency.height = font_small * (len(layers.legend_frequency.frequencies) + 3)
 layers.legend_frequency.style = 'font-family:sans-serif;'
 
-layers.legend_position.center = (w(800), h(1132))
+layers.legend_position.center = (w(585), h(1132))
 layers.legend_position.font_size = font_small
 layers.legend_position.width = font_small * 24
 layers.legend_position.height = font_small * 4
@@ -391,7 +385,6 @@ layers.caption.width = width
 layers.caption.height = font_large * 2
 layers.caption.style = 'font-family:sans-serif;'
 layers.caption.srt = code/'captions.srt'
-layers.caption.typing = None
 
 layers.citation.center = (w(1880), h(960))
 layers.citation.font_size = font_tiny
@@ -399,39 +392,19 @@ layers.citation.width = w(960)
 layers.citation.height = h(216)
 layers.citation.style = 'font-family:sans-serif;'
 layers.citation.srt = code/'citations.srt'
-layers.citation.typing = None
 
 layers.date.center = (w(1280), h(1380))
 layers.date.font_size = font_medium
 layers.date.width = width
 layers.date.height = font_medium * 3
 layers.date.style = 'font-family:sans-serif;'
-layers.date.multiplier = 1
+layers.date.multiplier = 10000
 
-#movie_time = 0 # Select a specific time.  0 = all times.
-#movie_limit = 120 # Limit the number of frames created.  0 = no limit.
+movie_time = 0 # Select a specific time.  0 = all times.
+movie_limit = 120 # Limit the number of frames created.  0 = no limit.
 
-#movie_times = ((551, 480), (550, 480), (549, 480), (300, 480), (100, 480), (50, 480), (40, 480), (30, 480), (20, 480), (10, 480), (3, 480), (1, 480))
-#movie_time_name = '-'.join(f'{time}_{limit}' for time, limit in movie_times)
-#movie_laps = [(time, 1) for time in range(551, 1, -13)]
-#movie_laps.append((1, 4))
-#movie_time_name = 'lapsAAB'
-
-#movie_times = {
-#    'name': '1_120',
-#    'type': 'time_limit',
-#    'time_limits': [(1, 120)],
-#}
-
-movie_times = {
-    'name': 'full',
-    'type': None,
-}
-
-#audio_midi = audio/f'{order}_{movie_time}_{movie_limit}.midi'
-#audio_wav = audio/f'{order}_{movie_time}_{movie_limit}.wav'
-audio_midi = audio/f'{order}_{movie_times["name"]}.midi'
-audio_wav = audio/f'{order}_{movie_times["name"]}.wav'
+audio_midi = audio/f'{order}_{movie_time}_{movie_limit}.midi'
+audio_wav = audio/f'{order}_{movie_time}_{movie_limit}.wav'
 audio_midi_program = 46
 audio_pipe = True
 
@@ -450,7 +423,6 @@ audio_notes = {
     ('T', 'A'): 'C4',
 }
 
-#movie_mp4 = movie/f'{map_image}_{map_projection}_{map_rotation[0]}_{map_rotation[1]}_{order}_{"shadows" if shadows else "noshadows"}_{movie_time}_{movie_limit}.mp4'
-movie_mp4 = movie/f'{map_image}_{map_projection}_{map_rotation[0]}_{map_rotation[1]}_{order}_{"shadows" if shadows else "noshadows"}_{movie_times["name"]}.mp4'
+movie_mp4 = movie/f'{map_image}_{map_projection}_{map_rotation[0]}_{map_rotation[1]}_{order}_{"shadows" if shadows else "noshadows"}_{movie_time}_{movie_limit}.mp4'
 
 

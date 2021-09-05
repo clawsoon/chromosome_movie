@@ -25,12 +25,21 @@ import random
 import numpy
 
 
-def build_numpy_distance_matrix(locations):
+def build_distance_matrix(average_locations, jaccard_offset=-1, all_locations=None):
+    '''
+    Each entry in average_locations should be a (longitude, latitude) average
+    location for a variant.
+
+    Each entry in all_locations should be a set() of all (longitude, latitude)
+    locations for a variant.
+
+    The two lists should have the same variant order.
+    '''
     #sys.stderr.write('Start distance matrix build\n')
-    lon0 = numpy.radians(numpy.array([l[0] for l in locations], dtype=numpy.float16).reshape(1, len(locations)))
-    lon1 = numpy.radians(numpy.array([l[0] for l in locations], dtype=numpy.float16).reshape(len(locations), 1))
-    lat0 = numpy.radians(numpy.array([l[1] for l in locations], dtype=numpy.float16).reshape(1, len(locations)))
-    lat1 = numpy.radians(numpy.array([l[1] for l in locations], dtype=numpy.float16).reshape(len(locations), 1))
+    lon0 = numpy.radians(numpy.array([l[0] for l in average_locations], dtype=numpy.float16).reshape(1, len(average_locations)))
+    lon1 = numpy.radians(numpy.array([l[0] for l in average_locations], dtype=numpy.float16).reshape(len(average_locations), 1))
+    lat0 = numpy.radians(numpy.array([l[1] for l in average_locations], dtype=numpy.float16).reshape(1, len(average_locations)))
+    lat1 = numpy.radians(numpy.array([l[1] for l in average_locations], dtype=numpy.float16).reshape(len(average_locations), 1))
 
     #value = numpy.sin(lat0) * numpy.sin(lat1) + numpy.cos(lat0) * numpy.cos(lat1) * numpy.cos(numpy.absolute(lon1-lon0))
     #clamped = numpy.clip(value, -1, 1)
@@ -41,6 +50,18 @@ def build_numpy_distance_matrix(locations):
             numpy.clip(
                 numpy.sin(lat0) * numpy.sin(lat1) + numpy.cos(lat0) * numpy.cos(lat1) * numpy.cos(numpy.absolute(lon1-lon0)), -1, 1)
         ))
+
+    if jaccard_offset >= 0:
+        distance_matrix += jaccard_offset
+        for i in range(len(average_locations)):
+            for j in range(len(average_locations)):
+                intersection = all_locations[i] & all_locations[j]
+                union = all_locations[i] | all_locations[j]
+                if len(union) == 0:
+                    jaccard_similarity = 0
+                else:
+                    jaccard_similarity = len(intersection) / len(union)
+                distance_matrix[i,j] *= (1 - jaccard_similarity)
     #distance_matrix = numpy.sin(lat0) * numpy.sin(lat1)
 
     #sys.stderr.write(f'Distance matrix shape: {distance_matrix.shape}\n')
@@ -63,7 +84,7 @@ def great_circle_angle(longitude0, latitude0, longitude1, latitude1):
     return degrees(angle)
 
 
-def build_distance_matrix(locations):
+def build_old_distance_matrix(locations):
     print('start build')
     length = len(locations)
     ####distance_matrix = [[0]*length for _ in range(length)]
@@ -169,14 +190,14 @@ def nearest_neighbour(distance_matrix):
 def nearest_neighbour_only(locations):
     # When calling this function, put desired start and end at start and
     # end and it should keep them there.
-    distance_matrix = build_numpy_distance_matrix(locations)
+    distance_matrix = build_distance_matrix(locations)
     initial_route = nearest_neighbour(distance_matrix)
     return initial_route
 
-def main(locations):
+def main(average_locations, jaccard_offset=-1, all_locations=None):
     # When calling this function, put desired start and end at start and
     # end and it should keep them there.
-    distance_matrix = build_numpy_distance_matrix(locations)
+    distance_matrix = build_distance_matrix(average_locations, jaccard_offset, all_locations)
     initial_route = nearest_neighbour(distance_matrix)
     good_route = two_opt(distance_matrix, initial_route)
     return good_route
@@ -213,11 +234,11 @@ def test():
         shuffled = locations[:1] + random.sample(locations[1:-1], len(locations)-2) + locations[-1:]
 
         #distance_matrix = build_distance_matrix(shuffled)
-        #numpy_distance_matrix = build_numpy_distance_matrix(shuffled)
+        #numpy_distance_matrix = build_distance_matrix(shuffled)
         #continue
 
         #distance_matrix = build_distance_matrix(shuffled)
-        distance_matrix = build_numpy_distance_matrix(shuffled)
+        distance_matrix = build_distance_matrix(shuffled)
         initial_route = nearest_neighbour(distance_matrix)
         #initial_route = [0] + random.sample(list(range(1, len(locations)-1)), len(locations)-2) + [len(locations)-1]
         two_opt_route = two_opt(distance_matrix, initial_route)

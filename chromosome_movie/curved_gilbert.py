@@ -218,7 +218,7 @@ class CurvedGilbert():
         yield '<path id="gilbert" fill="none" d="'
         for command, point, sweep in zip(self.commands, self.points, self.sweeps):
             middle = f'{self.radius} {self.radius} {x_axis_rotation} {large_arc} {sweep}' if command == 'A' else ''
-            yield f'{command} {middle} {point[0]} {point[1]}'
+            yield f'{command} {middle} {point[0]:.1f} {point[1]:.1f}'
         yield '"/>'
         
         
@@ -227,10 +227,10 @@ class CurvedGilbert():
 
         #sys.stderr.write(f'length: {len(self.commands)}\n')
 
-        yield f'<svg width="{self.width}" height="{self.height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
+        #yield f'<svg width="{self.width}" height="{self.height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
         yield '''
  <defs>
-  <filter style="color-interpolation-filters:sRGB;" id="filter1">
+  <filter style="color-interpolation-filters:sRGB;" id="gilbertshadow">
    <feGaussianBlur stdDeviation="2 2" result="blur"/>
   </filter>
         '''
@@ -240,12 +240,12 @@ class CurvedGilbert():
 
         # TODO: Make stroke widths configurable.
         if self.shadows:
-            yield ' <use xlink:href="#gilbert" stroke="rgb(160,160,160)" stroke-width="9" style="filter:url(#filter1);"/>'
+            yield ' <use xlink:href="#gilbert" stroke="rgb(160,160,160)" stroke-width="9" style="filter:url(#gilbertshadow);"/>'
 
         yield ' <use xlink:href="#gilbert" stroke="rgb(0,0,0)" stroke-width="3"/>'
 
         # Test circle.
         #yield f'<circle cx="{self.points[500][0]}" cy="{self.points[500][1]}" r="{2 * self.radius}" fill="orange" stroke="red" stroke-width="{self.radius/2}"/>'
 
-        yield '</svg>'
+        #yield '</svg>'
 

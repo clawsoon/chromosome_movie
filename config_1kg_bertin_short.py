@@ -7,11 +7,11 @@ import shutil
 chromosome = '22'
 
 # Path to source treeseq file.
-treeseq = 'sgdp_chr22.trees'
+treeseq = '1kg_chr22.trees'
 
 # Different treeseqs store location data differently.
 # Modify database.Database.get_location() to add more choices.
-treeseq_type = 'sgdp'
+treeseq_type = '1kg'
 
 # This needs to be a valid SQL table name, since that what it's going to become.
 # See the order module to add choices.
@@ -26,8 +26,8 @@ treeseq_type = 'sgdp'
 #order = 'two_world_30w_65s_169w_65n_max480'
 #order = 'two_world_30w_0s_169w_65n_max480'
 #order = 'two_world_jaccard5_30w_30s_169w_65n_max480'
-order = 'two_world_jaccard20_30w_30s_169w_65n_max480'
-#order = 'two_world_jaccard20_30w_30s_169w_65n_max120'
+#order = 'two_world_jaccard20_30w_30s_169w_65n_max480'
+order = 'two_world_jaccard20_30w_30s_169w_65n_max120'
 
 
 # Video parameters.
@@ -150,8 +150,8 @@ foreground_layers = [
     'average_location',
     'local_frequencies',
     'variant',
-    #'caption',
-    #'citation',
+    'caption',
+    'citation',
     'date',
 ]
 
@@ -391,7 +391,7 @@ layers.caption.width = width
 layers.caption.height = font_large * 2
 layers.caption.style = 'font-family:sans-serif;'
 layers.caption.srt = code/'captions.srt'
-layers.caption.typing = None
+layers.caption.typing = 'words'
 
 layers.citation.center = (w(1880), h(960))
 layers.citation.font_size = font_tiny
@@ -406,7 +406,7 @@ layers.date.font_size = font_medium
 layers.date.width = width
 layers.date.height = font_medium * 3
 layers.date.style = 'font-family:sans-serif;'
-layers.date.multiplier = 1
+layers.date.multiplier = 10000
 
 #movie_time = 0 # Select a specific time.  0 = all times.
 #movie_limit = 120 # Limit the number of frames created.  0 = no limit.
@@ -414,20 +414,30 @@ layers.date.multiplier = 1
 #movie_times = ((551, 480), (550, 480), (549, 480), (300, 480), (100, 480), (50, 480), (40, 480), (30, 480), (20, 480), (10, 480), (3, 480), (1, 480))
 #movie_time_name = '-'.join(f'{time}_{limit}' for time, limit in movie_times)
 #movie_laps = [(time, 1) for time in range(551, 1, -13)]
+#movie_laps = [(time, 1) for time in range(5002, 1, -130)]
 #movie_laps.append((1, 4))
 #movie_time_name = 'lapsAAB'
-
 #movie_times = {
-#    'name': '1_120',
-#    'type': 'time_limit',
-#    'time_limits': [(1, 120)],
+#    'name': 'lapsAAC',
+#    'type': 'time_limits',
+#    'time_limits': [(time, 1) for time in range(5002, 0, -1)],
 #}
-
 movie_times = {
-    'name': 'full',
-    'type': None,
+    'name': 'lapsAAD',
+    'type': 'time_random',
+    'time_limits': [(time, 1) for time in range(5002, 1, -1)] + [(1, 240)],
+}
+movie_times = {
+    'name': 'limitAAA',
+    'type': 'time_limit',
+    'time_limits': [(1, 120)],
 }
 
+movie_times = {
+    'name': 'limitAAB',
+    'type': 'time_limit',
+    'time_limits': [(1, 120)],
+}
 #audio_midi = audio/f'{order}_{movie_time}_{movie_limit}.midi'
 #audio_wav = audio/f'{order}_{movie_time}_{movie_limit}.wav'
 audio_midi = audio/f'{order}_{movie_times["name"]}.midi'

@@ -1,0 +1,52 @@
+DONE: Flatten all static BG layers into one before generating movie.
+
+DONE, DIDN'T WORK, FFMPEG DIDN'T RESPECT VARYING DURATIONS. Use longer "duration" fields in ffmpeg concat files so that repeated frames aren't listed multiple times.
+
+Use standard/universal IDs for variants rather than treeseq DB IDs.
+
+DONE, CUT FFMPEG SPEED IN HALF. BETTER TO PLAY WITH DESIGN IN INKSCAPE BEFORE RERENDERING EVERYTHING.  Output only alpha masks (maybe greyscale images?) and control the final colour using ffmpeg lavfi+blend.  This would mostly be for local_frequencies and average_location.  This would allow us to try different colour combinations with only one set of outputs.  Currently we have to spend many hours outputting new frames to try a different colour.
+
+DONE: Do weighted average location instead of plain average location.  First move existing average_location render to average_location_original in case we want to flip back.  Or do it as a new layer completely, and then we can flip back at will.
+
+DONE: For two-world traveller, check if there are any entries in the new world list.  If there aren't, randomly (might already be shuffled? check) divide the old world list into two and do a there-and-back.
+
+Add a bar graph for cumulative variant type totals.  On top of clef/interwoven with clef, or beside it?  Build over entire run, or build once per <480 round?
+
+Come to think of it, the clef itself could become part of the static background (with the notes being active elements), as could the Site, Count, and Years Ago labels.  Definitely settle on a final design before doing this.
+
+DONE: Add a faster ffmpeg encode for just the map+average_location+local_frequencies.  Maybe try h264_qsv hardware encode (but watch for memory leak if odd size).
+
+DONE: Add Jaccard distance modifier to distance matrix calculation.
+for variant in variants:
+    variant['locations'] = set(variant['locations')
+distance_matrix[i,j] = distance(variant[i]['average_location'], variant[j]['average_location']) * (1 - len(variant[i]['locations'] & variant[j]['locations']) / len(variant[i]['locations'] | variant[j]['locations']))
+Do we need an extra modifier to take into account variants which have the same average location (distance == 0) but don't have any overlap?  Maybe add the Jaccard distance before multiplying?
+distance_matrix[i,j] = (1 + distance(variant[i]['average_location'], variant[j]['average_location'])) * (1 - len(variant[i]['locations'] & variant[j]['locations']) / len(variant[i]['locations'] | variant[j]['locations']))
+Now if both of them are zero we'll get zero, but otherwise we'll get > 0.
+
+Add a line/bar graph with some kind of dispersion statistic.  Maybe a histogram for each quintile of worldwide frequency with counts of average distance of samples to geographic center.  (Or max distance.)  Quintile markers: red green blue orange/brown purple/violet/magenta; square triangle circle filledsquare filledcircle
+
+DONE: For two-location variants on the final time step, draw a line (arc through average location?) between the points.  Keep all the lines for each <480 round so that at the end of a round they're all on the map.
+ - Database column saying "round is done".  (Or database round number column per order column.)
+ - 3-point arc calculation, including for straight line.
+ - Location count==2 filter.
+ - Accumulator variable in SVG writing function.  (Or just accumulate on the SVG contents, and add a trailing </svg> tag when writing each file.)
+ - Return blank image index if not in final time step.  (Fetch and store final time step during init.)
+
+NOT DOING, DIDN'T LOOK GOOD: Finish 1920x1440 map configuration.
+
+Make short (10 minute) video with text/citations and end card pointing to both full-length video.  Use Bertin 1953.  Don't put text/citations in full-length videos. Do one-minute laps at spaced-out times.  We have a couple of options:
+ - An order function which adds an order column to the database for this specific case.  When fetching for the movie, filter out NULL.
+ - A selection from an existing order column using a count limit.
+ - A selection from an existing order column using a number of laps limit.
+I'm leaning toward the first option.  Or maybe the third one.
+Titles:
+429,154 genetic variants in 1,100,300 years, small screen edition
+429,154 genetic variants in 1,100,300 years, large screen edition
+4,800 genetic variants in 10 minutes
+Maybe faster laps?  240/30sec (20 in ten minutes), or even 120/15sec (40 in ten minutes)
+
+Typing effect for caption words.  One letter per frame?  One word per frame?
+
+For short video: One frame per year, but somehow select to make round-the-world trip.
+

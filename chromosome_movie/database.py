@@ -7,6 +7,7 @@
 import sys
 import collections
 import math
+import json
 
 import sqlite3
 import numpy
@@ -24,6 +25,18 @@ class Database():
 
         #self.chromosome_id = -1
 
+        if self.cfg.treeseq_type == '1kg':
+            with open(self.cfg.code/'data'/'igsr_populations.tsv') as tsv:
+                self.population_info = {}
+                for num, line in enumerate(tsv):
+                    # TODO: Use csv module instead?
+                    columns = line.split('\t')
+                    if not num:
+                        headers = columns
+                    else:
+                        values = columns
+                        population_info = dict(zip(headers, values))
+                        self.population_info[population_info['Population elastic ID']] = population_info
 
     def write_db(self):
         self.create_tables()
@@ -74,7 +87,7 @@ class Database():
                 chromosome_position INTEGER,
                 average_longitude REAL,
                 average_latitude REAL,
-                total_distance_to_average_location REAL,
+                average_distance_to_average_location REAL,
                 local_counts_match_variant_id INTEGER
             );
         ''')
@@ -84,7 +97,8 @@ class Database():
                 variant_id INTEGER,
                 longitude REAL,
                 latitude REAL,
-                local_frequency REAL
+                local_frequency REAL,
+                PRIMARY KEY (variant_id, longitude, latitude)
             );
         ''')
 
@@ -150,8 +164,8 @@ class Database():
         ''')
 
         cursor.execute('''
-            CREATE INDEX IF NOT EXISTS total_distance_to_average_location_idx
-                ON variant (total_distance_to_average_location);
+            CREATE INDEX IF NOT EXISTS average_distance_to_average_location_idx
+                ON variant (average_distance_to_average_location);
         ''')
 
         cursor.execute('''
@@ -164,12 +178,6 @@ class Database():
         cursor.execute('''
             CREATE INDEX IF NOT EXISTS location_idx
                 ON variant_location (longitude, latitude);
-        ''')
-
-        # We look for conflicts on this combination.
-        cursor.execute('''
-            CREATE UNIQUE INDEX IF NOT EXISTS variant_location_idx
-                ON variant_location (variant_id, longitude, latitude);
         ''')
 
         database.commit()
@@ -213,31 +221,30 @@ class Database():
         database.close()
 
 
-    def average_location(self, locations):
-        # This could be weighted by local frequency, but... nah.
-        # 
+    def average_location(self, local_frequencies):
         # Loosely based on:
         # https://gis.stackexchange.com/a/7566
         # ...but with a bunch of things reversed to give the right answers.
 
-        longitudes = numpy.radians(numpy.array([loc[0] for loc in locations]))
-        latitudes = numpy.radians(numpy.array([loc[1] for loc in locations]))
+        longitudes = numpy.radians(numpy.array([lf[0][0] for lf in local_frequencies]))
+        latitudes = numpy.radians(numpy.array([lf[0][1] for lf in local_frequencies]))
+        weights = numpy.array([lf[1] for lf in local_frequencies])
 
-        x = numpy.average(numpy.cos(latitudes) * numpy.cos(longitudes))
-        y = numpy.average(numpy.cos(latitudes) * numpy.sin(longitudes))
-        z = numpy.average(numpy.sin(latitudes))
+        x = numpy.average(numpy.cos(latitudes) * numpy.cos(longitudes) * weights)
+        y = numpy.average(numpy.cos(latitudes) * numpy.sin(longitudes) * weights)
+        z = numpy.average(numpy.sin(latitudes) * weights)
 
         average_longitude = math.atan2(y, x)
         average_latitude = math.atan2(z, (x**2 + y**2)**0.5)
 
-        total_distance_to_average_location = numpy.sum(numpy.arccos(numpy.clip(
+        average_distance_to_average_location = numpy.sum(numpy.arccos(numpy.clip(
             numpy.sin(latitudes) * numpy.sin(average_latitude)
             + numpy.cos(latitudes) * numpy.cos(average_latitude)
             * numpy.cos(numpy.absolute(longitudes - average_longitude)),
             -1, 1)
-        ))
+        )) / len(local_frequencies)
 
-        return math.degrees(average_longitude), math.degrees(average_latitude), math.degrees(total_distance_to_average_location)
+        return math.degrees(average_longitude), math.degrees(average_latitude), math.degrees(average_distance_to_average_location)
 
 
     def add_variants(self):
@@ -260,7 +267,7 @@ class Database():
         # them is a 20-24 hour process on my machine.
         # I'm guessing that this is the memory hog in this script.  This,
         # or not committing the database until everything is done.
-        seen_local_counts = {}
+        seen = {}
 
         num = 0
         variants = []
@@ -275,24 +282,51 @@ class Database():
 
 
                 # Get sample totals for each location for this variant.
-                # (And, useful for average_location, all the locations where
-                # the variant is found.)
                 local_counts = collections.Counter()
                 for leaf in tree.leaves(node.id):
                     location = self.get_location(leaf)
                     local_counts[location] += 1
 
-                average_location = self.average_location(local_counts.keys())
+                local_frequencies = frozenset((location, count/location_node_counts[location]) for location, count in local_counts.items())
 
-                local_counts = frozenset(local_counts.items())
+                if local_frequencies in seen:
+                    local_counts_match_variant_id = seen[local_frequencies]
+                else:
+                    local_counts_match_variant_id = variant.id
+                    seen[local_frequencies] = variant.id
+                    entries = [(variant.id, location[0], location[1], frequency, frequency) for location, frequency in local_frequencies]
 
-                # Setdefault does exactly what we want (returns the first
-                # value that we set for this key in the dictionary, or sets
-                # the new value and returns it if the key isn't already in
-                # the dictionary), but it took me longer to write out this
-                # comment than it would've taken to write this as a clearer
-                # to understand if-else.
-                local_counts_match_variant_id = seen_local_counts.setdefault(local_counts, variant.id)
+                    # FIXME: If a local frequency changes to 0, this won't
+                    # delete it from the database.
+                    cursor.executemany('''
+                        INSERT INTO variant_location
+                            (
+                                variant_id,
+                                longitude,
+                                latitude,
+                                local_frequency
+                            )
+                        VALUES
+                            (?, ?, ?, ?)
+                        ON CONFLICT
+                            (variant_id, longitude, latitude)
+                        DO UPDATE SET
+                            local_frequency=?
+                    ''', entries)
+
+
+                average_longitude, average_latitude, average_distance_to_average_location = self.average_location(local_frequencies)
+
+                #average_location = self.average_location(local_counts.keys())
+                #local_counts = frozenset(local_counts.items())
+
+                ## Setdefault does exactly what we want (returns the first
+                ## value that we set for this key in the dictionary, or sets
+                ## the new value and returns it if the key isn't already in
+                ## the dictionary), but it took me longer to write out this
+                ## comment than it would've taken to write this as a clearer
+                ## to understand if-else.
+                #local_counts_match_variant_id = seen_local_counts.setdefault(local_counts, variant.id)
 
                 entry = (
                     variant.id,
@@ -302,9 +336,9 @@ class Database():
                     self.treeseq.site(variant.site).ancestral_state,
                     variant.derived_state,
                     int(variant.position),
-                    average_location[0],
-                    average_location[1],
-                    average_location[2],
+                    average_longitude,
+                    average_latitude,
+                    average_distance_to_average_location,
                     local_counts_match_variant_id,
                 )
 
@@ -321,7 +355,7 @@ class Database():
                             chromosome_position,
                             average_longitude,
                             average_latitude,
-                            total_distance_to_average_location,
+                            average_distance_to_average_location,
                             local_counts_match_variant_id
                         )
                     VALUES
@@ -337,28 +371,9 @@ class Database():
                             chromosome_position=?,
                             average_longitude=?,
                             average_latitude=?,
-                            total_distance_to_average_location=?,
+                            average_distance_to_average_location=?,
                             local_counts_match_variant_id=?
                     ''', entry + entry[1:])
-
-                entries = [(variant.id, location[0], location[1], count/location_node_counts[location], count/location_node_counts[location]) for location, count in local_counts]
-                # FIXME: If a local frequency changes to 0, this won't
-                # actually fix it.
-                cursor.executemany('''
-                    INSERT INTO variant_location
-                        (
-                            variant_id,
-                            longitude,
-                            latitude,
-                            local_frequency
-                        )
-                    VALUES
-                        (?, ?, ?, ?)
-                    ON CONFLICT
-                        (variant_id, longitude, latitude)
-                    DO UPDATE SET
-                        local_frequency=?
-                ''', entries)
 
                 num += 1
 
@@ -367,10 +382,18 @@ class Database():
 
 
     def get_location(self, node_id):
+        individual = self.treeseq.individual(self.treeseq.node(node_id).individual)
         if self.cfg.treeseq_type == 'sgdp':
             # Not sure why all the treeseqs don't store the location
             # with the individual.  SGDP does, though.
-            latitude, longitude = self.treeseq.individual(self.treeseq.node(node_id).individual).location
+            latitude, longitude = individual.location
+        elif self.cfg.treeseq_type == '1kg':
+            population_name = json.loads(self.treeseq.population(self.treeseq.node(node_id).population).metadata)['name']
+            population_info = self.population_info[population_name]
+            latitude = float(population_info['Population latitude'])
+            longitude = float(population_info['Population longitude'])
+
+
         else:
             raise Exception(f'Unknown treeseq type "{self.cfg.treeseq_type}".')
 

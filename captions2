@@ -1,0 +1,200 @@
+The first few hundred thousand years of this video...
+...are pretty boring.
+
+That's because human genetic variation...
+...is pretty boring.
+
+Almost every common genetic variant by itself...
+...has a tiny effect, or no effect at all.
+
+#Kimura, M. (1968). Evolutionary rate at the molecular level. Nature, 217(5129), 624-626.
+
+#Ohta, T. (1973). Slightly deleterious mutant substitutions in evolution. Nature, 246(5428), 96-98.
+
+#https://www.nature.com/scitable/topicpage/neutral-theory-the-null-hypothesis-of-molecular-839/
+
+It takes hundreds of common genetic variants added together...
+...to explain a fraction of the variance...
+... in complex human traits like height, weight...
+
+#Yengo, L., Sidorenko, J., Kemper, K. E., Zheng, Z., Wood, A. R., Weedon, M. N., ... & GIANT Consortium. (2018). Meta-analysis of genome-wide association studies for height and body mass index in~ 700000 individuals of European ancestry. Human molecular genetics, 27(20), 3641-3649.
+
+#Sohail, M., Maier, R. M., Ganna, A., Bloemendal, A., Martin, A. R., Turchin, M. C., ... & Sunyaev, S. R. (2019). Polygenic adaptation on height is overestimated due to uncorrected stratification in genome-wide association studies. Elife, 8, e39702.
+
+...cognitive performance...
+
+#Lee, J. J., Wedow, R., Okbay, A., Kong, E., Maghzian, O., Zacher, M., ... & 23andMe Research Team. (2018). Gene discovery and polygenic prediction from a 1.1-million-person GWAS of educational attainment. Nature genetics, 50(8), 1112.
+
+#Cheesman, R., Hunjan, A., Coleman, J. R., Ahmadzadeh, Y., Plomin, R., McAdams, T. A., ... & Breen, G. (2020). Comparison of adopted and nonadopted individuals reveals gene–environment interplay for education in the UK Biobank. Psychological science, 31(5), 582-591.
+
+...or psychiatric conditions.
+
+#Border, R., Johnson, E. C., Evans, L. M., Smolen, A., Berley, N., Sullivan, P. F., & Keller, M. C. (2019). No support for historical candidate gene or candidate gene-by-interaction hypotheses for major depression across multiple large samples. American Journal of Psychiatry, 176(5), 376-387.
+
+#Johnson, E. C., Border, R., Melroy-Greif, W. E., de Leeuw, C. A., Ehringer, M. A., & Keller, M. C. (2017). No evidence that schizophrenia candidate genes are more associated with schizophrenia than noncandidate genes. Biological psychiatry, 82(10), 702-708.
+
+Each genetic variant by itself makes a miniscule contribution.
+
+And those are the common genetic variants...
+...with the <italic>biggest</italic> effect.
+
+Since most single genetic variants have a tiny effect...
+...or no effect at all...
+...they're free to spread randomly.
+
+That's what we're looking at right now.
+Genetic variants which mostly don't do much...
+...but have gotten lucky, again and again...
+...and spread across the entire globe.
+Later in the video we'll see genetic variants...
+...which haven't gotten as lucky...
+...or haven't had as much time to spread.
+
+Let's pause (1m10s) and tell the story of one of the variants.
+1,234,456 years ago...
+...give or take a few hundred thousand years...
+...someone had a cytosine (C) flip to a guanine (G)...
+...at position 12,345,678 on chromosome 22.
+
+[link to genome browser for SNP?]
+
+It probably didn't make them any faster, or quieter...
+...stronger, or smarter...
+...more beautiful, or more conscientious...
+...but they did pass it on to their kids...
+...just by chance...
+...who, just by chance, passed it on to their kids.
+The genetic variant got lucky again and again...
+...until almost everyone in the world had a copy.
+You probably have a copy.
+
+This video documents every genetic variant on chromosome 22...
+...found by the 1000 Genomes Project...
+
+#1000 Genomes Project Consortium. A global reference for human genetic variation. Nature 526, 68–74 (2015).
+
+...the Human Genome Diversity Project...
+
+#Bergström, A. et al. Insights into human genetic variation and population history from 929 diverse genomes. Science 367 (2020).
+
+...and the Simons Genome Diversity Project...
+
+#Mallick, S. et al. The Simons genome diversity project: 300 genomes from 142 diverse populations. Nature 538, 201 (2016).
+
+...and dated by the tsdate project [ask for collective name?].
+
+#Anthony Wilder Wohns, Yan Wong, Ben Jeffery, Ali Akbari, Swapan Mallick, Ron Pinhasi, Nick Patterson, David Reich, Jerome Kelleher, and Gil McVean (2021) A unified genealogy of modern and ancient genomes. bioRxiv 2021.02.16.431497; doi: https://doi.org/10.1101/2021.02.16.431497
+
+Why chromosome 22?  Because it's short.
+If I included all the chromosomes...
+...this video would be over two weeks long...
+...and you might get bored.
+
+I've arranged the video so that you can watch 5-6 minutes...
+...at any given date...
+...and get a couple of random round-the-world samples...
+...for that date.
+
+I've also posted a version of this video...
+...with a bigger, more colourful map...
+...but no academic citations.
+
+[I've also posted a version of this video...
+...with a smaller, less colourful map...
+...and all the academic citations.]
+
+You can slow down or speed up the video...
+...using Youtube's playback speed option in the gear icon menu.
+You might want to mute the audio if you do.
+
+Keep in mind that this data is likely to change...
+...as more genomes are sequenced and more analysis is done.
+
+Enjoy.
+
+(3m6s)
+
+
+We're at the final time step.
+
+If a genetic variant has been found at two locations...
+...we're drawing a line between them.
+Each line will disappear after a minute or so.
+
+/*
+Keep in mind as you watch...
+...that the patterns you see are shaped in part...
+...by the places where researchers chose to take DNA samples.
+*/
+
+As you watch, think about how the map might look different...
+...if researchers had sampled a different set of locations.
+...if researchers had made different choices about where to sample.
+...if researchers had spread their sampling differently.
+
+#Serre & Paabo 2004.
+
+####
+
+
+You have to add up 610 common genetic variants...
+...with the biggest effect on height...
+...to explain 25% of the variance in height.
+Each of the 610 variants by itself...
+...makes a miniscule contribution.
+
+
+For cognitive performance, you have to add up 1,271
+...with the biggest effect...
+...to explain 7-10% of the variance.
+Each of the 1,271 common genetic variants by itself...
+...makes a miniscule contribution.
+
+
+No common genetic variant by itself...
+####...explains more than 0.2% of the variance... ###more accurate to talk about "added together"
+...in traits like height, weight...
+
+
+[might be overestimated:]
+
+
+...cognitive performance...
+
+
+[might be overestimated:]
+
+https://journals.sagepub.com/doi/10.1177/0956797620904450
+
+...or psychiatric disorders.
+
+
+Almost all genetic variants...
+...with a tiny handful of exceptions...
+...do even less than that.
+
+Kimura, M. (1968). Evolutionary rate at the molecular level. Nature, 217(5129), 624-626.
+
+Ohta, T. (1973). Slightly deleterious mutant substitutions in evolution. Nature, 246(5428), 96-98.
+
+https://www.nature.com/scitable/topicpage/neutral-theory-the-null-hypothesis-of-molecular-839/
+
+Most of the headlines you've seen in the past...
+...about a "gene for this" or a "gene for that"...
+...have turned out to be wrong.
+
+When we see a big heritable genetic effect...
+...it's probably hundreds of tiny genetic effects added up...
+...or, sometimes, a rare variant with a big effect.
+
+Since most single genetic variants have a tiny effect...
+...they're free to spread randomly.
+
+That's what we're mostly looking at right now.
+Genetic variants which don't do much...
+...but have gotten lucky, again and again...
+...and spread across the entire globe.
+
+Let's pause and tell the story of one of the variants.
+
+

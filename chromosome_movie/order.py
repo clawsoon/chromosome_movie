@@ -13,6 +13,61 @@ class Order():
         self.cfg = cfg
         random.seed(1234)
 
+    def select(self):
+        database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
+        database.row_factory = sqlite3.Row
+        cursor = database.cursor()
+        order_key = f'order_{self.cfg.order}'
+        lap_key = f'lap_{self.cfg.order}'
+
+        if self.cfg.movie_times['type'] == 'time_lap':
+            index = 0
+            for time, lap_count in self.cfg.movie_times['time_laps']:
+                cursor.execute(f'SELECT * FROM variant WHERE time=? ORDER BY {order_key}', (time,))
+                previous_lap = None
+                counted_laps = 0
+                for num, variant in enumerate(cursor):
+                    if variant[lap_key] != previous_lap:
+                        previous_lap = variant[lap_key]
+                        counted_laps += 1
+                    if counted_laps > lap_count:
+                        break
+                    variant_dict = dict(variant)
+                    variant_dict[order_key] = index
+                    yield variant_dict
+                    index += 1
+
+        elif self.cfg.movie_times['type'] == 'time_limit':
+            index = 0
+            for time, limit in self.cfg.movie_times['time_limits']:
+                sql = f'SELECT * FROM variant WHERE time=? ORDER BY {order_key}'
+                if limit:
+                    sql += f' LIMIT {limit}'
+                cursor.execute(sql, (time,))
+                for variant in cursor:
+                    variant_dict = dict(variant)
+                    variant_dict[order_key] = index
+                    yield variant_dict
+                    index += 1
+
+        elif self.cfg.movie_times['type'] == 'time_random':
+            index = 0
+            for time, limit in self.cfg.movie_times['time_limits']:
+                sql = f'SELECT * FROM variant WHERE time=? ORDER BY RANDOM()'
+                if limit:
+                    sql += f' LIMIT {limit}'
+                cursor.execute(sql, (time,))
+                for variant in cursor:
+                    variant_dict = dict(variant)
+                    variant_dict[order_key] = index
+                    yield variant_dict
+                    index += 1
+
+        else:
+            cursor.execute(f'SELECT * FROM variant ORDER BY {order_key}')
+            for variant in cursor:
+                yield variant
+
     def write_db(self):
         # There's probably a cleaner way to do this.
 
@@ -22,79 +77,98 @@ class Order():
         if self.cfg.order == 'traveller_45e_30s_105w_40s':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from Indian Ocean east of South Africa to southern Pacific west of South America.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((45, -30), (-105, -40), column_name)
 
         elif self.cfg.order == 'traveller_19e_39s_99w_19n':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south of South Africa to Mexico City.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((19, -39), (-99, 19), column_name)
 
         elif self.cfg.order == 'traveller_19e_39s_99w_19n_max1000':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south of South Africa to Mexico City with max route length of 1000.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((19, -39), (-99, 19), column_name, 1000)
 
         elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((19, -39), (19, -39), column_name, 480)
 
         elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((19, -39), (19, -39), column_name, 1000)
 
         elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000_byspread':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000, subsorted by total distance from average location.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((19, -39), (19, -39), column_name, 1000, True)
 
         elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480_byspread':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480, subsorted by total distance from average location.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((19, -39), (19, -39), column_name, 480, True)
 
         elif self.cfg.order == 'two_world_30w_65s_169w_65n_max480':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south of South Africa to Bering Strait, then to south of South America, with max route length of 480, splitting hemispheres at longitudes -30 and -169.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((-30, -65), (-169, 65), column_name, max_route_length=480, two_world=True)
 
 
         elif self.cfg.order == 'two_world_30w_0s_169w_65n_max480':
             column_name = self.cfg.order
             description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.'
-            self.create_order_description(column_name, description)
+            self.create_order_column(column_name, description)
             self.traveller((-30, 0), (-169, 65), column_name, max_route_length=480, two_world=True)
 
+        elif self.cfg.order == 'two_world_jaccard5_30w_30s_169w_65n_max480':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 5 degrees to make variants which share more locations closer to each other.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=5)
+
+        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20)
+
+        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20)
 
         else:
             raise Exception('Order "%s" not implemented.' % self.cfg.order)
 
-    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False):
+    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1):
 
         # TODO: Split this into multiple, reasonable functions, instead
         # of this big mess.
 
-        update_template = '''
+        update_template = f'''
             UPDATE
                 variant
             SET
-                %s=?
+                order_{column_name}=?,
+                lap_{column_name}=?
             WHERE
                 id=?
-        ''' % column_name
+        '''
             
         select = '''
             SELECT
                 id,
+                local_counts_match_variant_id,
                 average_longitude,
                 average_latitude
             FROM
@@ -117,6 +191,7 @@ class Order():
         times.sort(reverse=True)
 
         order = 0
+        lap = 0
 
         for time in times:
             sys.stderr.write('\nTime... %s\n' % time)
@@ -153,17 +228,28 @@ class Order():
                                 hemisphere = hemisphere_a
                         hemisphere.append(variant)
 
+                    # If one of them is empty, do there-and-back-again.
+                    if not hemisphere_b:
+                        half = len(hemisphere_a) // 2
+                        hemisphere_a, hemisphere_b = hemisphere_a[:half], hemisphere_a[half:]
+                    elif not hemisphere_a:
+                        half = len(hemisphere_b) // 2
+                        hemisphere_a, hemisphere_b = hemisphere_b[:half], hemisphere_b[half:]
+
                     chunks.append({
                         'start': start_location,
                         'end': end_location,
                         'variants': hemisphere_a,
+                        'lap': lap,
                     })
 
                     chunks.append({
                         'start': end_location,
                         'end': start_location,
                         'variants': hemisphere_b,
+                        'lap': lap,
                     })
+                    lap += 1
 
             elif max_route_length and len(rows) > max_route_length:
 
@@ -195,44 +281,65 @@ class Order():
                     route_count = len(rows) // max_route_length + 1
                     variants = [rows[i::route_count] for i in range(route_count)]
 
-                chunks = [{
-                    'start': start_location,
-                    'end': end_location,
-                    'variants': variant,
-                } for variant in variants]
+                chunks = []
+                for variant in variants:
+                    chunks.append({
+                        'start': start_location,
+                        'end': end_location,
+                        'variants': variant,
+                        'lap': lap,
+                    })
+                    lap += 1
 
             else:
                 chunks = [{
                     'start': start_location,
                     'end': end_location,
                     'variants': rows,
+                    'lap': lap,
                 }]
+                lap += 1
 
             sys.stderr.write(f'Route lengths: {[len(chunk["variants"]) for chunk in chunks]}\n')
 
             for chunk in chunks:
-                for variant_id in self.traveller_sort(chunk['start'], chunk['end'], chunk['variants']):
-                    write_cursor.execute(update_template, (order, variant_id))
+                for variant_id in self.traveller_sort(chunk['start'], chunk['end'], chunk['variants'], jaccard_offset, read_cursor):
+                    write_cursor.execute(update_template, (order, chunk['lap'], variant_id))
                     order += 1
 
 
         database.commit()
         database.close()
 
-    def traveller_sort(self, start_location, end_location, rows):
+    def traveller_sort(self, start_location, end_location, variants, jaccard_offset, read_cursor):
 
         # Start isn't a real location.  It's an arbitrary point we picked...
-        locations = [start_location]
+        average_locations = [start_location]
+        all_locations = [set()]
         variant_ids = [-1]
-        for row in rows:
-            locations.append((row['average_longitude'], row['average_latitude']))
-            variant_ids.append(row['id'])
+
+        for variant in variants:
+            average_locations.append((variant['average_longitude'], variant['average_latitude']))
+            variant_ids.append(variant['id'])
+            if jaccard_offset >= 0:
+                read_cursor.execute('''
+                    SELECT
+                        longitude,
+                        latitude
+                    FROM
+                        variant_location
+                    WHERE
+                        variant_id=?
+                ''', (variant['local_counts_match_variant_id'],))
+                all_locations.append(set((r[0], r[1]) for r in read_cursor))
+
         # ...end isn't a real location.  It's an arbitrary point we picked...
-        locations.append(end_location)
+        average_locations.append(end_location)
+        all_locations.append(set())
         variant_ids.append(-1)
 
-        route = travelling_genome.main(locations)
-        #route = travelling_genome.nearest_neighbour_only(locations)
+        route = travelling_genome.main(average_locations, jaccard_offset=jaccard_offset, all_locations=all_locations)
+        #route = travelling_genome.nearest_neighbour_only(average_locations)
 
         # ...so we don't include start_location and end_location in the
         # final route.
@@ -242,7 +349,7 @@ class Order():
             yield variant_id
 
 
-    def create_order_description(self, column_name, description):
+    def create_order_column(self, column_name, description):
 
         # There's probably a better way to store column names and descriptions,
         # but this will do for now.
@@ -275,16 +382,31 @@ class Order():
                 VALUES
                     (?, ?)
                 ''', (column_name, description))
+
             cursor.execute('''
                 ALTER TABLE
                     variant
                 ADD COLUMN
-                    %s INTEGER
+                    order_%s INTEGER
                 ''' % column_name)
+
             cursor.execute('''
-                CREATE INDEX %s_idx
-                    ON variant (%s)
+                ALTER TABLE
+                    variant
+                ADD COLUMN
+                    lap_%s INTEGER
+                ''' % column_name)
+
+            cursor.execute('''
+                CREATE INDEX order_%s_idx
+                    ON variant (order_%s)
                 ''' % (column_name, column_name))
+
+            cursor.execute('''
+                CREATE INDEX lap_%s_idx
+                    ON variant (lap_%s)
+                ''' % (column_name, column_name))
+
         database.commit()
         database.close()
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import pathlib
 from xml.etree import ElementTree
 
@@ -32,7 +33,7 @@ class Clef():
                 line = root.find(f".//*[@id='line{note}']")
                 line.set('style', 'display:inline')
             variant = {'ancestral_state': In, 'derived_state': Out}
-            tree.write(self.svg_path(variant, None), encoding='utf8', xml_declaration=True)
+            tree.write(self.svg_path(variant), encoding='utf8', xml_declaration=True)
             node.set('style', 'display:none')
             if note == 'C4':
                 line.set('style', 'display:none')
@@ -43,14 +44,22 @@ class Clef():
         frames = self.cfg.audio_notes.values()
         svg2png.svg2png(self.cfg, svg, png, frames, frame_convert=str)
 
-    def index(self, variant, frame):
+    def index(self, variant):
         key = (variant['ancestral_state'], variant['derived_state'])
         return self.cfg.audio_notes[key]
 
-    def svg_path(self, variant, frame):
-        return str(self.layercfg.svg) % self.index(variant, frame)
+    def svg(self, variant):
+        path = os.path.relpath(self.svg_path(variant), self.cfg.layers.foreground.svg.parent).replace('\\', '/')
+        # Using <image> for the map gives horrible resolution, but for
+        # the clef it's fine.  I guess because we're scaling down here
+        # instead of scaling up like we are with the map?
+        #return f' <use xlink:href="{path}#clef"/>\n'
+        return f' <image width="{self.layercfg.width}" height="{self.layercfg.height}" xlink:href="{path}"/>\n'
 
-    def png_path(self, variant, frame):
-        return str(self.layercfg.png) % self.index(variant, frame)
+    def svg_path(self, variant):
+        return str(self.layercfg.svg) % self.index(variant)
+
+    def png_path(self, variant):
+        return str(self.layercfg.png) % self.index(variant)
 
 

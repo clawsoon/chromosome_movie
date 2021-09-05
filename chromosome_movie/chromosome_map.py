@@ -77,27 +77,27 @@ class ChromosomeMap():
         database.close()
 
 
-    def write_svg(self):
-
+    def svg(self, variant=None):
         if not self.map:
             self.initialize()
+        return '\n'.join(self.map.generate_svg()) + '\n'
 
-        path = str(self.layercfg.svg) % 0
-        with open(path, 'w') as svg:
-            for line in self.map.generate_svg():
-                svg.write(f'{line}\n')
+    def write_svg(self):
+
+        svg = f'<svg viewBox="0 0 {self.cfg.width} {self.cfg.height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
+        svg += self.svg()
+        svg += '</svg>\n'
+
+        with open(self.svg_path(), 'w') as svg:
+            svg.write(self.svg())
 
     def write_png(self):
-        svg = str(self.layercfg.svg)
-        png = str(self.layercfg.png)
-        frames = [0]
-        svg2png.svg2png(self.cfg, svg, png, frames)
+        svg2png.svg2png(self.cfg, self.svg_path(), self.png_path())
 
+    def svg_path(self, variant=None):
+        return str(self.layercfg.svg)
 
-    def svg_path(self, variant, frame):
-        return str(self.layercfg.svg) % 0
-
-    def png_path(self, variant, frame):
-        return str(self.layercfg.png) % 0
+    def png_path(self, variant=None):
+        return str(self.layercfg.png)
 
 

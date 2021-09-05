@@ -171,7 +171,11 @@ def bertin(rotation=(-16.5, -42)):
 
     # This scale makes it line up perfectly-ish with the G.Projector graticules.
     # Maybe the extra bit is because of the border?
-    scale = math.sqrt(2) + 4e-3
+    #scale = math.sqrt(2) + 4e-3
+    #scale = math.sqrt(2)
+    scale = math.sqrt(2) - 8e-3
+    xshift = -0.21
+    yshift = -0.01
     def projection(longitude, latitude):
 
         # Bertin constants.
@@ -222,7 +226,7 @@ def bertin(rotation=(-16.5, -42)):
         if y > 0:
             y *= 1 + d / 1.5 * x * x
 
-        return x/scale, y/scale
+        return x/scale + xshift, y/scale + yshift
 
     return projection
 

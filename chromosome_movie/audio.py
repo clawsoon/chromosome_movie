@@ -8,6 +8,8 @@ import math
 
 import midiutil
 
+from . import order
+
 class Audio():
 
     # Pan is 0-127 left-right.
@@ -53,16 +55,20 @@ class Audio():
             midi.addProgramChange(track, info['channel'], time, info['program'])
             midi.addControllerEvent(track, info['channel'], time, midiutil.MidiFile.controllerEventTypes['pan'], info['pan'])
 
-        database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
-        cursor = database.cursor()
-        select = f'SELECT ancestral_state, derived_state FROM variant'
-        if self.cfg.movie_time:
-            select += f' WHERE time={self.cfg.movie_time}'
-        select += f' ORDER BY {self.cfg.order}'
-        if self.cfg.movie_limit:
-            select += f' LIMIT {self.cfg.movie_limit}'
-        cursor.execute(select)
-        for num, (ancestral_state, derived_state) in enumerate(cursor):
+        #database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
+        #cursor = database.cursor()
+        #select = f'SELECT ancestral_state, derived_state FROM variant'
+        #if self.cfg.movie_time:
+        #    select += f' WHERE time={self.cfg.movie_time}'
+        #select += f' ORDER BY order_{self.cfg.order}'
+        #if self.cfg.movie_limit:
+        #    select += f' LIMIT {self.cfg.movie_limit}'
+        #cursor.execute(select)
+        #for num, (ancestral_state, derived_state) in enumerate(cursor):
+        self.order = order.Order(self.cfg)
+        for num, variant in enumerate(self.order.select()):
+            ancestral_state = variant['ancestral_state']
+            derived_state = variant['derived_state']
             if num % 1000 == 0:
                 sys.stderr.write(f'{num}\n')
             volume = int(base_volume + volume_cycle_max * math.sin(num/volume_cycle*math.pi))

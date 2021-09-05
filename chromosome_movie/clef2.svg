@@ -53,6 +53,7 @@
         stroke-width:11.4438;
         stroke-opacity:1;
     }
+   
   </style>
 
   <filter
@@ -85,7 +86,6 @@
 
   </defs>
   <path
-   id="trebleclef"
    class="clef shadow"
    d="m -2548.4508,9393.0625
 c -233.0921,64.9987 -443.2565,208.9959 -638.1366,429.9915 -194.879,224.996 -290.4085,471.991 -290.4085,738.985 0,166.997 57.3174,357.993 168.1313,559.989 110.8139,204.996 278.9461,353.994 496.7531,448.992 72.6016,14.999 106.992,52.999 106.992,106.998 0,18.999 -26.7477,37.999 -91.7078,52.999 -347.7269,-87.999 -634.3145,-273.995 -855.9425,-551.99 -221.6277,-281.994 -336.2634,-601.988 -343.9061,-966.91 11.4635,-392.9919 129.9201,-757.9847 355.3697,-1092.9782 229.2704,-338.9933 523.5008,-578.9886 882.6912,-719.9858
@@ -105,7 +105,7 @@ c 168.1323,-18.9996 282.767,-34.9993 347.7269,-34.9993 290.4096,0 550.2485,60.99
 h -87.887
 c 149.0261,228.995 393.5808,346.993 733.6651,346.993 171.9531,0 347.727,-37.999 523.5008,-106.998 179.5947,-71.999 328.6208,-166.997 454.7191,-288.994 126.0991,-121.998 210.1654,-251.995 244.5557,-388.993 64.9599,-155.997 95.5295,-372.992 95.5295,-642.987 0,-182.997 -19.106,-365.993 -53.4963,-548.989 -34.3908,-178.997 -87.8871,-418.992 -160.4898,-715.986 -72.6026,-292.995 -126.0991,-520.99 -156.6677,-676.987 -229.2705,56.999 -466.1835,86.998 -714.56,86.998 -416.5078,0 -810.0886,-83.998 -1180.7415,-254.995 -370.654,-170.996 -695.4539,-406.992 -978.2209,-711.986 -278.9451,-304.994 -496.752,-647.987 -653.4199,-1035.979 -152.8468,-384.993 -233.0922,-787.9848 -236.9131,-1206.9766 15.2843,-388.9924 87.887,-761.985 225.4497,-1111.9781 137.5615,-353.9931 313.3356,-688.9865 531.1425,-1001.9804 217.807,-311.9938 443.2555,-596.9882 676.3479,-852.9832 236.9119,-250.9951 546.4276,-574.9887 936.1867,-966.981
 z"
-  />
+   id="trebleclef" />
   <g id="lines" class="line shadow">
    <path d="m -6432.1428,3783.4584 15250.7312,0.5639" id="lineF5" />
    <path d="m -6432.1429,6030.2327 15250.7311,0.5639" id="lineD5" />
@@ -114,20 +114,162 @@ z"
    <path d="m -6432.1429,12778.171 15250.7308,0.564" id="lineE4" />
    <path d="m 399.35761,15032.117 7263.45309,1.174" id="lineC4" style="display:none" />
   </g>
-  <g id="notes" class="note shadow" transform="translate(4000, 3672)">
-   <text y="0" id="G5" style="display:none;" text-anchor="middle">G5</text>
-   <text y="961" id="F5" style="display:none;" text-anchor="middle">F5</text>
-   <text y="2250" id="E5" style="display:none;" text-anchor="middle">E5</text>
-   <text y="3212" id="D5" style="display:none;" text-anchor="middle">D5</text>
-   <text y="4506" id="C5" style="display:none;" text-anchor="middle">C5</text>
-   <text y="5468" id="B4" style="display:none;" text-anchor="middle">B4</text>
-   <text y="6764" id="A4" style="display:none;" text-anchor="middle">A4</text>
-   <text y="7725" id="G4" style="display:none;" text-anchor="middle">G4</text>
-   <text y="9001" id="F4" style="display:none;" text-anchor="middle">F4</text>
-   <text y="9961" id="E4" style="display:none;" text-anchor="middle">E4</text>
-   <text y="11257" id="D4" style="display:none;" text-anchor="middle">D4</text>
-   <text y="12240" id="C4" style="display:none;" text-anchor="middle">C4</text>
-  </g>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="G5t"
+   transform="translate(10346.744,2140.9197)">
+   <tspan
+     id="G5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">G5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="F5t"
+   transform="translate(10346.744,3102.1503)" >
+   <tspan
+     id="F5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">F5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="E5t"
+   transform="translate(10223.218,4391.1395)">
+   <tspan
+     id="E5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">E5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="D5t"
+   transform="translate(10223.218,5352.3701)" >
+   <tspan
+     id="D5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">D5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="C5t"
+   transform="translate(10346.744,6647.8648)">
+   <tspan
+     id="C5"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">C5</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="B4t"
+   transform="translate(10346.744,7609.0954)" >
+   <tspan
+     id="B4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">B4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="A4t"
+   transform="translate(10223.218,8904.59)">
+   <tspan
+     id="A4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">A4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="G4t"
+   transform="translate(10223.218,9865.8206)" >
+   <tspan
+     id="G4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">G4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="F4t"
+   transform="translate(10223.218,11141.165)">
+   <tspan
+     id="F4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">F4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="E4t"
+   transform="translate(10223.218,12102.396)" >
+   <tspan
+     id="E4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">E4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="D4t"
+   transform="translate(10223.218,13397.891)">
+   <tspan
+     id="D4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none;">D4</tspan>
+  </text>
+  <text
+   xml:space="preserve"
+   class="note shadow"
+   x="-9517.832"
+   y="1531.3492"
+   id="C4t"
+   transform="translate(10223.218,14359.122)" >
+   <tspan
+     id="C4"
+     x="-9517.832"
+     y="1531.3492"
+     style="display:none">C4</tspan>
+  </text>
 </svg>
 
 
