@@ -228,7 +228,10 @@ class Database():
 
         longitudes = numpy.radians(numpy.array([lf[0][0] for lf in local_frequencies]))
         latitudes = numpy.radians(numpy.array([lf[0][1] for lf in local_frequencies]))
-        weights = numpy.array([lf[1] for lf in local_frequencies])
+        if self.cfg.weighted_average_locations:
+            weights = numpy.array([lf[1] for lf in local_frequencies])
+        else:
+            weights = 1
 
         x = numpy.average(numpy.cos(latitudes) * numpy.cos(longitudes) * weights)
         y = numpy.average(numpy.cos(latitudes) * numpy.sin(longitudes) * weights)

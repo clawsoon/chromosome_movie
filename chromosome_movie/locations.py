@@ -39,7 +39,10 @@ class Locations():
 
     def radius(self, proportion):
         # Scaled by area, minus half stroke width.
-        radius = proportion**.5 * self.layercfg.max_radius - self.layercfg.stroke_width / 2
+        if hasattr(self.layercfg, 'fixed_radius') and self.layercfg.fixed_radius:
+            radius = self.layercfg.max_radius
+        else:
+            radius = proportion**.5 * self.layercfg.max_radius - self.layercfg.stroke_width / 2
         # Inkscape gets weird if the radius gets too small.  And very weird if
         # it goes negative.
         radius = max(radius, 1)

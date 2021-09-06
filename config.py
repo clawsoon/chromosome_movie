@@ -74,6 +74,7 @@ folders = [data, images, audio, movie]
 
 database_path = data/f'{treeseq_path.stem}.sqlite'
 database_readonly_uri = f'file:{database_path.as_posix()}?mode=ro'
+weighted_average_locations = False
 
 # Adds some shadows to text and lines to make lines a little cleaner when
 # movies are resized to arbitrary sizes by the viewer, or when high-resolution
@@ -338,6 +339,7 @@ layers.average_location.stroke_width = 0
 layers.average_location.style = 'stroke:none;fill:blue;fill-opacity:1.0;'
 
 layers.local_frequencies.max_radius = h(16)
+layers.local_frequencies.fixed_radius = True
 # We need stroke width separated out from the style for calculations.
 layers.local_frequencies.stroke_width = 4
 #layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-opacity:0.6;'

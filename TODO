@@ -57,9 +57,9 @@ DONE: Reposition labels and legends.
 
 DONE: Use the order number from the database for Count so that there's continuity between videos.
 
-Switch to single size for red location dots, since multi-size dots don't work well with the mix of projects (e.g. 2 out of 3 samples from Simons will produce a large dot, while 2 out of 20 samples from HGDP will produce a tiny dot, and the law of small numbers means that we're probably not showing anything reliably meaningful by differentiating).
+DONE: Switch to single size for red location dots, since multi-size dots don't work well with the mix of projects (e.g. 2 out of 3 samples from Simons will produce a large dot, while 2 out of 20 samples from HGDP will produce a tiny dot, and the law of small numbers means that we're probably not showing anything reliably meaningful by differentiating).
 
-Write new captions.
+DONE: Write new captions.
 
 Write populations SVG code.  Probably do it like clef.py/clef.svg, where we have an SVG pre-filled with all the population names hidden and turn on display in code if a population is present for a variant.  For the clef we're using one image per note and using href, though, which we might not want to do for populations.  Maybe for populations it's just a dictionary with the x,y position and text for each population ID?
 
