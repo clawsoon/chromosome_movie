@@ -453,6 +453,15 @@ movie_times = {
 }
 
 #movie_times = {
+#    'name': 'part1',
+#    'type': 'time_range',
+#    'time_ranges': [
+#        # These are in generations.  Inclusive on smaller number only.
+#        (999_999_999, 1_000),
+#    ],
+#}
+
+#movie_times = {
 #    'name': 'full',
 #    'type': None,
 #}

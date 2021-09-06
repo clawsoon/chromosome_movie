@@ -66,6 +66,20 @@ class Order():
                     yield variant_dict
                     index += 1
 
+        elif self.cfg.movie_times['type'] == 'time_range':
+            index = 0
+            for start, end in self.cfg.movie_times['time_ranges']:
+                small, large = sorted((start, end))
+                sql = f'SELECT * FROM variant WHERE time >= ? AND time < ? ORDER BY {order_key}'
+                cursor.execute(sql, (small, large))
+                for variant in cursor:
+                    variant_dict = dict(variant)
+                    #variant_dict[order_key] = index
+                    variant_dict['frame_number'] = index
+                    yield variant_dict
+                    index += 1
+
+
         else:
             cursor.execute(f'SELECT * FROM variant ORDER BY {order_key}')
             for variant in cursor:
