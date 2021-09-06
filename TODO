@@ -74,7 +74,7 @@ The population metadata 'name' for SGDP and HGDP is fine, but for 1kg pull it fr
  - HGDP population metadata has 'sample' key.
  - 1kg population metadata has 'individual_id' key.
 
-Years per generation.
+DONE: Years per generation.
 
 Add Raleway font to Linux inkscape.
 
