@@ -90,7 +90,7 @@ class Position(Legend):
 
         # Geographic location
 
-        y = ycenter - self.layercfg.font_size
+        y = ycenter - self.layercfg.font_size * 1.25
 
         svg += f'  <circle cx="{x}" cy="{y}" r="{self.frequencycfg.max_radius}" stroke-width="{self.frequencycfg.stroke_width}" style="{self.frequencycfg.style}"/>\n'
 
@@ -107,7 +107,7 @@ class Position(Legend):
 
         # Chromosome location
 
-        y = ycenter + self.layercfg.font_size
+        y = ycenter + self.layercfg.font_size * 1.25
 
         # TODO: Make a config for chromosome position circles and use it.
         svg += position.circle(x, y)
