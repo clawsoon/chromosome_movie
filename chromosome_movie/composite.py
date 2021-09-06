@@ -130,7 +130,8 @@ class Foreground(Composite):
         svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png, self.order.select(), frame_convert=self.index)
 
     def index(self, variant):
-        return variant[self.order_key]
+        #return variant[self.order_key]
+        return variant['frame_number']
 
     def svg_path(self, variant):
         return str(self.layercfg.svg) % self.index(variant)

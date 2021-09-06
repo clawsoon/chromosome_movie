@@ -55,7 +55,7 @@ New design:
 
 DONE: Reposition labels and legends.
 
-Use the order number from the database for Count so that there's continuity between videos.
+DONE: Use the order number from the database for Count so that there's continuity between videos.
 
 Switch to single size for red location dots, since multi-size dots don't work well with the mix of projects (e.g. 2 out of 3 samples from Simons will produce a large dot, while 2 out of 20 samples from HGDP will produce a tiny dot, and the law of small numbers means that we're probably not showing anything reliably meaningful by differentiating).
 

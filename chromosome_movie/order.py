@@ -33,7 +33,8 @@ class Order():
                     if counted_laps > lap_count:
                         break
                     variant_dict = dict(variant)
-                    variant_dict[order_key] = index
+                    #variant_dict[order_key] = index
+                    variant_dict['frame_number'] = index
                     yield variant_dict
                     index += 1
 
@@ -46,7 +47,8 @@ class Order():
                 cursor.execute(sql, (time,))
                 for variant in cursor:
                     variant_dict = dict(variant)
-                    variant_dict[order_key] = index
+                    #variant_dict[order_key] = index
+                    variant_dict['frame_number'] = index
                     yield variant_dict
                     index += 1
 
@@ -59,7 +61,8 @@ class Order():
                 cursor.execute(sql, (time,))
                 for variant in cursor:
                     variant_dict = dict(variant)
-                    variant_dict[order_key] = index
+                    #variant_dict[order_key] = index
+                    variant_dict['frame_number'] = index
                     yield variant_dict
                     index += 1
 
