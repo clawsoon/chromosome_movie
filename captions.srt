@@ -1,12 +1,154 @@
 1
 00:00:00,000 --> 00:00:05,000
-Welcome to the jungle.  We've got fun and games.
+Welcome.
 
 2
-00:00:10,000 --> 00:00:15,000
-We've got everything you want.
+00:00:00,000 --> 00:00:05,000
+This is part one of
+a series of four videos
 
 3
-00:00:20,000 --> 00:00:25,000
-Honey we... uh... something something Los Angeles.  Can we get 0069?
+00:00:00,000 --> 00:00:05,000
+showing the current
+geographic locations of
+
+4
+00:00:00,000 --> 00:00:05,000
+1,086,919 genetic variants
+from chromosome 22.
+
+5
+00:00:00,000 --> 00:00:05,000
+This video covers
+the period
+
+6
+00:00:00,000 --> 00:00:05,000
+from 2.2 million years ago
+to 50,000 years ago.
+
+7
+00:00:00,000 --> 00:00:05,000
+The date on the
+bottom is an estimate
+
+8
+00:00:00,000 --> 00:00:05,000
+of when the
+genetic variant arose.
+
+9
+00:00:00,000 --> 00:00:05,000
+The red dots show where
+a genetic variant
+
+10
+00:00:00,000 --> 00:00:05,000
+has been found in
+a modern population.
+
+11
+00:00:00,000 --> 00:00:05,000
+The treble clef
+(and the matching music)
+
+12
+00:00:00,000 --> 00:00:05,000
+indicates what the
+DNA change was.
+
+13
+00:00:00,000 --> 00:00:05,000
+The squiggly line
+around the outside
+
+14
+00:00:00,000 --> 00:00:05,000
+is the chromosome.
+
+15
+00:00:00,000 --> 00:00:05,000
+The orange dot shows
+the variant's location
+
+16
+00:00:00,000 --> 00:00:05,000
+on the chromosome.
+
+17
+00:00:00,000 --> 00:00:05,000
+"Site" is the exact
+location of the variant
+
+18
+00:00:00,000 --> 00:00:05,000
+on the chromosome.
+
+19
+00:00:00,000 --> 00:00:05,000
+"Count" shows where you
+are in the video series.
+
+20
+00:00:00,000 --> 00:00:05,000
+Each population where a
+genetic variant was found
+
+21
+00:00:00,000 --> 00:00:05,000
+is listed in
+the small print.
+
+22
+00:00:00,000 --> 00:00:05,000
+These genetic variants
+were collected by
+
+23
+00:00:00,000 --> 00:00:05,000
+the Simons Genome
+Diversity Project
+
+24
+00:00:00,000 --> 00:00:05,000
+the Human Genome
+Diversity Project
+
+25
+00:00:00,000 --> 00:00:05,000
+and the 1000
+Genomes Project.
+
+26
+00:00:00,000 --> 00:00:05,000
+Dates were estimated by
+Wohns et al. in
+
+27
+00:00:00,000 --> 00:00:05,000
+"A unified genealogy of
+modern and ancient genomes."
+
+28
+00:00:00,000 --> 00:00:05,000
+The world map is
+Philippe Rivière's re-creation
+
+29
+00:00:00,000 --> 00:00:05,000
+of Bertin's 1953 projection.
+
+30
+00:00:00,000 --> 00:00:05,000
+The chromsome map
+uses Jakub Červený's
+
+31
+00:00:00,000 --> 00:00:05,000
+generalized Hilbert
+space-filling curve.
+
+32
+00:00:00,000 --> 00:00:05,000
+Enjoy.
 
