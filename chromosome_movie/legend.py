@@ -73,6 +73,7 @@ class Position(Legend):
     def __init__(self, cfg):
         super().__init__(cfg)
         self.layercfg = self.cfg.layers.legend_position
+        self.frequencycfg = self.cfg.layers.local_frequencies
         self.locationcfg = self.cfg.layers.average_location
         self.positioncfg = self.cfg.layers.chromosome_position
 
@@ -86,19 +87,32 @@ class Position(Legend):
         x = self.layercfg.font_size
 
         ycenter = self.layercfg.height / 2
-        y = ycenter - self.layercfg.font_size / 2
+
+        # Geographic location
+
+        y = ycenter - self.layercfg.font_size
+
+        svg += f'  <circle cx="{x}" cy="{y}" r="{self.frequencycfg.max_radius}" stroke-width="{self.frequencycfg.stroke_width}" style="{self.frequencycfg.style}"/>\n'
+
+        svg += f'  <text text-anchor="start" dominant-baseline="middle" x="{x}" y="{y}" dx="1em" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Geographic location</text>\n'
+
+        # Geographic center
+
+        y = ycenter
 
         # Apparently dx and dy don't work on circles?
         svg += f'<circle cx="{x}" cy="{y}" r="{self.locationcfg.max_radius}" stroke-width="{self.locationcfg.stroke_width}" style="{self.locationcfg.style}"/>\n'
 
         svg += f'<text text-anchor="start" dominant-baseline="middle" x="{x}" y="{y}" dx="1em" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Geographic center</text>\n'
 
-        y = ycenter + self.layercfg.font_size / 2
+        # Chromosome location
+
+        y = ycenter + self.layercfg.font_size
 
         # TODO: Make a config for chromosome position circles and use it.
         svg += position.circle(x, y)
 
-        svg += f'<text text-anchor="start" dominant-baseline="middle" x="{x}" y="{y}" dx="1em" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Chromosome position</text>\n'
+        svg += f'<text text-anchor="start" dominant-baseline="middle" x="{x}" y="{y}" dx="1em" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Chromosome location</text>\n'
 
         return svg
 

@@ -136,7 +136,7 @@ background_layers = [
     'chromosome_map',
     #'max_local',
     #'clef',
-    'legend_frequency',
+    #'legend_frequency',
     'legend_position',
 ]
 
@@ -151,7 +151,7 @@ foreground_layers = [
     'average_location',
     'local_frequencies',
     'variant',
-    #'caption',
+    'caption',
     #'citation',
     'date',
 ]
@@ -362,12 +362,12 @@ layers.worldwide_frequency.text_style = 'font-family:sans-serif;'
 # We're measuring clef from top left instead of centre.
 # Maybe it would be easier for ffmpeg setup to use centre for all layers?
 # In which case change this position to a center measurement.
-layers.clef.center = (w(2204), h(346))
+layers.clef.center = (w(2204), h(624))
 #layers.clef.scale = h(280/18000)
 layers.clef.width = h(360)
 layers.clef.height = h(360)
 
-layers.variant.center = (w(1980), h(1132))
+layers.variant.center = (w(1980), h(932))
 layers.variant.font_size = font_small
 layers.variant.width = font_small * 24
 layers.variant.height = font_small * 4
@@ -380,7 +380,7 @@ layers.legend_frequency.width = font_small * 24
 layers.legend_frequency.height = font_small * (len(layers.legend_frequency.frequencies) + 3)
 layers.legend_frequency.style = 'font-family:sans-serif;'
 
-layers.legend_position.center = (w(800), h(1132))
+layers.legend_position.center = (w(2300), h(300))
 layers.legend_position.font_size = font_small
 layers.legend_position.width = font_small * 24
 layers.legend_position.height = font_small * 4
@@ -419,10 +419,10 @@ layers.date.multiplier = 1
 #movie_time_name = 'lapsAAB'
 
 movie_times = {
-    'name': 'scatter04',
+    'name': 'scatter05',
     'type': 'time_limit',
     'time_limits': [
-        (80_080, 480),
+        (80_080, 8),
         #(60_000, 480),
         #(40_000, 480),
         #(20_000, 480),
@@ -446,7 +446,7 @@ movie_times = {
         #(6, 480),
         #(4, 480),
         #(2, 480),
-        (1, 480),
+        (1, 8),
     ],
 }
 
