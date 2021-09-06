@@ -57,7 +57,7 @@ def divide_actions(actions_queue, svg_template, png_template, frames, frame_conv
             start = num + 1
     if actions:
         end = num
-        sys.stderr.write('Queuing {start}-{end}...\n')
+        sys.stderr.write(f'Queuing {start}-{end}...\n')
         sys.stderr.flush()
         actions_queue.put((start, end, actions))
     sys.stderr.write('Done divide.\n')
@@ -143,7 +143,8 @@ def svg2png(cfg, svg_template, png_template, frames=None, frame_convert=int, ink
 
     else:
 
-        thread_count = os.cpu_count()
+        #thread_count = os.cpu_count()
+        thread_count = 1
         threads = []
         actions_queue = queue.Queue(1)
 
