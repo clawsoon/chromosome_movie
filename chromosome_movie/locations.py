@@ -90,14 +90,26 @@ class Locations():
         if variant['time'] == 1:
             self.location_cursor.execute('SELECT longitude, latitude FROM variant_location WHERE variant_id=?', (variant['local_counts_match_variant_id'],))
             locations = list(self.location_cursor)
-            if len(locations) == 2:
-                return locations
+            #if len(locations) == 2:
+            #    return locations
+            return locations
         return None
 
     def pacific_flip(self, variant, locations):
 
-        average_longitude = variant['average_longitude']
-        average_latitude = variant['average_latitude']
+        if len(locations) == 2:
+            lon0 = math.radians(locations[0][0])
+            lat0 = math.radians(locations[0][1])
+            lon1 = math.radians(locations[1][0])
+            lat1 = math.radians(locations[1][1])
+            x = (math.cos(lat0) * math.cos(lon0) + math.cos(lat1) * math.cos(lon1)) / 2
+            y = (math.cos(lat0) * math.sin(lon0) + math.cos(lat1) * math.sin(lon1)) / 2
+            z = (math.sin(lat0) + math.sin(lat1)) / 2
+            average_longitude = math.degrees(math.atan2(y, x))
+            average_latitude = math.degrees(math.atan2(z, (x**2 + y**2)**0.5))
+        else:
+            average_longitude = variant['average_longitude']
+            average_latitude = variant['average_latitude']
         if self.cfg.layers.traces.prefer_pacific:
             start_angle = locations[0]['longitude']
             end_angle = locations[1]['longitude']
@@ -244,7 +256,10 @@ class Traces(Locations):
         if locations:
             # self.contents is a deque, so old entries will roll off when
             # it's full.
-            self.contents.append(self.trace(variant, locations))
+            #self.contents.append(self.trace(variant, locations))
+            for snum, start in enumerate(locations[:-1]):
+                for end in locations[snum+1:]:
+                    self.contents.append(self.trace(variant, (start, end)))
         return '\n'.join(self.contents) + '\n'
 
         ## TODO: Make "on" time a config variable.
