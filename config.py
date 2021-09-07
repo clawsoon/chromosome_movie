@@ -683,45 +683,55 @@ layers.date.multiplier = 28 # 28 years per generation in awohns code.
 #movie_laps.append((1, 4))
 #movie_time_name = 'lapsAAB'
 
-movie_times = {
-    'name': 'scatter06',
-    'type': 'time_limit',
-    'time_limits': [
-        (80_240, 8),
-        (80_140, 8),
-        #(80_110, 8),
-        #(80_080, 8),
-        #(60_000, 8),
-        #(40_000, 8),
-        #(20_000, 8),
-        #(10_000, 8),
-        #(8_000, 8),
-        #(6_000, 8),
-        #(4_000, 8),
-        #(2_000, 8),
-        #(1_000, 8),
-        #(800, 8),
-        #(600, 8),
-        #(400, 8),
-        #(200, 8),
-        #(100, 8),
-        #(80, 8),
-        #(60, 8),
-        #(40, 8),
-        #(20, 8),
-        (10, 8),
-        (1, 8),
-    ],
-}
-
 #movie_times = {
-#    'name': 'part1',
-#    'type': 'time_range',
-#    'time_ranges': [
-#        # These are in generations.  Inclusive on smaller number only.
-#        (999_999_999, 1_000),
+#    'name': 'scatter10',
+#    'type': 'time_limit',
+#    'time_limits': [
+#        #(80_240, 480),
+#        #(80_140, 480),
+#        #(80_110, 480),
+#        #(80_080, 480),
+#        #(60_000, 480),
+#        #(40_000, 480),
+#        #(20_000, 480),
+#        #(10_000, 480),
+#        #(8_000, 480),
+#        #(6_000, 480),
+#        #(4_000, 480),
+#        #(2_000, 480),
+#        #(1_000, 480),
+#        #(800, 480),
+#        #(600, 480),
+#        #(400, 480),
+#        #(200, 480),
+#        #(100, 480),
+#        #(80, 480),
+#        #(60, 480),
+#        #(40, 480),
+#        #(20, 480),
+#        #(10, 480),
+#        (1, 480),
 #    ],
 #}
+
+movie_times = {
+    # FIXME: Would be nice if this was a list instead of having to
+    # change it manually for each part.
+    #'name': 'part1',
+    #'name': 'part2',
+    #'name': 'part3',
+    #'name': 'part4',
+    'name': 'part5',
+    'type': 'time_range',
+    'time_ranges': [
+        # These are in generations.  Inclusive on smaller number only.
+        #(999_999, 1_970),
+        #(1_970, 720),
+        #(720, 330),
+        #(330, 2),
+        (2, 0),
+    ],
+}
 
 #movie_times = {
 #    'name': 'full',

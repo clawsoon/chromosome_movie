@@ -92,6 +92,18 @@ DONE: Change date display for time 1 to "Present".
 
 Don't make folders we don't need.
 
-Add movie time name to frames path so that we don't have the problem where old frames get used.  Disadvantage: We'll end up with a bunch of random folders with frames in them.
+Add movie time name to frames path so that we don't have the problem where old frames get used.  Disadvantage: We'll end up with a bunch of random folders with frames in them.  Alternate: Delete frame folders just before creating new ones.  This could be bad if we just want to fix a couple of frames, but how often do we do that?
 
+Fix caption timings.
+
+Split into parts.
+ - Part 1: 2.2 million to 55,000 years ago.  Time range 999999,1970
+ - Part 2: 55,000 years ago to 20,000 years ago.  Time range 1970,720
+ - Part 3: 20,000 years ago to 9,000 years ago.  Time range 720,330
+ - Part 4: 9,000 years ago to recent past.  Time range 330,2
+ - Part 5: Recent genetic variants/present.  Time range 2,0
+
+Allow parts to be specified in a single run instead of having to modify config.py and re-run for each part.
+
+Expand disk to fit.  Looks like we need about 200GB for the biggest part.
 

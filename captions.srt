@@ -1,154 +1,67 @@
-1
-00:00:00,000 --> 00:00:01,000
+10
+00:00:00,000 --> 00:00:03,000
 Welcome.
 
-2
-00:00:01,000 --> 00:00:02,000
-This is part one of
-a series of four videos
-
-3
-00:00:02,000 --> 00:00:03,000
-showing the current
-geographic locations of
-
-4
-00:00:03,000 --> 00:00:04,000
-1,086,919 genetic variants
-from chromosome 22.
-
-5
-00:00:04,000 --> 00:00:05,000
-This video covers
-the period
-
-6
-00:00:05,000 --> 00:00:06,000
-from 2.2 million years ago
-to 50,000 years ago.
-
-7
-00:00:06,000 --> 00:00:07,000
-The date on the
-bottom is an estimate
-
-8
-00:00:07,000 --> 00:00:08,000
-of when the
-genetic variant arose.
-
-9
-00:00:08,000 --> 00:00:09,000
-The red dots show where
-a genetic variant
-
-10
-00:00:09,000 --> 00:00:10,000
-has been found in
-a modern population.
-
-11
-00:00:10,000 --> 00:00:11,000
-The treble clef
-(and the matching music)
-
-12
-00:00:11,000 --> 00:00:12,000
-indicates what the
-DNA change was.
-
-13
-00:00:12,000 --> 00:00:13,000
-The squiggly line
-around the outside
-
-14
-00:00:13,000 --> 00:00:14,000
-is the chromosome.
-
-15
-00:00:14,000 --> 00:00:15,000
-The orange dot shows
-the variant's location
-
-16
-00:00:15,000 --> 00:00:16,000
-on the chromosome.
-
-17
-00:00:16,000 --> 00:00:17,000
-"Site" is the exact
-location of the variant
-
-18
-00:00:17,000 --> 00:00:18,000
-on the chromosome.
-
-19
-00:00:18,000 --> 00:00:19,000
-"Count" shows where you
-are in the video series.
-
 20
-00:00:19,000 --> 00:00:20,000
-Each population where a
-genetic variant was found
+00:00:04,000 --> 00:00:07,000
+This is part 5 of
+a 5-part video series
 
-21
-00:00:20,000 --> 00:00:21,000
-is listed in
-the small print.
+30
+00:00:07,000 --> 00:00:10,000
+mapping 1,086,919 genetic
+variants from chromosome 22.
 
-22
-00:00:21,000 --> 00:00:22,000
-These genetic variants
-were collected by
+40
+00:00:11,000 --> 00:00:14,000
+This video covers variants
+which appeared recently.
 
-23
-00:00:22,000 --> 00:00:23,000
-the Simons Genome
-Diversity Project
+50
+00:00:15,000 --> 00:00:18,000
+These genetic variants were
+collected from 3,754 people
 
-24
-00:00:23,000 --> 00:00:24,000
+60
+00:00:18,000 --> 00:00:21,000
+by the Simons Genome
+Diversity Project,
+
+70
+00:00:21,000 --> 00:00:24,000
 the Human Genome
-Diversity Project
+Diversity Project,
 
-25
-00:00:24,000 --> 00:00:25,000
+80
+00:00:24,000 --> 00:00:27,000
 and the 1000
 Genomes Project.
 
-26
-00:00:25,000 --> 00:00:26,000
-Dates were estimated by
-Wohns et al. in
+90
+00:00:28,000 --> 00:00:31,000
+Dates when the variants
+first appeared in humans
 
-27
-00:00:26,000 --> 00:00:27,000
+100
+00:00:31,000 --> 00:00:34,000
+were estimated by
+Wohns et al. in their paper
+
+110
+00:00:34,000 --> 00:00:37,000
 "A unified genealogy of
 modern and ancient genomes."
 
-28
-00:00:27,000 --> 00:00:28,000
-The world map is
-Philippe Rivière's re-creation
+120
+00:00:37,000 --> 00:00:40,000
+These estimates will change
+as more data is collected
 
-29
-00:00:28,000 --> 00:00:29,000
-of Bertin's 1953 projection.
+130
+00:00:40,000 --> 00:00:43,000
+and analytical techniques
+are refined.
 
-30
-00:00:29,000 --> 00:00:30,000
-The chromsome map
-uses Jakub Červený's
-
-31
-00:00:30,000 --> 00:00:31,000
-generalized Hilbert
-space-filling curve.
-
-32
-00:00:31,000 --> 00:00:32,000
+140
+00:00:44,000 --> 00:00:47,000
 Enjoy.
-
