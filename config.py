@@ -670,6 +670,7 @@ layers.date.font_size = font_medium
 layers.date.width = width
 layers.date.height = font_medium * 3
 layers.date.style = 'font-family:sans-serif;'
+layers.date.line_spacing = 1
 layers.date.multiplier = 28 # 28 years per generation in awohns code.
 
 #movie_time = 0 # Select a specific time.  0 = all times.

@@ -12,6 +12,7 @@ class Text():
     def __init__(self, cfg):
         self.cfg = cfg
         self.order_key = f'order_{self.cfg.order}'
+        self.line_spacing = self.layercfg.line_spacing if hasattr(self.layercfg, 'line_spacing') else 1.25
 
     def text(self, contents):
         lines = contents.split('\n')
@@ -24,8 +25,7 @@ class Text():
         for line in lines:
             offsets.append(offset)
             # Give blank lines half a line.
-            #offset += 1 if line.strip() else 0.5
-            offset += 1.25 if line.strip() else 0.625
+            offset += self.line_spacing if line.strip() else self.line_spacing / 2
         half = offsets[-1] / 2
         offsets = [f'{offset - half}em' for offset in offsets]
 
@@ -143,8 +143,8 @@ class Citation(Subtitle):
 class Date(Text):
 
     def __init__(self, cfg):
+        self.layercfg = cfg.layers.date
         super().__init__(cfg)
-        self.layercfg = self.cfg.layers.date
 
     def index(self, variant):
         # Skipping by ten seems like a reasonable way to capture
@@ -168,8 +168,8 @@ class Date(Text):
 class Variant(Text):
 
     def __init__(self, cfg):
+        self.layercfg = cfg.layers.variant
         super().__init__(cfg)
-        self.layercfg = self.cfg.layers.variant
 
     def index(self, variant):
         return variant[self.order_key]
@@ -191,7 +191,7 @@ class Variant(Text):
         svg = ''
         shadow = drop_shadow.style if self.cfg.shadows else ''
         # Center multiple lines of text vertically.
-        offsets = [f'{-.5*(len(content)-1)+i}em' for i in range(len(content))]
+        offsets = [f'{-self.line_spacing/2*(len(content)-1)+i*self.line_spacing}em' for i in range(len(content))]
         for offset, line in zip(offsets, content):
             left = saxutils.escape(line[0])
             right = saxutils.escape(line[1])
@@ -210,8 +210,8 @@ class Variant(Text):
 class Populations(Text):
 
     def __init__(self, cfg):
+        self.layercfg = cfg.layers.populations
         super().__init__(cfg)
-        self.layercfg = self.cfg.layers.populations
         self.database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
         self.database.row_factory = sqlite3.Row
 
