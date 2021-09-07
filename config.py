@@ -654,6 +654,7 @@ layers.caption.font_size = font_large
 layers.caption.width = width
 layers.caption.height = font_large * 2
 layers.caption.style = 'font-family:sans-serif;'
+layers.caption.line_spacing = 1.125
 layers.caption.srt = code/'captions.srt'
 layers.caption.typing = None
 
