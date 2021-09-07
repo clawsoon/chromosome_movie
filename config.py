@@ -649,7 +649,7 @@ layers.legend_position.width = font_small * 24
 layers.legend_position.height = font_small * 4
 layers.legend_position.style = 'font-family:sans-serif;'
 
-layers.caption.center = (w(1280), h(1240))
+layers.caption.center = (w(1280), h(1200))
 layers.caption.font_size = font_large
 layers.caption.width = width
 layers.caption.height = font_large * 2
@@ -682,33 +682,29 @@ layers.date.multiplier = 28 # 28 years per generation in awohns code.
 #movie_time_name = 'lapsAAB'
 
 movie_times = {
-    'name': 'scatter05',
+    'name': 'scatter06',
     'type': 'time_limit',
     'time_limits': [
-        (80_080, 8),
-        #(60_000, 480),
-        #(40_000, 480),
-        #(20_000, 480),
-        #(10_000, 480),
-        #(8_000, 480),
-        #(6_000, 480),
-        #(4_000, 480),
-        #(2_000, 480),
-        #(1_000, 480),
-        #(800, 480),
-        #(600, 480),
-        #(400, 480),
-        #(200, 480),
-        #(100, 480),
-        #(80, 480),
-        #(60, 480),
-        #(40, 480),
-        #(20, 480),
-        #(10, 480),
-        #(8, 480),
-        #(6, 480),
-        #(4, 480),
-        #(2, 480),
+        #(80_080, 8),
+        #(60_000, 8),
+        #(40_000, 8),
+        #(20_000, 8),
+        #(10_000, 8),
+        #(8_000, 8),
+        #(6_000, 8),
+        #(4_000, 8),
+        #(2_000, 8),
+        #(1_000, 8),
+        #(800, 8),
+        #(600, 8),
+        #(400, 8),
+        #(200, 8),
+        #(100, 8),
+        #(80, 8),
+        #(60, 8),
+        #(40, 8),
+        (20, 8),
+        (10, 8),
         (1, 8),
     ],
 }
