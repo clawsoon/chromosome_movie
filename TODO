@@ -80,9 +80,11 @@ DONE: Add Raleway font to Linux inkscape.
 
 DONE: Need time range selector for order selection to allow chopping video into 4.
 
-Use frame number for captions, not order number.
+DONE: Use frame number for captions, not order number.
 
 Fix spacing on Site/Count.
 
 Fix caption alignment.
+
+Should we make population source or populations a different colour to make population count clearer?  Maybe dark blue?
 

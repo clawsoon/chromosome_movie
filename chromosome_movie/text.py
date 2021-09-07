@@ -67,7 +67,8 @@ class Subtitle(Text):
 
     def index(self, variant, return_subtitle=False):
         # Inefficiency #2: Looping through the list for every search.
-        frame = variant[self.order_key]
+        #frame = variant[self.order_key]
+        frame = variant['frame_number']
         time = datetime.timedelta(seconds=(frame / self.cfg.video_framerate))
         for num, subtitle in enumerate(self.subtitles):
             if subtitle.start <= time < subtitle.end:
