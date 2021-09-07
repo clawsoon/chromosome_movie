@@ -47,6 +47,7 @@ class Database():
     def write_data(self):
 
         self.add_chromosome()
+        self.add_populations()
         self.add_variants()
 
 
@@ -88,7 +89,8 @@ class Database():
                 average_longitude REAL,
                 average_latitude REAL,
                 average_distance_to_average_location REAL,
-                local_counts_match_variant_id INTEGER
+                local_counts_match_variant_id INTEGER,
+                populations_match_variant_id INTEGER
             );
         ''')
 
@@ -99,6 +101,22 @@ class Database():
                 latitude REAL,
                 local_frequency REAL,
                 PRIMARY KEY (variant_id, longitude, latitude)
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS population (
+                id INT PRIMARY KEY,
+                source TEXT,
+                name TEXT
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS variant_population (
+                variant_id INTEGER,
+                population_id INTEGER,
+                PRIMARY KEY (variant_id, population_id)
             );
         ''')
 
@@ -121,6 +139,11 @@ class Database():
         cursor.execute('''
             CREATE INDEX IF NOT EXISTS local_counts_match_variant_id_idx
                 ON variant (local_counts_match_variant_id);
+        ''')
+
+        cursor.execute('''
+            CREATE INDEX IF NOT EXISTS populations_match_variant_id_idx
+                ON variant (populations_match_variant_id);
         ''')
 
         # We're going to be doing a SELECT DISTINCT on ancestral/derived.
@@ -221,6 +244,56 @@ class Database():
         database.close()
 
 
+    def add_populations(self):
+        database = sqlite3.connect(self.cfg.database_path)
+        cursor = database.cursor()
+
+        # FIXME: This is a hack which is likely to break.  To figure out which
+        # sources the populations came from, we look through all the
+        # individuals and look for keywords in their metadata.
+
+        entries = set()
+
+        for individual in self.treeseq.individuals():
+
+            individual_meta = json.loads(individual.metadata)
+
+            if 'sgdp_id' in individual_meta:
+                source = 'SGDP'
+            elif 'sample' in individual_meta:
+                source = 'HGDP'
+            elif 'individual_id' in individual_meta:
+                source = '1KG'
+            else:
+                continue
+
+            population = self.treeseq.population(self.treeseq.node(individual.nodes[0]).population)
+            population_meta = json.loads(population.metadata)
+
+            entries.add((
+                population.id,
+                source,
+                population_meta['name'],
+                source,
+                population_meta['name'],
+            ))
+
+        cursor.executemany('''
+            INSERT INTO population
+                (id, source, name)
+            VALUES
+                (?, ?, ?)
+            ON CONFLICT
+                (id)
+            DO UPDATE SET
+                source=?,
+                name=?
+            ''', entries)
+
+        database.commit()
+        database.close()
+
+
     def average_location(self, local_frequencies):
         # Loosely based on:
         # https://gis.stackexchange.com/a/7566
@@ -271,17 +344,21 @@ class Database():
         # them is a 20-24 hour process on my machine.
         # I'm guessing that this is the memory hog in this script.  This,
         # or not committing the database until everything is done.
-        seen = {}
+        local_counts_seen = {}
+        populations_seen = {}
 
-        num = 0
-        variants = []
+        num_all = 0
+        num_used = 0
+
         for tree in self.treeseq.trees():
             for variant in tree.mutations():
 
 
-                if num % 1000 == 0:
-                    sys.stderr.write('Loading### %s\n' % num)
+                if num_all % 1000 == 0:
+                    sys.stderr.write(f'Loading### {num_used}/{num_all}\n')
                     sys.stderr.flush()
+
+                num_all += 1
 
                 node = self.treeseq.node(variant.node)
                 site = self.treeseq.site(variant.site)
@@ -298,22 +375,25 @@ class Database():
 
                 # Get sample totals for each location for this variant.
                 local_counts = collections.Counter()
+                population_ids = set()
                 for leaf in tree.leaves(node.id):
                     location = self.get_location(leaf)
                     if location:
                         local_counts[location] += 1
+                    population_ids.add(self.treeseq.node(leaf).population)
                 if sum(local_counts.values()) < 2:
                     # If a variant only shows up in one individual, we
                     # ignore it.
                     continue
 
                 local_frequencies = frozenset((location, count/location_node_counts[location]) for location, count in local_counts.items())
+                population_ids = frozenset(population_ids)
 
-                if local_frequencies in seen:
-                    local_counts_match_variant_id = seen[local_frequencies]
+                if local_frequencies in local_counts_seen:
+                    local_counts_match_variant_id = local_counts_seen[local_frequencies]
                 else:
                     local_counts_match_variant_id = variant.id
-                    seen[local_frequencies] = variant.id
+                    local_counts_seen[local_frequencies] = variant.id
                     entries = [(variant.id, location[0], location[1], frequency, frequency) for location, frequency in local_frequencies]
 
                     # FIXME: If a local frequency changes to 0, this won't
@@ -334,6 +414,25 @@ class Database():
                             local_frequency=?
                     ''', entries)
 
+                if population_ids in populations_seen:
+                    populations_match_variant_id = populations_seen[population_ids]
+                else:
+                    populations_match_variant_id = variant.id
+                    populations_seen[population_ids] = variant.id
+                    entries = [(variant.id, population_id) for population_id in population_ids]
+
+                    cursor.executemany('''
+                        INSERT OR REPLACE INTO variant_population
+                            (
+                                variant_id,
+                                population_id
+                            )
+                        VALUES
+                            (?, ?)
+                    ''', entries)
+
+                # Is this going to blow up 
+                entries = [(variant.id, population_id) for population_id in population_ids]
 
                 average_longitude, average_latitude, average_distance_to_average_location = self.average_location(local_frequencies)
 
@@ -351,7 +450,9 @@ class Database():
                 entry = (
                     variant.id,
                     self.cfg.chromosome,
-                    node.time,
+                    # Might as well group the .999 ones with the round ones so
+                    # we don't get dumb short routes.
+                    round(node.time),
                     tree.get_num_leaves(node.id)/self.treeseq.num_samples,
                     #self.treeseq.site(variant.site).ancestral_state,
                     site.ancestral_state,
@@ -362,6 +463,7 @@ class Database():
                     average_latitude,
                     average_distance_to_average_location,
                     local_counts_match_variant_id,
+                    populations_match_variant_id
                 )
 
                 # FIXME: if a variant is deleted, this won't remove it.
@@ -378,10 +480,11 @@ class Database():
                             average_longitude,
                             average_latitude,
                             average_distance_to_average_location,
-                            local_counts_match_variant_id
+                            local_counts_match_variant_id,
+                            populations_match_variant_id
                         )
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT
                         (id)
                     DO UPDATE SET
@@ -394,13 +497,17 @@ class Database():
                             average_longitude=?,
                             average_latitude=?,
                             average_distance_to_average_location=?,
-                            local_counts_match_variant_id=?
+                            local_counts_match_variant_id=?,
+                            populations_match_variant_id=?
                     ''', entry + entry[1:])
 
-                num += 1
+                num_used += 1
 
         database.commit()
         database.close()
+
+        sys.stderr.write(f'Loaded### {num_used}/{num_all}\n')
+        sys.stderr.flush()
 
 
     def get_location(self, node_id, notfound=set()):

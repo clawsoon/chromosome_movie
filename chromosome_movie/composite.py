@@ -25,6 +25,7 @@ class Composite():
             'worldwide_frequency': worldwide_frequency.WorldwideFrequency,
             'clef': clef.Clef,
             'variant': text.Variant,
+            'populations': text.Populations,
             'legend_frequency': legend.Frequency,
             'legend_position': legend.Position,
             'date': text.Date,

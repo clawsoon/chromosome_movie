@@ -61,22 +61,28 @@ DONE: Switch to single size for red location dots, since multi-size dots don't w
 
 DONE: Write new captions.
 
-Write populations SVG code.  Probably do it like clef.py/clef.svg, where we have an SVG pre-filled with all the population names hidden and turn on display in code if a population is present for a variant.  For the clef we're using one image per note and using href, though, which we might not want to do for populations.  Maybe for populations it's just a dictionary with the x,y position and text for each population ID?
+DONE: Write populations SVG code.  Probably do it like clef.py/clef.svg, where we have an SVG pre-filled with all the population names hidden and turn on display in code if a population is present for a variant.  For the clef we're using one image per note and using href, though, which we might not want to do for populations.  Maybe for populations it's just a dictionary with the x,y position and text for each population ID?
 
-To get a population ID from an individual: treeseq.node(individual.nodes[0]).population
+DONE: To get a population ID from an individual: treeseq.node(individual.nodes[0]).population
 
-Two options:
+DONE: Two options:
  - variant-to-population-ID just uses the existing location table.  We'd have to restructure a bit because of multiple samples from multiple projects in the same locations.
  - new variant-to-population-ID table.  Might as well have a population-ID-to-population-name table, too.  Probably simplest at this point.
 
-The population metadata 'name' for SGDP and HGDP is fine, but for 1kg pull it from IGSR tsv.
+DONE: The population metadata 'name' for SGDP and HGDP is fine, but for 1kg pull it from IGSR tsv.
  - SGDP population metadata has 'sgdp_id' key.
  - HGDP population metadata has 'sample' key.
  - 1kg population metadata has 'individual_id' key.
 
 DONE: Years per generation.
 
-Add Raleway font to Linux inkscape.
+DONE: Add Raleway font to Linux inkscape.
 
 DONE: Need time range selector for order selection to allow chopping video into 4.
+
+Use frame number for captions, not order number.
+
+Fix spacing on Site/Count.
+
+Fix caption alignment.
 

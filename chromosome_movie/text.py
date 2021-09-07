@@ -24,7 +24,8 @@ class Text():
         for line in lines:
             offsets.append(offset)
             # Give blank lines half a line.
-            offset += 1 if line.strip() else 0.5
+            #offset += 1 if line.strip() else 0.5
+            offset += 1.25 if line.strip() else 0.625
         half = offsets[-1] / 2
         offsets = [f'{offset - half}em' for offset in offsets]
 
@@ -203,4 +204,62 @@ class Variant(Text):
     def write_svg(self):
         for variant in self.select():
             self.write_svg_file(self, self.svg_path(variant), self.svg(variant))
+
+
+class Populations(Text):
+
+    def __init__(self, cfg):
+        super().__init__(cfg)
+        self.layercfg = self.cfg.layers.populations
+        self.database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
+        self.database.row_factory = sqlite3.Row
+
+    def index(self, variant):
+        return variant[self.order_key]
+
+    def select(self):
+        cursor = self.database.cursor()
+        cursor.execute(f'SELECT id FROM variant ORDER BY {self.order_key}')
+        return cursor
+
+    def svg(self, variant):
+        svg = ''
+        #shadow = drop_shadow.style if self.cfg.shadows else ''
+        shadow = ''
+
+        # FIXME: Not sure if I'm actually using top and left here (top
+        # in particular), but I'm too lazy right now to check SVG alignment
+        # options.
+
+        for key, source in self.layercfg.source.items():
+            svg += f'''<text x="{source['left']}" y="{source['top']}" font-size="{self.layercfg.font_size}" font-style="italic" style="{self.layercfg.style}{shadow}">{source['title']}</text>\n'''
+
+        cursor = self.database.cursor()
+        cursor.execute('''
+            SELECT
+                population.source AS source, population.name AS name
+            FROM
+                variant_population
+            JOIN
+                population
+            ON
+                variant_population.population_id = population.id
+            WHERE
+                variant_population.variant_id = ?
+        ''', (variant['populations_match_variant_id'],))
+
+        for source, name in cursor:
+            column, row, name = self.layercfg.position[(source, name)]
+            left = self.layercfg.source[source]['left'] + self.layercfg.source[source]['column'][column]
+            top = self.layercfg.source[source]['top'] + (2 + row) * self.layercfg.line_spacing * self.layercfg.font_size
+            name = saxutils.escape(name)
+
+            svg += f'<text x="{left}" y="{top}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">{name}</text>\n'
+
+        return svg
+
+    def write_svg(self):
+        for variant in self.select():
+            self.write_svg_file(self, self.svg_path(variant), self.svg(variant))
+
 
