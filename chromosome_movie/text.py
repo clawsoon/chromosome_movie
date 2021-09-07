@@ -159,7 +159,8 @@ class Date(Text):
         return cursor
 
     def svg(self, variant):
-        return self.text(f'{int(self.layercfg.multiplier*variant["time"]):,}\nyears ago')
+        text = 'Present' if variant['time'] <= 1 else f'{int(self.layercfg.multiplier*variant["time"]):,}\nyears ago'
+        return self.text(text)
 
     def write_svg(self):
         for variant in self.select():

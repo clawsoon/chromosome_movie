@@ -666,7 +666,7 @@ layers.citation.style = 'font-family:sans-serif;'
 layers.citation.srt = code/'citations.srt'
 layers.citation.typing = None
 
-layers.date.center = (w(1280), h(1380))
+layers.date.center = (w(1280), h(1374))
 layers.date.font_size = font_medium
 layers.date.width = width
 layers.date.height = font_medium * 3
@@ -687,6 +687,9 @@ movie_times = {
     'name': 'scatter06',
     'type': 'time_limit',
     'time_limits': [
+        (80_240, 8),
+        (80_140, 8),
+        #(80_110, 8),
         #(80_080, 8),
         #(60_000, 8),
         #(40_000, 8),
@@ -705,7 +708,7 @@ movie_times = {
         #(80, 8),
         #(60, 8),
         #(40, 8),
-        (20, 8),
+        #(20, 8),
         (10, 8),
         (1, 8),
     ],

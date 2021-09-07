@@ -84,11 +84,14 @@ DONE: Use frame number for captions, not order number.
 
 DONE: Fix spacing on Site/Count.
 
-Fix caption alignment.
+DONE: Fix caption alignment.
 
-Should we make population source or populations a different colour to make population count clearer?  Maybe dark blue?
+WONTFIX: Should we make population source or populations a different colour to make population count clearer?  Maybe dark blue?
 
-Change date display for time 1 to "Present".
+DONE: Change date display for time 1 to "Present".
 
 Don't make folders we don't need.
+
+Add movie time name to frames path so that we don't have the problem where old frames get used.  Disadvantage: We'll end up with a bunch of random folders with frames in them.
+
 
