@@ -89,8 +89,7 @@ class Locations():
         return direction, sweep_angle
 
     def trace_locations(self, variant):
-        # TODO: Make this time a config thing.
-        if variant['time'] == 1:
+        if variant['time'] <= self.cfg.layers.traces.start_time:
             self.location_cursor.execute('SELECT longitude, latitude FROM variant_location WHERE variant_id=?', (variant['local_counts_match_variant_id'],))
             locations = list(self.location_cursor)
             #if len(locations) == 2:
@@ -244,10 +243,10 @@ class Traces(Locations):
 
     def select(self):
         cursor = self.database.cursor()
-        sql = f'SELECT id, local_counts_match_variant_id, time, average_longitude, average_latitude, order_{self.cfg.order}, lap_{self.cfg.order} FROM variant WHERE time=1 ORDER BY order_{self.cfg.order}'
+        sql = f'SELECT id, local_counts_match_variant_id, time, average_longitude, average_latitude, order_{self.cfg.order}, lap_{self.cfg.order} FROM variant WHERE time<=? ORDER BY order_{self.cfg.order}'
         if self.cfg.movie_limit:
             sql += f' LIMIT {self.cfg.movie_limit}'
-        cursor.execute(sql)
+        cursor.execute(sql, self.layercfg.start_time)
         return cursor
 
     def svg(self, variant):
@@ -295,8 +294,9 @@ class Traces(Locations):
 
 
     def index(self, variant):
-        if variant['time'] != 1:
-            index = 99999999
+        if variant['time'] > self.layercfg.start_time:
+            #index = 999_999_999_999
+            index = -1
         else:
             index = variant[f'order_{self.cfg.order}']
         return index
