@@ -350,12 +350,15 @@ class Database():
         num_all = 0
         num_used = 0
 
+        skipped = collections.Counter()
+
         for tree in self.treeseq.trees():
             for variant in tree.mutations():
 
 
                 if num_all % 1000 == 0:
                     sys.stderr.write(f'Loading### {num_used}/{num_all}\n')
+                    sys.stderr.write(f'Skipped: {skipped}\n')
                     sys.stderr.flush()
 
                 num_all += 1
@@ -365,7 +368,10 @@ class Database():
 
                 if site.ancestral_state == variant.derived_state:
                     # I'm not sure why some mutations are equal to the
-                    # original state.
+                    # original state - change and change back, I guess?
+                    # - but whatever the reason, we're not including
+                    # them.
+                    skipped['no mutation'] += 1
                     continue
 
 
@@ -376,14 +382,18 @@ class Database():
                 # Get sample totals for each location for this variant.
                 local_counts = collections.Counter()
                 population_ids = set()
+                individual_ids = set()
                 for leaf in tree.leaves(node.id):
                     location = self.get_location(leaf)
                     if location:
                         local_counts[location] += 1
-                    population_ids.add(self.treeseq.node(leaf).population)
-                if sum(local_counts.values()) < 2:
-                    # If a variant only shows up in one individual, we
-                    # ignore it.
+                        leaf_node = self.treeseq.node(leaf)
+                        population_ids.add(leaf_node.population)
+                        individual_ids.add(leaf_node.individual)
+                if len(individual_ids) < 2:
+                    # If a variant only shows up in one individual, we're
+                    # choosing to ignore it.
+                    skipped['one individual'] += 1
                     continue
 
                 local_frequencies = frozenset((location, count/location_node_counts[location]) for location, count in local_counts.items())
