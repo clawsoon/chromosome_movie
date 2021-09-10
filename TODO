@@ -94,7 +94,7 @@ Don't make folders we don't need.
 
 Add movie time name to frames path so that we don't have the problem where old frames get used.  Disadvantage: We'll end up with a bunch of random folders with frames in them.  Alternate: Delete frame folders just before creating new ones.  This could be bad if we just want to fix a couple of frames, but how often do we do that?
 
-Fix caption timings.
+DONE: Fix caption timings.
 
 Split into parts.
  - Part 1: 2.2 million to 55,000 years ago.  Time range 999999,1970
@@ -105,5 +105,7 @@ Split into parts.
 
 Allow parts to be specified in a single run instead of having to modify config.py and re-run for each part.
 
-Expand disk to fit.  Looks like we need about 200GB for the biggest part.
+DONE: Expand disk to fit.  Looks like we need about 200GB for the biggest part.
+
+Add pip requirements to repo.
 
