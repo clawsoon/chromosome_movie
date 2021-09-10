@@ -8,7 +8,8 @@ chromosome = '22'
 
 # Path to source treeseq file.
 #treeseq = 'sgdp_chr22.trees'
-treeseq = 'hgdp_1kg_sgdp_high_cov_ancients_chr22.dated.trees'
+treeseq = 'hgdp_tgp_sgdp_chr22_q.dated.trees'
+#treeseq = 'hgdp_1kg_sgdp_high_cov_ancients_chr22.dated.trees'
 
 # Different treeseqs store location data differently.
 # Modify database.Database.get_location() to add more choices.
@@ -155,7 +156,7 @@ foreground_layers = [
     'variant',
     'populations',
     'caption',
-    #'citation',
+    'citation',
     'date',
 ]
 
@@ -313,7 +314,8 @@ for name in layer_names:
 font_large = h(72)
 font_medium = h(54)
 font_small = h(54)
-font_tiny = h(30)
+font_tiny = h(32)
+font_tinier = h(24)
 font_miniscule = h(16)
 
 layers.world_map.scale = map_scale
@@ -658,11 +660,12 @@ layers.caption.line_spacing = 1.125
 layers.caption.srt = code/'captions.srt'
 layers.caption.typing = None
 
-layers.citation.center = (w(1880), h(960))
+layers.citation.center = (w(1280), h(1200))
 layers.citation.font_size = font_tiny
-layers.citation.width = w(960)
-layers.citation.height = h(216)
+layers.citation.width = width
+layers.citation.height = font_tiny * 6
 layers.citation.style = 'font-family:sans-serif;'
+layers.citation.line_spacing = 1
 layers.citation.srt = code/'citations.srt'
 layers.citation.typing = None
 
@@ -683,55 +686,55 @@ layers.date.multiplier = 28 # 28 years per generation in awohns code.
 #movie_laps.append((1, 4))
 #movie_time_name = 'lapsAAB'
 
-#movie_times = {
-#    'name': 'scatter10',
-#    'type': 'time_limit',
-#    'time_limits': [
-#        #(80_240, 480),
-#        #(80_140, 480),
-#        #(80_110, 480),
-#        #(80_080, 480),
-#        #(60_000, 480),
-#        #(40_000, 480),
-#        #(20_000, 480),
-#        #(10_000, 480),
-#        #(8_000, 480),
-#        #(6_000, 480),
-#        #(4_000, 480),
-#        #(2_000, 480),
-#        #(1_000, 480),
-#        #(800, 480),
-#        #(600, 480),
-#        #(400, 480),
-#        #(200, 480),
-#        #(100, 480),
-#        #(80, 480),
-#        #(60, 480),
-#        #(40, 480),
-#        #(20, 480),
-#        #(10, 480),
-#        (1, 480),
-#    ],
-#}
-
 movie_times = {
-    # FIXME: Would be nice if this was a list instead of having to
-    # change it manually for each part.
-    #'name': 'part1',
-    #'name': 'part2',
-    #'name': 'part3',
-    #'name': 'part4',
-    'name': 'part5',
-    'type': 'time_range',
-    'time_ranges': [
-        # These are in generations.  Inclusive on smaller number only.
-        #(999_999, 1_970),
-        #(1_970, 720),
-        #(720, 330),
-        #(330, 2),
-        (2, 0),
+    'name': 'cite1',
+    'type': 'time_limit',
+    'time_limits': [
+        #(80_240, 480),
+        #(80_140, 480),
+        #(80_110, 480),
+        #(80_080, 480),
+        #(60_000, 480),
+        #(40_000, 480),
+        #(20_000, 480),
+        #(10_000, 480),
+        #(8_000, 480),
+        #(6_000, 480),
+        #(4_000, 480),
+        #(2_000, 480),
+        #(1_000, 480),
+        #(800, 480),
+        #(600, 480),
+        #(400, 480),
+        #(200, 480),
+        #(100, 480),
+        #(80, 480),
+        #(60, 480),
+        #(40, 480),
+        #(20, 480),
+        #(10, 480),
+        (1, 960),
     ],
 }
+
+#movie_times = {
+#    # FIXME: Would be nice if this was a list instead of having to
+#    # change it manually for each part.
+#    #'name': 'part1',
+#    #'name': 'part2',
+#    #'name': 'part3',
+#    #'name': 'part4',
+#    'name': 'part5',
+#    'type': 'time_range',
+#    'time_ranges': [
+#        # These are in generations.  Inclusive on smaller number only.
+#        #(999_999, 1_970),
+#        #(1_970, 720),
+#        #(720, 330),
+#        #(330, 2),
+#        (2, 0),
+#    ],
+#}
 
 #movie_times = {
 #    'name': 'full',

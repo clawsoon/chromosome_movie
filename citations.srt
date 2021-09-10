@@ -1,122 +1,43 @@
 1
-00:00:00,000 --> 00:00:01,000
-Kimura, M. (1968). Evolutionary rate at the molecular
-level. Nature, 217(5129), 624-626.
-    
-Ohta, T. (1973). Slightly deleterious mutant substitutions
-in evolution. Nature, 246(5428), 96-98.
-    
-Duret, L. (2008) Neutral theory: The null hypothesis
-of molecular evolution. Nature Education 1(1):218
+00:01:09,000 --> 00:01:12,000
+Mallick, S., et al.
+The Simons genome diversity project:
+300 genomes from 142 diverse populations.
+Nature 538, 201 (2016).
+https://doi.org/10.1038/nature18964
 
 2
-00:00:01,000 --> 00:00:02,000
-Yengo, L., Sidorenko, J., Kemper, K. E., Zheng, Z., Wood, A. R.,
-Frayling, T. M., Hirschhorn, J., Yang, J., & Visscher, P. M.,
-the GIANT Consortium. (2018).
-Meta-analysis of genome-wide association studies for height
-and body mass index in ~700000 individuals of European ancestry.
-Human molecular genetics, 27(20), 3641-3649.
-https://doi.org/10.1093/hmg/ddy271
+00:01:13,000 --> 00:01:16,000
+Bergström, A., et al.
+Insights into human genetic variation and
+population history from 929 diverse genomes.
+Science 367 (2020).
+https://doi.org/10.1126/science.aay5012
 
 3
-00:00:02,000 --> 00:00:03,000
-Sohail, M., Maier, R. M., Ganna, A., Bloemendal, A.,
-Martin, A. R., Turchin, M. C., Chiang, C. W. K.,
-Hirschhorn, J., Daly, M. J., et al. (2019).
-Polygenic adaptation on height is overestimated due to
-uncorrected stratification in genome-wide association studies.
-Elife, 8, e39702.
-https://doi.org/10.7554/eLife.39702
-
-4
-00:00:03,000 --> 00:00:04,000
-Lee, J. J., Wedow, R., Okbay, A., et al. (2018).
-Gene discovery and polygenic prediction from a
-1.1-million-person GWAS of educational attainment.
-Nature genetics, 50(8), 1112.
-https://doi.org/10.1038/s41588-018-0147-3
-
-5
-00:00:04,000 --> 00:00:05,000
-Cheesman, R., Hunjan, A., Coleman, J. R., Ahmadzadeh, Y.,
-Plomin, R., McAdams, T. A., Eley, T. C., & Breen, G. (2020).
-Comparison of adopted and nonadopted individuals reveals
-gene-environment interplay for education in the UK Biobank.
-Psychological science, 31(5), 582-591.
-https://doi.org/10.1177/0956797620904450
-
-6
-00:00:05,000 --> 00:00:06,000
-Border, R., Johnson, E. C., Evans, L. M., Smolen, A.,
-Berley, N., Sullivan, P. F., & Keller, M. C. (2019).
-No support for historical candidate gene or candidate
-gene-by-interaction hypotheses for major depression
-across multiple large samples.
-American Journal of Psychiatry, 176(5), 376-387.
-https://doi.org/10.1176/appi.ajp.2018.18070881
-
-7
-00:00:06,000 --> 00:00:07,000
-Johnson, E. C., Border, R., Melroy-Greif, W. E.,
-de Leeuw, C. A., Ehringer, M. A., & Keller, M. C. (2017).
-No evidence that schizophrenia candidate genes are more
-associated with schizophrenia than noncandidate genes.
-Biological psychiatry, 82(10), 702-708.
-https://doi.org/10.1016/j.biopsych.2017.06.033
-
-8
-00:00:07,000 --> 00:00:08,000
+00:01:17,000 --> 00:01:20,000
 1000 Genomes Project Consortium.
 A global reference for human genetic variation.
 Nature 526, 68-74 (2015).
 https://doi.org/10.1038/nature15393
 
-9
-00:00:08,000 --> 00:00:09,000
-Bergström, A., McCarthy, S., Hui, R., Almarri, M. A.,
-Ayub, Q., Danecek, P., Chen, Y., et al.
-Insights into human genetic variation and population
-history from 929 diverse genomes.
-Science 367 (2020).
-https://doi.org/10.1126/science.aay5012
-
-10
-00:00:09,000 --> 00:00:10,000
-Mallick, S., Li, H., Lipson, M. et al.
-The Simons genome diversity project: 300 genomes
-from 142 diverse populations.
-Nature 538, 201 (2016).
-https://doi.org/10.1038/nature18964
-
-11
-00:00:10,000 --> 00:00:11,000
-Anthony Wilder Wohns, Yan Wong, Ben Jeffery, Ali Akbari,
-Swapan Mallick, Ron Pinhasi, Nick Patterson, David Reich,
-Jerome Kelleher, and Gil McVean (2021)
+4
+00:01:21,000 --> 00:01:24,000
+Wohns, A. W., et al.
 A unified genealogy of modern and ancient genomes.
 bioRxiv 2021.02.16.431497
-https://doi.org/10.1101/2021.02.16.431497
+doi: https://doi.org/10.1101/2021.02.16.431497
 
-12
-00:00:11,000 --> 00:00:12,000
-Serre, D., & Pääbo, S. (2004).
-Evidence for gradients of human genetic diversity within
-and among continents.
-Genome research, 14(9), 1679-1685.
-https://doi.org/10.1101/gr.2529604
-
-13
-00:00:12,000 --> 00:00:13,000
-Šavrič, B., Patterson, T., & Jenny, B. (2015).
-The Natural Earth II world map projection.
-International Journal of Cartography, 1(2), 123-133.
-https://doi.org/10.1080/23729333.2015.1093312 
-
-14
-00:00:13,000 --> 00:00:14,000
+5
+00:01:25,000 --> 00:01:28,000
 Bertin, J. (1967).
 Sémiologie graphique
 Paris, Mouton/Gauthier-Villars, 1967.
 https://visionscarto.net/bertin-projection-1953
+
+6
+00:01:29,000 --> 00:01:32,000
+Jakub Červený
+Generalized Hilbert ("gilbert") space-filling curve
+https://github.com/jakubcerveny/gilbert
 
