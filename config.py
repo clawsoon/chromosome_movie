@@ -675,7 +675,7 @@ layers.date.width = width
 layers.date.height = font_medium * 3
 layers.date.style = 'font-family:sans-serif;'
 layers.date.line_spacing = 1
-layers.date.multiplier = 28 # 28 years per generation in awohns code.
+layers.date.multiplier = 25 # 25 years per generation in latest awohns code.
 
 #movie_time = 0 # Select a specific time.  0 = all times.
 #movie_limit = 120 # Limit the number of frames created.  0 = no limit.
