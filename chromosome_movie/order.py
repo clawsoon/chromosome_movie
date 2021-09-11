@@ -164,10 +164,18 @@ class Order():
             self.create_order_column(column_name, description)
             self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20)
 
+        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='limit')
+
+
         else:
             raise Exception('Order "%s" not implemented.' % self.cfg.order)
 
-    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1):
+
+    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1, route_group='time'):
 
         # TODO: Split this into multiple, reasonable functions, instead
         # of this big mess.
@@ -182,38 +190,58 @@ class Order():
                 id=?
         '''
             
-        select = '''
-            SELECT
-                id,
-                local_counts_match_variant_id,
-                average_longitude,
-                average_latitude
-            FROM
-                variant
-            WHERE
-                time=?
-        '''
-        if order_by_spread:
-            select += ' ORDER BY total_distance_to_average_location'
-
         database = sqlite3.connect(self.cfg.database_path)
         database.row_factory = sqlite3.Row
         read_cursor = database.cursor()
         write_cursor = database.cursor()
 
-        read_cursor.execute('SELECT DISTINCT time FROM variant')
-        times = []
-        for row in read_cursor:
-            times.append(row['time'])
-        times.sort(reverse=True)
+        #read_cursor.execute('SELECT DISTINCT time FROM variant')
+        #times = []
+        #for row in read_cursor:
+        #    times.append(row['time'])
+        #times.sort(reverse=True)
+
+        if route_group == 'time':
+            groups = read_cursor.execute('SELECT DISTINCT time FROM variant ORDER BY time DESC')
+            groups = list(tuple(row) for row in read_cursor)
+            select = '''
+                SELECT
+                    id,
+                    local_counts_match_variant_id,
+                    average_longitude,
+                    average_latitude
+                FROM
+                    variant
+                WHERE
+                    time=?
+            '''
+            if order_by_spread:
+                select += ' ORDER BY total_distance_to_average_location'
+
+        elif route_group == 'limit':
+            read_cursor.execute('SELECT COUNT(*) FROM variant')
+            variant_count = read_cursor.fetchone()[0]
+            groups = [(offset, max_route_length) for offset in range(0, variant_count, max_route_length)]
+            select = '''
+                SELECT
+                    id,
+                    local_counts_match_variant_id,
+                    average_longitude,
+                    average_latitude
+                FROM
+                    variant
+                ORDER BY
+                    time DESC
+                LIMIT ?,?
+            '''
 
         order = 0
         lap = 0
 
-        for time in times:
-            sys.stderr.write('\nTime... %s\n' % time)
+        for group in groups:
+            sys.stderr.write(f'\nGroup... {group}\n')
 
-            read_cursor.execute(select, (time,))
+            read_cursor.execute(select, group)
 
             rows = read_cursor.fetchall()
 

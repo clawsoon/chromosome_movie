@@ -28,11 +28,16 @@ if __name__ == '__main__':
     if args.force_audio_rebuild or reordered:
         audio = chromosome_movie.audio.Audio(config)
         audio.write_midi()
-        audio.write_wav()
+
+    if reordered:
+        foreground = chromosome_movie.composite.Foreground(config)
+        foreground.write_svg()
+        foreground.write_png()
 
     movie = chromosome_movie.movie.Movie(config)
-    if args.force_concat_rebuild or reordered:
-        movie.write_concat()
-    movie.write_mp4()
+    #if args.force_concat_rebuild or reordered:
+    #    movie.write_concat()
+    #movie.write_mp4()
+    movie.write_bg_fg_mp4()
 
 

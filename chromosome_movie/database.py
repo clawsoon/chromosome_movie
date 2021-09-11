@@ -462,7 +462,8 @@ class Database():
                     self.cfg.chromosome,
                     # Might as well group the .999 ones with the round ones so
                     # we don't get dumb short routes.
-                    round(node.time),
+                    #round(node.time),
+                    node.time,
                     tree.get_num_leaves(node.id)/self.treeseq.num_samples,
                     #self.treeseq.site(variant.site).ancestral_state,
                     site.ancestral_state,

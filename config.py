@@ -28,8 +28,9 @@ treeseq_type = 'sgdp'
 #order = 'two_world_30w_65s_169w_65n_max480'
 #order = 'two_world_30w_0s_169w_65n_max480'
 #order = 'two_world_jaccard5_30w_30s_169w_65n_max480'
-order = 'two_world_jaccard20_30w_30s_169w_65n_max480'
+#order = 'two_world_jaccard20_30w_30s_169w_65n_max480'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max120'
+order = 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit'
 
 
 # Video parameters.
@@ -356,7 +357,7 @@ layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-op
 layers.traces.style = 'stroke:orange;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
-layers.traces.start_time = 3
+layers.traces.start_time = 16
 layers.traces.prefer_pacific = False
 
 layers.worldwide_frequency.center = (w(220), h(220))
@@ -687,55 +688,55 @@ layers.date.multiplier = 25 # 25 years per generation in latest awohns code.
 #movie_laps.append((1, 4))
 #movie_time_name = 'lapsAAB'
 
-movie_times = {
-    'name': 'cite1',
-    'type': 'time_limit',
-    'time_limits': [
-        #(80_240, 480),
-        #(80_140, 480),
-        #(80_110, 480),
-        #(80_080, 480),
-        #(60_000, 480),
-        #(40_000, 480),
-        #(20_000, 480),
-        #(10_000, 480),
-        #(8_000, 480),
-        #(6_000, 480),
-        #(4_000, 480),
-        #(2_000, 480),
-        #(1_000, 480),
-        #(800, 480),
-        #(600, 480),
-        #(400, 480),
-        #(200, 480),
-        #(100, 480),
-        #(80, 480),
-        #(60, 480),
-        #(40, 480),
-        #(20, 480),
-        #(10, 480),
-        (1, 960),
-    ],
-}
-
 #movie_times = {
-#    # FIXME: Would be nice if this was a list instead of having to
-#    # change it manually for each part.
-#    #'name': 'part1',
-#    #'name': 'part2',
-#    #'name': 'part3',
-#    #'name': 'part4',
-#    'name': 'part5',
-#    'type': 'time_range',
-#    'time_ranges': [
-#        # These are in generations.  Inclusive on smaller number only.
-#        #(999_999, 1_970),
-#        #(1_970, 720),
-#        #(720, 330),
-#        #(330, 2),
-#        (2, 0),
+#    'name': 'cite1',
+#    'type': 'time_limit',
+#    'time_limits': [
+#        #(80_240, 480),
+#        #(80_140, 480),
+#        #(80_110, 480),
+#        #(80_080, 480),
+#        #(60_000, 480),
+#        #(40_000, 480),
+#        #(20_000, 480),
+#        #(10_000, 480),
+#        #(8_000, 480),
+#        #(6_000, 480),
+#        #(4_000, 480),
+#        #(2_000, 480),
+#        #(1_000, 480),
+#        #(800, 480),
+#        #(600, 480),
+#        #(400, 480),
+#        #(200, 480),
+#        #(100, 480),
+#        #(80, 480),
+#        #(60, 480),
+#        #(40, 480),
+#        #(20, 480),
+#        #(10, 480),
+#        (1, 960),
 #    ],
 #}
+
+movie_times = {
+    # FIXME: Would be nice if this was a list instead of having to
+    # change it manually for each part.
+    #'name': 'part1',
+    #'name': 'part2',
+    #'name': 'part3',
+    #'name': 'part4',
+    'name': 'part5',
+    'type': 'time_range',
+    'time_ranges': [
+        # These are in generations.  Inclusive on smaller number only.
+        #(999_999, 1_970),
+        #(1_970, 720),
+        #(720, 330),
+        #(330, 6),
+        (16, 0),
+    ],
+}
 
 #movie_times = {
 #    'name': 'full',
