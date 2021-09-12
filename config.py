@@ -11,6 +11,8 @@ chromosome = '22'
 treeseq = 'hgdp_tgp_sgdp_chr22_q.dated.trees'
 #treeseq = 'hgdp_1kg_sgdp_high_cov_ancients_chr22.dated.trees'
 
+years_per_generation = 25 # 25 years per generation in latest awohns code.
+
 # Different treeseqs store location data differently.
 # Modify database.Database.get_location() to add more choices.
 treeseq_type = 'sgdp'
@@ -677,7 +679,6 @@ layers.date.width = width
 layers.date.height = font_medium * 3
 layers.date.style = 'font-family:sans-serif;'
 layers.date.line_spacing = 1
-layers.date.multiplier = 25 # 25 years per generation in latest awohns code.
 
 #movie_time = 0 # Select a specific time.  0 = all times.
 #movie_limit = 120 # Limit the number of frames created.  0 = no limit.

@@ -165,9 +165,9 @@ class Date(Text):
             #text = 'Recent\n(&lt;200 years)'
             #text = '&lt;200\nyears ago'
             #text = 'Last two\ncenturies'
-            text = f'Less than\n{self.layercfg.multiplier} years'
+            text = f'Less than\n{self.cfg.years_per_generation} years'
         else:
-            text = f'{int(self.layercfg.multiplier*variant["time"]):,}\nyears ago'
+            text = f'{int(self.cfg.years_per_generation*variant["time"]):,}\nyears ago'
         return self.text(text)
 
     def write_svg(self):

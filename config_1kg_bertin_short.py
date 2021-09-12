@@ -13,6 +13,8 @@ treeseq = '1kg_chr22.trees'
 # Modify database.Database.get_location() to add more choices.
 treeseq_type = '1kg'
 
+years_per_generation = 25 # 25 years per generation in latest awohns code.
+
 # This needs to be a valid SQL table name, since that what it's going to become.
 # See the order module to add choices.
 #order = 'average_longitude'
@@ -406,7 +408,6 @@ layers.date.font_size = font_medium
 layers.date.width = width
 layers.date.height = font_medium * 3
 layers.date.style = 'font-family:sans-serif;'
-layers.date.multiplier = 10000
 
 #movie_time = 0 # Select a specific time.  0 = all times.
 #movie_limit = 120 # Limit the number of frames created.  0 = no limit.

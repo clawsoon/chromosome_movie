@@ -13,6 +13,8 @@ treeseq = 'sgdp_chr22.trees'
 # Modify database.Database.get_location() to add more choices.
 treeseq_type = 'sgdp'
 
+years_per_generation = 25 # 25 years per generation in latest awohns code.
+
 # This needs to be a valid SQL table name, since that what it's going to become.
 # See the order module to add choices.
 #order = 'average_longitude'
@@ -228,7 +230,6 @@ layers.date.center = (int(0.5*width), int(1380/1440*height))
 layers.date.font_size = int(height*54/1440)
 layers.date.height = layers.date.font_size * 3
 layers.date.style = 'font-family:sans-serif;'
-layers.date.multiplier = 10000
 
 movie_limit = 0 # Limit the number of frames created.  0 = no limit.
 movie_time = 0 # Select a specific time.  0 = all times.
