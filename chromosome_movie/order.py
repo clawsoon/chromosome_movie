@@ -76,6 +76,10 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
+                    if 'round' in self.cfg.order:
+                        #FIXME: This is a hack to match what's happening in ordering.  We need to get rounding into a config.
+                        multiplier = self.cfg.years_per_generation/5
+                        variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
                     index += 1
 
@@ -166,16 +170,39 @@ class Order():
 
         elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit':
             column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Use fixed groups of 480, even if the times in the group do not all match.'
             self.create_order_column(column_name, description)
             self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='limit')
 
+        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round1':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 1 year.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=1)
+
+        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round5':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
+
+        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120_round5':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
+
+        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round10':
+            column_name = self.cfg.order
+            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 10 years.'
+            self.create_order_column(column_name, description)
+            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=10)
 
         else:
             raise Exception('Order "%s" not implemented.' % self.cfg.order)
 
 
-    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1, route_group='time'):
+    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1, route_group='time', round_years=0):
 
         # TODO: Split this into multiple, reasonable functions, instead
         # of this big mess.
@@ -234,6 +261,25 @@ class Order():
                     time DESC
                 LIMIT ?,?
             '''
+
+        elif route_group == 'round':
+            multiplier = self.cfg.years_per_generation/round_years
+            read_cursor.execute('SELECT DISTINCT ROUND(time*?)/? AS rounded_time FROM variant ORDER BY time DESC', (multiplier, multiplier))
+            groups = [(multiplier, multiplier, row['rounded_time']) for row in read_cursor]
+            select = '''
+                SELECT
+                    id,
+                    local_counts_match_variant_id,
+                    average_longitude,
+                    average_latitude
+                FROM
+                    variant
+                WHERE
+                    ROUND(time*?)/?=?
+            '''
+            if order_by_spread:
+                select += ' ORDER BY total_distance_to_average_location'
+
 
         order = 0
         lap = 0
