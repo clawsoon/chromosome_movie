@@ -109,4 +109,8 @@ DONE: Expand disk to fit.  Looks like we need about 200GB for the biggest part.
 
 Add pip requirements to repo.
 
-Make rounding a config so that we don't have the rounding hack FIXME in order.py.
+Make rounding a config so that we don't have the rounding hack FIXME in order.py.  Maybe put all of the order parameters into a config and auto-construct the order key?
+
+Do a second series of videos with SGDP, HGDP and TGP separated showing per-location frequency.
+
+
