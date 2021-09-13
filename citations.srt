@@ -1,5 +1,5 @@
 1
-00:01:09,000 --> 00:01:12,000
+00:01:12,000 --> 00:01:15,000
 Mallick, S., et al.
 The Simons genome diversity project:
 300 genomes from 142 diverse populations.
@@ -7,7 +7,7 @@ Nature 538, 201 (2016).
 https://doi.org/10.1038/nature18964
 
 2
-00:01:13,000 --> 00:01:16,000
+00:01:16,000 --> 00:01:19,000
 Bergström, A., et al.
 Insights into human genetic variation and
 population history from 929 diverse genomes.
@@ -15,28 +15,28 @@ Science 367 (2020).
 https://doi.org/10.1126/science.aay5012
 
 3
-00:01:17,000 --> 00:01:20,000
+00:01:20,000 --> 00:01:23,000
 1000 Genomes Project Consortium.
 A global reference for human genetic variation.
 Nature 526, 68-74 (2015).
 https://doi.org/10.1038/nature15393
 
 4
-00:01:21,000 --> 00:01:24,000
+00:01:24,000 --> 00:01:27,000
 Wohns, A. W., et al.
 A unified genealogy of modern and ancient genomes.
 bioRxiv 2021.02.16.431497
 doi: https://doi.org/10.1101/2021.02.16.431497
 
 5
-00:01:25,000 --> 00:01:28,000
+00:01:28,000 --> 00:01:31,000
 Bertin, J. (1967).
 Sémiologie graphique
 Paris, Mouton/Gauthier-Villars, 1967.
 https://visionscarto.net/bertin-projection-1953
 
 6
-00:01:29,000 --> 00:01:32,000
+00:01:32,000 --> 00:01:35,000
 Jakub Červený
 Generalized Hilbert ("gilbert") space-filling curve
 https://github.com/jakubcerveny/gilbert
