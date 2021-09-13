@@ -34,7 +34,9 @@ treeseq_type = 'sgdp'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max120'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max480_round5'
-order = 'two_world_jaccard20_30w_30s_169w_65n_max120_round5'
+#order = 'two_world_jaccard20_30w_30s_169w_65n_max120_round5'
+#order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round25'
+order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round5'
 
 
 # Video parameters.
@@ -730,7 +732,7 @@ movie_times = {
     #'name': 'part3',
     #'name': 'part4',
     #'name': 'part5',
-    'name': 'round5',
+    'name': 'round',
     'type': 'time_range',
     'time_ranges': [
         # These are in generations.  Inclusive on smaller number only.
@@ -742,7 +744,8 @@ movie_times = {
         (8_000, 8_100),
         (800, 810),
         (80, 81),
-        (1, 0),
+        (40, 41),
+        (0, 3),
     ],
 }
 
