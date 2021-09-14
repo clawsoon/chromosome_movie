@@ -54,27 +54,27 @@ modern and ancient genomes."
 
 120
 00:00:37,000 --> 00:00:40,000
-These estimates may change
-as more data is collected
-
-130
-00:00:40,000 --> 00:00:43,000
-and analytical techniques
-are refined.
-
-140
-00:00:44,000 --> 00:00:47,000
 The map shows where
 the variants were found
 
-150
-00:00:47,000 --> 00:00:50,000
+130
+00:00:40,000 --> 00:00:43,000
 in modern populations.
+
+140
+00:00:44,000 --> 00:00:47,000
+The video's border is a map
+of the chromosome itself.
+
+150
+00:00:48,000 --> 00:00:51,000
+These estimates may change
+as more data is collected
 
 160
 00:00:51,000 --> 00:00:54,000
-The video's border is a map
-of the chromosome itself.
+and analytical techniques
+are refined.
 
 170
 00:00:55,000 --> 00:00:58,000
@@ -98,15 +98,10 @@ been rounded.
 
 210
 00:01:08,000 --> 00:01:11,000
-All human groups
-and parts of the world
+Not all human groups
+are represented equally.
 
 220
-00:01:11,000 --> 00:01:14,000
-are not represented
-equally.
-
-230
-00:01:15,000 --> 00:01:18,000
+00:01:12,000 --> 00:01:15,000
 Enjoy.
 
