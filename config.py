@@ -35,8 +35,8 @@ treeseq_type = 'sgdp'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max480_round5'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max120_round5'
-#order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round25'
-order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round5'
+order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round25'
+#order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round5'
 
 
 # Video parameters.
@@ -363,7 +363,7 @@ layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-op
 layers.traces.style = 'stroke:orange;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
-layers.traces.start_time = 16
+layers.traces.start_time = 40
 layers.traces.prefer_pacific = False
 
 layers.worldwide_frequency.center = (w(220), h(220))
@@ -744,8 +744,12 @@ movie_times = {
         (8_000, 8_100),
         (800, 810),
         (80, 81),
-        (40, 41),
-        (0, 3),
+        (40, 39),
+        (30, 29),
+        (20, 19),
+        (10, 9),
+        (5, 4),
+        (1, 0),
     ],
 }
 

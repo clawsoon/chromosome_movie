@@ -9,6 +9,177 @@ from . import travelling_genome
 
 class Order():
 
+    orders = {
+        'traveller_45e_30s_105w_40s': {
+            'description': 'Travelling salesman heuristic from Indian Ocean east of South Africa to southern Pacific west of South America.',
+            'start_location': (45, -30),
+            'end_location': (-105, -40),
+        },
+
+        'traveller_19e_39s_99w_19n': {
+            'description': 'Travelling salesman heuristic from south of South Africa to Mexico City.',
+            'start_location': (19, -39),
+            'end_location': (-99, 19),
+        },
+
+        'traveller_19e_39s_99w_19n_max1000': {
+            'description': 'Travelling salesman heuristic from south of South Africa to Mexico City with max route length of 1000.',
+            'start_location': (19, -39),
+            'end_location': (-99, 19),
+            'max_route_length': 1000,
+        },
+
+        'traveller_roundtrip_19e_39s_max480': {
+            'description': 'Travelling salesman heuristic from south of South Africa and back with max route length of 480.',
+            'start_location': (19, -39),
+            'end_location': (19, -39),
+            'max_route_length': 480,
+        },
+
+        'traveller_roundtrip_19e_39s_max1000': {
+            'description': 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000.',
+            'start_location': (19, -39),
+            'end_location': (19, -39),
+            'max_route_length': 1000,
+        },
+
+        'traveller_roundtrip_19e_39s_max1000_byspread': {
+            'description': 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000, subsorted by total distance from average location.',
+            'start_location': (19, -39),
+            'end_location': (19, -39),
+            'max_route_length': 1000,
+            'order_by_spread': True,
+        },
+
+        'traveller_roundtrip_19e_39s_max480_byspread': {
+            'description': 'Travelling salesman heuristic from south of South Africa and back with max route length of 480, subsorted by total distance from average location.',
+            'start_location': (19, -39),
+            'end_location': (19, -39),
+            'max_route_length': 480,
+            'order_by_spread': True,
+        },
+
+        'two_world_30w_65s_169w_65n_max480': {
+            'description': 'Travelling salesman heuristic from south of South Africa to Bering Strait, then to south of South America, with max route length of 480, splitting hemispheres at longitudes -30 and -169.',
+            'start_location': (-30, -65),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+        },
+
+
+        'two_world_30w_0s_169w_65n_max480': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.',
+            'start_location': (-30, 0),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+        },
+
+        'two_world_jaccard5_30w_30s_169w_65n_max480': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 5 degrees to make variants which share more locations closer to each other.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+            'jaccard_offset': 5,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max480': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+            'jaccard_offset': 20,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max120': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 120,
+            'two_world': True,
+            'jaccard_offset': 20,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Use fixed groups of 480, even if the times in the group do not all match.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'limit',
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max480_round1': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 1 year.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'round',
+            'round_years': 1,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max480_round5': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'round',
+            'round_years': 5,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max120_round5': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 120,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'round',
+            'round_years': 5,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max480_round10': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 10 years.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'round',
+            'round_years': 10,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max360_round25': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 360.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 25 years.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 360,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'round',
+            'round_years': 25,
+        },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max360_round5': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 360.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 360,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'round',
+            'round_years': 5,
+        },
+    }
+
     def __init__(self, cfg):
         self.cfg = cfg
         random.seed(1234)
@@ -19,6 +190,10 @@ class Order():
         cursor = database.cursor()
         order_key = f'order_{self.cfg.order}'
         lap_key = f'lap_{self.cfg.order}'
+
+        order = self.orders[self.cfg.order]
+
+        # TODO: I'm sure all the repetition in here can be cleaned up.
 
         if self.cfg.movie_times['type'] == 'time_lap':
             index = 0
@@ -35,6 +210,9 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
+                    if order['route_group'] == 'round':
+                        multiplier = self.cfg.years_per_generation/order['round_years']
+                        variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
                     index += 1
 
@@ -49,6 +227,9 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
+                    if order['route_group'] == 'round':
+                        multiplier = self.cfg.years_per_generation/order['round_years']
+                        variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
                     index += 1
 
@@ -63,6 +244,9 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
+                    if order['route_group'] == 'round':
+                        multiplier = self.cfg.years_per_generation/order['round_years']
+                        variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
                     index += 1
 
@@ -76,9 +260,8 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
-                    if 'round' in self.cfg.order:
-                        #FIXME: This is a hack to match what's happening in ordering.  We need to get rounding into a config.
-                        multiplier = self.cfg.years_per_generation/25
+                    if order['route_group'] == 'round':
+                        multiplier = self.cfg.years_per_generation/order['round_years']
                         variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
                     index += 1
@@ -92,126 +275,132 @@ class Order():
     def write_db(self):
         # There's probably a cleaner way to do this.
 
-        # WARNING: Everything will go kablooie if you don't use a valid
-        # column name, or if you re-use an existing column name that isn't
-        # meant for ordering.  No guardrails here.
-        if self.cfg.order == 'traveller_45e_30s_105w_40s':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from Indian Ocean east of South Africa to southern Pacific west of South America.'
-            self.create_order_column(column_name, description)
-            self.traveller((45, -30), (-105, -40), column_name)
+        order = self.orders[self.cfg.order]
+        self.create_order_column(self.cfg.order, order['description'])
+        kwargs = {k: v for k, v in order.items() if k != 'description'}
+        kwargs['column_name'] = self.cfg.order
+        self.traveller(**kwargs)
 
-        elif self.cfg.order == 'traveller_19e_39s_99w_19n':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south of South Africa to Mexico City.'
-            self.create_order_column(column_name, description)
-            self.traveller((19, -39), (-99, 19), column_name)
+        ## WARNING: Everything will go kablooie if you don't use a valid
+        ## column name, or if you re-use an existing column name that isn't
+        ## meant for ordering.  No guardrails here.
+        #if self.cfg.order == 'traveller_45e_30s_105w_40s':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from Indian Ocean east of South Africa to southern Pacific west of South America.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((45, -30), (-105, -40), column_name)
 
-        elif self.cfg.order == 'traveller_19e_39s_99w_19n_max1000':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south of South Africa to Mexico City with max route length of 1000.'
-            self.create_order_column(column_name, description)
-            self.traveller((19, -39), (-99, 19), column_name, 1000)
+        #elif self.cfg.order == 'traveller_19e_39s_99w_19n':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south of South Africa to Mexico City.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((19, -39), (-99, 19), column_name)
 
-        elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480.'
-            self.create_order_column(column_name, description)
-            self.traveller((19, -39), (19, -39), column_name, 480)
+        #elif self.cfg.order == 'traveller_19e_39s_99w_19n_max1000':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south of South Africa to Mexico City with max route length of 1000.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((19, -39), (-99, 19), column_name, 1000)
 
-        elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000.'
-            self.create_order_column(column_name, description)
-            self.traveller((19, -39), (19, -39), column_name, 1000)
+        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((19, -39), (19, -39), column_name, 480)
 
-        elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000_byspread':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000, subsorted by total distance from average location.'
-            self.create_order_column(column_name, description)
-            self.traveller((19, -39), (19, -39), column_name, 1000, True)
+        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((19, -39), (19, -39), column_name, 1000)
 
-        elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480_byspread':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480, subsorted by total distance from average location.'
-            self.create_order_column(column_name, description)
-            self.traveller((19, -39), (19, -39), column_name, 480, True)
+        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000_byspread':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000, subsorted by total distance from average location.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((19, -39), (19, -39), column_name, 1000, True)
 
-        elif self.cfg.order == 'two_world_30w_65s_169w_65n_max480':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south of South Africa to Bering Strait, then to south of South America, with max route length of 480, splitting hemispheres at longitudes -30 and -169.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -65), (-169, 65), column_name, max_route_length=480, two_world=True)
+        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480_byspread':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480, subsorted by total distance from average location.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((19, -39), (19, -39), column_name, 480, True)
+
+        #elif self.cfg.order == 'two_world_30w_65s_169w_65n_max480':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south of South Africa to Bering Strait, then to south of South America, with max route length of 480, splitting hemispheres at longitudes -30 and -169.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -65), (-169, 65), column_name, max_route_length=480, two_world=True)
 
 
-        elif self.cfg.order == 'two_world_30w_0s_169w_65n_max480':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, 0), (-169, 65), column_name, max_route_length=480, two_world=True)
+        #elif self.cfg.order == 'two_world_30w_0s_169w_65n_max480':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, 0), (-169, 65), column_name, max_route_length=480, two_world=True)
 
-        elif self.cfg.order == 'two_world_jaccard5_30w_30s_169w_65n_max480':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 5 degrees to make variants which share more locations closer to each other.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=5)
+        #elif self.cfg.order == 'two_world_jaccard5_30w_30s_169w_65n_max480':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 5 degrees to make variants which share more locations closer to each other.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=5)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Use fixed groups of 480, even if the times in the group do not all match.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='limit')
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Use fixed groups of 480, even if the times in the group do not all match.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='limit')
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round1':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 1 year.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=1)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round1':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 1 year.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=1)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round5':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round5':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120_round5':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120_round5':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round10':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 10 years.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=10)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round10':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 10 years.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=10)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max360_round25':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=360, two_world=True, jaccard_offset=20, route_group='round', round_years=25)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max360_round25':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=360, two_world=True, jaccard_offset=20, route_group='round', round_years=25)
 
-        elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max360_round5':
-            column_name = self.cfg.order
-            description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-            self.create_order_column(column_name, description)
-            self.traveller((-30, -30), (-169, 65), column_name, max_route_length=360, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
+        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max360_round5':
+        #    column_name = self.cfg.order
+        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
+        #    self.create_order_column(column_name, description)
+        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=360, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
 
-        else:
-            raise Exception('Order "%s" not implemented.' % self.cfg.order)
+        #else:
+        #    raise Exception('Order "%s" not implemented.' % self.cfg.order)
 
 
     def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1, route_group='time', round_years=0):
