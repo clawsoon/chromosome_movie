@@ -167,7 +167,7 @@ class Date(Text):
             #text = 'Last two\ncenturies'
             text = f'Less than\n{self.cfg.years_per_generation} years'
         else:
-            text = f'{int(self.cfg.years_per_generation*variant["time"]):,}\nyears ago'
+            text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
         return self.text(text)
 
     def write_svg(self):
