@@ -365,7 +365,7 @@ layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-op
 layers.traces.style = 'stroke:orange;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
-layers.traces.start_time = 40
+layers.traces.start_order = 975_120
 layers.traces.prefer_pacific = False
 
 layers.worldwide_frequency.center = (w(220), h(220))
