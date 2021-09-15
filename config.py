@@ -665,7 +665,7 @@ layers.caption.width = width
 layers.caption.height = font_large * 2
 layers.caption.style = 'font-family:sans-serif;'
 layers.caption.line_spacing = 1.125
-layers.caption.srt = code/'captions.srt'
+layers.caption.srt = code/'captions.p4.srt'
 layers.caption.typing = None
 
 layers.citation.center = (w(1280), h(1200))
@@ -730,8 +730,8 @@ movie_times = {
     #'name': 'part1',
     #'name': 'part2',
     #'name': 'part3',
-    #'name': 'part4',
-    'name': 'part5',
+    'name': 'part4',
+    #'name': 'part5',
     #'name': 'round',
     'type': 'time_range',
     'time_ranges': [
@@ -739,8 +739,8 @@ movie_times = {
         #(999_999_999, 3000),
         #(3000, 1000),
         #(1000, 400),
-        #(400, 40),
-        (40, 0),
+        (400, 40),
+        #(40, 0),
     ],
 }
 
