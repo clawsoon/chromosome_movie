@@ -3,7 +3,7 @@
 import pathlib
 import shutil
 
-part = 1
+part = 3
 
 chromosome = '22'
 
@@ -37,7 +37,8 @@ treeseq_type = 'sgdp'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max480_round5'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max120_round5'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round25'
-order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round5'
+#order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round5'
+order = 'two_world_jaccard20_30w_30s_169w_65n_max240_group_limit_average_times'
 
 
 # Video parameters.
