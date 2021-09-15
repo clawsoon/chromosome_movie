@@ -287,6 +287,24 @@ class Order():
                     yield variant_dict
                     index += 1
 
+        elif self.cfg.movie_times['type'] == 'order_range':
+            index = 0
+            for start, end in self.cfg.movie_times['order_ranges']:
+                small, large = sorted((start, end))
+                sql = f'SELECT * FROM variant WHERE {order_key} >= ? AND {order_key} <= ? ORDER BY {order_key}'
+                cursor.execute(sql, (small, large))
+                for variant in cursor:
+                    variant_dict = dict(variant)
+                    #variant_dict[order_key] = index
+                    variant_dict['frame_number'] = index
+                    if variant_dict[display_time_key]:
+                        variant_dict['time'] = variant_dict[display_time_key]
+                    elif order['route_group'] == 'round':
+                        multiplier = self.cfg.years_per_generation/order['round_years']
+                        variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
+                    yield variant_dict
+                    index += 1
+
 
         else:
             cursor.execute(f'SELECT * FROM variant ORDER BY {order_key}')

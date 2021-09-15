@@ -3,7 +3,7 @@
 import pathlib
 import shutil
 
-part = 3
+part = 2
 
 chromosome = '22'
 
@@ -726,50 +726,98 @@ layers.date.line_spacing = 1
 #    ],
 #}
 
+#all_movie_times = {
+#    1: {
+#        'name': 'part1',
+#        'type': 'time_range',
+#        'time_ranges': [
+#            # These are in generations.  Inclusive on smaller number only.
+#            #(999_999_999, 3000),
+#            (999_999_999, 70000),
+#        ],
+#    },
+#    2: {
+#        'name': 'part2',
+#        'type': 'time_range',
+#        'time_ranges': [
+#            # These are in generations.  Inclusive on smaller number only.
+#            #(3000, 1000),
+#            (3000, 2950),
+#        ],
+#    },
+#    3: {
+#        'name': 'part3',
+#        'type': 'time_range',
+#        'time_ranges': [
+#            # These are in generations.  Inclusive on smaller number only.
+#            #(1000, 400),
+#            (1000, 995),
+#        ],
+#    },
+#    4: {
+#        'name': 'part4',
+#        'type': 'time_range',
+#        'time_ranges': [
+#            # These are in generations.  Inclusive on smaller number only.
+#            #(400, 40),
+#            (400, 398),
+#        ],
+#    },
+#    5: {
+#        'name': 'part5',
+#        'type': 'time_range',
+#        'time_ranges': [
+#            #(40, 0),
+#            (40, 38),
+#        ],
+#    },
+#}
+
 all_movie_times = {
+    # Inclusive on both numbers.
     1: {
         'name': 'part1',
-        'type': 'time_range',
-        'time_ranges': [
-            # These are in generations.  Inclusive on smaller number only.
-            #(999_999_999, 3000),
-            (999_999_999, 70000),
+        'type': 'order_range',
+        'order_ranges': [
+            #(0, 242_879),
+            (0, 1440),
+            (242_600, 242_879),
         ],
     },
     2: {
         'name': 'part2',
-        'type': 'time_range',
-        'time_ranges': [
-            # These are in generations.  Inclusive on smaller number only.
-            #(3000, 1000),
-            (3000, 2950),
+        'type': 'order_range',
+        'order_ranges': [
+            #(242_880, 472_559),
+            (242_880, 243_200),
+            (472_200, 472_559),
         ],
     },
     3: {
         'name': 'part3',
-        'type': 'time_range',
-        'time_ranges': [
-            # These are in generations.  Inclusive on smaller number only.
-            #(1000, 400),
-            (1000, 995),
+        'type': 'order_range',
+        'order_ranges': [
+            #(472_560, 736_559),
+            (472_560, 472_900),
+            (736_200, 736_559),
         ],
     },
     4: {
         'name': 'part4',
-        'type': 'time_range',
-        'time_ranges': [
-            # These are in generations.  Inclusive on smaller number only.
-            #(400, 40),
-            (400, 398),
+        'type': 'order_range',
+        'order_ranges': [
+            #(736_560, 975_119),
+            (736_560, 736_900),
+            (974_800, 975_119),
         ],
     },
     5: {
         'name': 'part5',
-        'type': 'time_range',
-        'time_ranges': [
-            # These are in generations.  Inclusive on smaller number only.
-            #(40, 0),
-            (40, 38),
+        'type': 'order_range',
+        'order_ranges': [
+            #(975_120, 999_999_999),
+            (975_120, 975_400),
+            (1_030_600, 999_999_999),
         ],
     },
 }
