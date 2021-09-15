@@ -159,15 +159,16 @@ class Date(Text):
         return cursor
 
     def svg(self, variant):
-        if variant['time'] < 1:
-            #text = 'Present'
-            #text = 'Recent'
-            #text = 'Recent\n(&lt;200 years)'
-            #text = '&lt;200\nyears ago'
-            #text = 'Last two\ncenturies'
-            text = f'Less than\n{self.cfg.years_per_generation} years'
-        else:
-            text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
+        #if variant['time'] < 1:
+        #    #text = 'Present'
+        #    #text = 'Recent'
+        #    #text = 'Recent\n(&lt;200 years)'
+        #    #text = '&lt;200\nyears ago'
+        #    #text = 'Last two\ncenturies'
+        #    text = f'Less than\n{self.cfg.years_per_generation} years'
+        #else:
+        #    text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
+        text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
         return self.text(text)
 
     def write_svg(self):
