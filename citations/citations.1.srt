@@ -1,0 +1,121 @@
+10
+00:02:34,000 --> 00:02:37,000
+Kimura, M.
+Evolutionary rate at the molecular level.
+Nature, 217, 624-626 (1968).
+https://doi.org/10.1038/217624a0
+
+20
+00:02:38,000 --> 00:02:41,000
+Ohta, T.
+Slightly deleterious mutant substitutions in evolution.
+Nature, 246, 96-98 (1973).
+https://doi.org/10.1038/246096a0
+
+30
+00:02:42,000 --> 00:02:45,000
+Duret, L.
+Neutral theory: The null hypothesis of molecular evolution.
+Nature Education 1(1):218 (2008).
+https://www.nature.com/scitable/topicpage/
+neutral-theory-the-null-hypothesis-of-molecular-839/
+
+40
+00:02:46,000 --> 00:02:49,000
+Yengo, L., et al.
+Meta-analysis of genome-wide association studies for height
+and body mass index in ~700000 individuals of European ancestry.
+Human molecular genetics, 27(20), 3641-3649 (2018).
+https://doi.org/10.1093/hmg/ddy271
+
+50
+00:02:50,000 --> 00:02:53,000
+Sohail, M., et al.
+Polygenic adaptation on height is overestimated due to
+uncorrected stratification in genome-wide association studies.
+Elife, 8, e39702 (2019).
+https://doi.org/10.7554/eLife.39702
+
+60
+00:02:54,000 --> 00:02:57,000
+Lee, J. J., et al.
+Gene discovery and polygenic prediction from a
+1.1-million-person GWAS of educational attainment.
+Nature genetics, 50(8), 1112-1121 (2018).
+https://doi.org/10.1038/s41588-018-0147-3
+
+70
+00:02:58,000 --> 00:03:01,000
+Cheesman, R., et al.
+Comparison of adopted and nonadopted individuals reveals
+gene-environment interplay for education in the UK Biobank.
+Psychological science, 31(5), 582-591 (2020).
+https://doi.org/10.1177/0956797620904450
+
+80
+00:03:02,000 --> 00:03:05,000
+Border, R., et al.
+No support for historical candidate gene or candidate gene-by-interaction
+hypotheses for major depression across multiple large samples.
+American Journal of Psychiatry, 176(5), 376-387 (2018).
+https://doi.org/10.1176/appi.ajp.2018.18070881
+
+90
+00:03:06,000 --> 00:03:09,000
+Johnson, E. C., et al.
+No evidence that schizophrenia candidate genes are more
+associated with schizophrenia than noncandidate genes.
+Biological psychiatry, 82(10), 702-708 (2017).
+https://doi.org/10.1016/j.biopsych.2017.06.033
+
+100
+00:03:10,000 --> 00:03:13,000
+Serre, D., & Pääbo, S.
+Evidence for gradients of human genetic diversity within
+and among continents.
+Genome research, 14(9), 1679-1685 (2004).
+https://doi.org/10.1101/gr.2529604
+
+110
+00:03:14,000 --> 00:03:17,000
+Bergström, A., et al.
+Insights into human genetic variation and
+population history from 929 diverse genomes.
+Science 367(6484) (2020).
+https://doi.org/10.1126/science.aay5012
+
+120
+00:03:18,000 --> 00:03:21,000
+Mallick, S., et al.
+The Simons genome diversity project:
+300 genomes from 142 diverse populations.
+Nature 538, 201-206 (2016).
+https://doi.org/10.1038/nature18964
+
+130
+00:03:22,000 --> 00:03:25,000
+1000 Genomes Project Consortium.
+A global reference for human genetic variation.
+Nature 526, 68-74 (2015).
+https://doi.org/10.1038/nature15393
+
+140
+00:03:26,000 --> 00:03:29,000
+Wohns, A. W., et al.
+A unified genealogy of modern and ancient genomes.
+bioRxiv 2021.02.16.431497 (2021).
+doi: https://doi.org/10.1101/2021.02.16.431497
+
+150
+00:03:30,000 --> 00:03:33,000
+Bertin, J. (1967)
+Sémiologie graphique
+Paris, Mouton/Gauthier-Villars, 1967.
+https://visionscarto.net/bertin-projection-1953
+
+160
+00:03:34,000 --> 00:03:37,000
+Červený, J.
+Generalized Hilbert ("gilbert") space-filling curve
+https://github.com/jakubcerveny/gilbert
+

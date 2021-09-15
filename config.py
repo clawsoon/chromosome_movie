@@ -3,6 +3,7 @@
 import pathlib
 import shutil
 
+part = 1
 
 chromosome = '22'
 
@@ -665,7 +666,7 @@ layers.caption.width = width
 layers.caption.height = font_large * 2
 layers.caption.style = 'font-family:sans-serif;'
 layers.caption.line_spacing = 1.125
-layers.caption.srt = code/'captions.p4.srt'
+layers.caption.srt = code/'captions'/f'captions.{part}.srt'
 layers.caption.typing = None
 
 layers.citation.center = (w(1280), h(1200))
@@ -674,7 +675,7 @@ layers.citation.width = width
 layers.citation.height = font_tiny * 6
 layers.citation.style = 'font-family:sans-serif;'
 layers.citation.line_spacing = 1
-layers.citation.srt = code/'citations.srt'
+layers.citation.srt = code/'citations'/f'citations.{part}.srt'
 layers.citation.typing = None
 
 layers.date.center = (w(1280), h(1374))
@@ -724,25 +725,55 @@ layers.date.line_spacing = 1
 #    ],
 #}
 
-movie_times = {
-    # FIXME: Would be nice if this was a list instead of having to
-    # change it manually for each part.
-    #'name': 'part1',
-    #'name': 'part2',
-    #'name': 'part3',
-    'name': 'part4',
-    #'name': 'part5',
-    #'name': 'round',
-    'type': 'time_range',
-    'time_ranges': [
-        # These are in generations.  Inclusive on smaller number only.
-        #(999_999_999, 3000),
-        #(3000, 1000),
-        #(1000, 400),
-        (400, 40),
-        #(40, 0),
-    ],
+all_movie_times = {
+    1: {
+        'name': 'part1',
+        'type': 'time_range',
+        'time_ranges': [
+            # These are in generations.  Inclusive on smaller number only.
+            #(999_999_999, 3000),
+            (999_999_999, 70000),
+        ],
+    },
+    2: {
+        'name': 'part2',
+        'type': 'time_range',
+        'time_ranges': [
+            # These are in generations.  Inclusive on smaller number only.
+            #(3000, 1000),
+            (3000, 2950),
+        ],
+    },
+    3: {
+        'name': 'part3',
+        'type': 'time_range',
+        'time_ranges': [
+            # These are in generations.  Inclusive on smaller number only.
+            #(1000, 400),
+            (1000, 995),
+        ],
+    },
+    4: {
+        'name': 'part4',
+        'type': 'time_range',
+        'time_ranges': [
+            # These are in generations.  Inclusive on smaller number only.
+            #(400, 40),
+            (400, 398),
+        ],
+    },
+    5: {
+        'name': 'part5',
+        'type': 'time_range',
+        'time_ranges': [
+            # These are in generations.  Inclusive on smaller number only.
+            #(40, 0),
+            (40, 38),
+        ],
+    },
 }
+
+movie_times = all_movie_times[part]
 
 #movie_times = {
 #    'name': 'full',
