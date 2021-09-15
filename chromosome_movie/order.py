@@ -178,6 +178,18 @@ class Order():
             'route_group': 'round',
             'round_years': 5,
         },
+
+        'two_world_jaccard20_30w_30s_169w_65n_max240_group_limit_average_times': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 240.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Use fixed groups of 240, even if the times in the group do not all match.  Display average time of variants in group.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 240,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'limit',
+            'average_times': True,
+        },
+
     }
 
     def __init__(self, cfg):
@@ -190,6 +202,7 @@ class Order():
         cursor = database.cursor()
         order_key = f'order_{self.cfg.order}'
         lap_key = f'lap_{self.cfg.order}'
+        display_time_key = f'display_time_{self.cfg.order}'
 
         order = self.orders[self.cfg.order]
 
@@ -210,7 +223,9 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
-                    if order['route_group'] == 'round':
+                    if variant_dict[display_time_key]:
+                        variant_dict['time'] = variant_dict[display_time_key]
+                    elif order['route_group'] == 'round':
                         multiplier = self.cfg.years_per_generation/order['round_years']
                         variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
@@ -227,7 +242,9 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
-                    if order['route_group'] == 'round':
+                    if variant_dict[display_time_key]:
+                        variant_dict['time'] = variant_dict[display_time_key]
+                    elif order['route_group'] == 'round':
                         multiplier = self.cfg.years_per_generation/order['round_years']
                         variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
@@ -244,7 +261,9 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
-                    if order['route_group'] == 'round':
+                    if variant_dict[display_time_key]:
+                        variant_dict['time'] = variant_dict[display_time_key]
+                    elif order['route_group'] == 'round':
                         multiplier = self.cfg.years_per_generation/order['round_years']
                         variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
@@ -260,7 +279,9 @@ class Order():
                     variant_dict = dict(variant)
                     #variant_dict[order_key] = index
                     variant_dict['frame_number'] = index
-                    if order['route_group'] == 'round':
+                    if variant_dict[display_time_key]:
+                        variant_dict['time'] = variant_dict[display_time_key]
+                    elif order['route_group'] == 'round':
                         multiplier = self.cfg.years_per_generation/order['round_years']
                         variant_dict['time'] = round(variant_dict['time']*multiplier)/multiplier
                     yield variant_dict
@@ -272,8 +293,8 @@ class Order():
             for variant in cursor:
                 yield variant
 
+
     def write_db(self):
-        # There's probably a cleaner way to do this.
 
         order = self.orders[self.cfg.order]
         self.create_order_column(self.cfg.order, order['description'])
@@ -281,129 +302,8 @@ class Order():
         kwargs['column_name'] = self.cfg.order
         self.traveller(**kwargs)
 
-        ## WARNING: Everything will go kablooie if you don't use a valid
-        ## column name, or if you re-use an existing column name that isn't
-        ## meant for ordering.  No guardrails here.
-        #if self.cfg.order == 'traveller_45e_30s_105w_40s':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from Indian Ocean east of South Africa to southern Pacific west of South America.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((45, -30), (-105, -40), column_name)
 
-        #elif self.cfg.order == 'traveller_19e_39s_99w_19n':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south of South Africa to Mexico City.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((19, -39), (-99, 19), column_name)
-
-        #elif self.cfg.order == 'traveller_19e_39s_99w_19n_max1000':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south of South Africa to Mexico City with max route length of 1000.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((19, -39), (-99, 19), column_name, 1000)
-
-        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((19, -39), (19, -39), column_name, 480)
-
-        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((19, -39), (19, -39), column_name, 1000)
-
-        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max1000_byspread':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 1000, subsorted by total distance from average location.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((19, -39), (19, -39), column_name, 1000, True)
-
-        #elif self.cfg.order == 'traveller_roundtrip_19e_39s_max480_byspread':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south of South Africa and back with max route length of 480, subsorted by total distance from average location.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((19, -39), (19, -39), column_name, 480, True)
-
-        #elif self.cfg.order == 'two_world_30w_65s_169w_65n_max480':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south of South Africa to Bering Strait, then to south of South America, with max route length of 480, splitting hemispheres at longitudes -30 and -169.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -65), (-169, 65), column_name, max_route_length=480, two_world=True)
-
-
-        #elif self.cfg.order == 'two_world_30w_0s_169w_65n_max480':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, 0), (-169, 65), column_name, max_route_length=480, two_world=True)
-
-        #elif self.cfg.order == 'two_world_jaccard5_30w_30s_169w_65n_max480':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 5 degrees to make variants which share more locations closer to each other.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=5)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Use fixed groups of 480, even if the times in the group do not all match.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='limit')
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round1':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 1 year.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=1)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round5':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max120_round5':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=120, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max480_round10':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 10 years.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=480, two_world=True, jaccard_offset=20, route_group='round', round_years=10)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max360_round25':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=360, two_world=True, jaccard_offset=20, route_group='round', round_years=25)
-
-        #elif self.cfg.order == 'two_world_jaccard20_30w_30s_169w_65n_max360_round5':
-        #    column_name = self.cfg.order
-        #    description = 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 120.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Round off dates to nearest 5 years.'
-        #    self.create_order_column(column_name, description)
-        #    self.traveller((-30, -30), (-169, 65), column_name, max_route_length=360, two_world=True, jaccard_offset=20, route_group='round', round_years=5)
-
-        #else:
-        #    raise Exception('Order "%s" not implemented.' % self.cfg.order)
-
-
-    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1, route_group='time', round_years=0):
+    def traveller(self, start_location, end_location, column_name, max_route_length=0, order_by_spread=False, two_world=False, jaccard_offset=-1, route_group='time', round_years=0, average_times=False):
 
         # TODO: Split this into multiple, reasonable functions, instead
         # of this big mess.
@@ -413,7 +313,8 @@ class Order():
                 variant
             SET
                 order_{column_name}=?,
-                lap_{column_name}=?
+                lap_{column_name}=?,
+                display_time_{column_name}=?
             WHERE
                 id=?
         '''
@@ -437,7 +338,8 @@ class Order():
                     id,
                     local_counts_match_variant_id,
                     average_longitude,
-                    average_latitude
+                    average_latitude,
+                    time
                 FROM
                     variant
                 WHERE
@@ -455,7 +357,8 @@ class Order():
                     id,
                     local_counts_match_variant_id,
                     average_longitude,
-                    average_latitude
+                    average_latitude,
+                    time
                 FROM
                     variant
                 ORDER BY
@@ -472,7 +375,8 @@ class Order():
                     id,
                     local_counts_match_variant_id,
                     average_longitude,
-                    average_latitude
+                    average_latitude,
+                    time
                 FROM
                     variant
                 WHERE
@@ -480,7 +384,6 @@ class Order():
             '''
             if order_by_spread:
                 select += ' ORDER BY total_distance_to_average_location'
-
 
         order = 0
         lap = 0
@@ -491,6 +394,12 @@ class Order():
             read_cursor.execute(select, group)
 
             rows = read_cursor.fetchall()
+
+            if average_times:
+                display_time = sum(row['time'] for row in rows)/len(rows)
+                sys.stderr.write(f'Display time... {display_time}\n')
+            else:
+                display_time = None
 
             if two_world:
                 start = start_location[0] % 360
@@ -596,7 +505,7 @@ class Order():
 
             for chunk in chunks:
                 for variant_id in self.traveller_sort(chunk['start'], chunk['end'], chunk['variants'], jaccard_offset, read_cursor):
-                    write_cursor.execute(update_template, (order, chunk['lap'], variant_id))
+                    write_cursor.execute(update_template, (order, chunk['lap'], display_time, variant_id))
                     order += 1
 
 
@@ -687,6 +596,13 @@ class Order():
                     variant
                 ADD COLUMN
                     lap_%s INTEGER
+                ''' % column_name)
+
+            cursor.execute('''
+                ALTER TABLE
+                    variant
+                ADD COLUMN
+                    display_time_%s INTEGER
                 ''' % column_name)
 
             cursor.execute('''
