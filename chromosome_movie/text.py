@@ -257,7 +257,7 @@ class Populations(Text):
                 variant_population.population_id = population.id
             WHERE
                 variant_population.variant_id = ?
-        ''', (variant['populations_match_variant_id'],))
+        ''', (variant['population_counts_match_variant_id'],))
 
         for source, name in cursor:
             column, row, name = self.layercfg.position[(source, name)]

@@ -354,7 +354,7 @@ class Order():
             select = '''
                 SELECT
                     id,
-                    local_counts_match_variant_id,
+                    population_counts_match_variant_id,
                     average_longitude,
                     average_latitude,
                     time
@@ -373,7 +373,7 @@ class Order():
             select = '''
                 SELECT
                     id,
-                    local_counts_match_variant_id,
+                    population_counts_match_variant_id,
                     average_longitude,
                     average_latitude,
                     time
@@ -391,7 +391,7 @@ class Order():
             select = '''
                 SELECT
                     id,
-                    local_counts_match_variant_id,
+                    population_counts_match_variant_id,
                     average_longitude,
                     average_latitude,
                     time
@@ -541,16 +541,25 @@ class Order():
             average_locations.append((variant['average_longitude'], variant['average_latitude']))
             variant_ids.append(variant['id'])
             if jaccard_offset >= 0:
+                #read_cursor.execute('''
+                #    SELECT
+                #        longitude,
+                #        latitude
+                #    FROM
+                #        variant_location
+                #    WHERE
+                #        variant_id=?
+                #''', (variant['population_counts_match_variant_id'],))
                 read_cursor.execute('''
                     SELECT
-                        longitude,
-                        latitude
+                        population_id
                     FROM
-                        variant_location
+                        variant_population
                     WHERE
-                        variant_id=?
-                ''', (variant['local_counts_match_variant_id'],))
-                all_locations.append(set((r[0], r[1]) for r in read_cursor))
+                        variant_id = ?
+                ''', (variant['population_counts_match_variant_id'],))
+                #all_locations.append(set((r[0], r[1]) for r in read_cursor))
+                all_locations.append(set(r[0] for r in read_cursor))
 
         # ...end isn't a real location.  It's an arbitrary point we picked...
         average_locations.append(end_location)

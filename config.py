@@ -16,7 +16,7 @@ years_per_generation = 25 # 25 years per generation in latest awohns code.
 
 # Different treeseqs store location data differently.
 # Modify database.Database.get_location() to add more choices.
-treeseq_type = 'sgdp'
+#treeseq_type = 'sgdp'
 
 # This needs to be a valid SQL table name, since that what it's going to become.
 # See the order module to add choices.
@@ -148,7 +148,7 @@ background_layers = [
     'chromosome_map',
     #'max_local',
     #'clef',
-    #'legend_frequency',
+    'legend_frequency',
     'legend_position',
 ]
 
@@ -353,14 +353,18 @@ layers.average_location.max_radius = h(12)
 layers.average_location.stroke_width = 0
 layers.average_location.style = 'stroke:none;fill:blue;fill-opacity:1.0;'
 
-layers.local_frequencies.max_radius = h(16)
-layers.local_frequencies.fixed_radius = True
+layers.local_frequencies.max_radius = h(32)
+layers.local_frequencies.min_radius = h(8)
+layers.local_frequencies.fixed_radius = False
 # We need stroke width separated out from the style for calculations.
-layers.local_frequencies.stroke_width = 4
+layers.local_frequencies.stroke_width = 8
 #layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-opacity:0.6;'
 #layers.local_frequencies.style = 'stroke:orange;stroke-opacity:1.0;fill:orange;fill-opacity:0.7;'
 layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-opacity:0.5;'
+layers.local_frequencies.shrink_style = 'stroke:#208cff;stroke-opacity:1.0;fill:#208cff;fill-opacity:0.5;'
+layers.local_frequencies.shrink_below_sample_count = 20
 #layers.local_frequencies.color = '#ff0000ff'
+
 
 layers.traces.style = 'stroke:orange;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
@@ -650,7 +654,7 @@ layers.populations.position = {
 
 layers.legend_frequency.center = (w(820), h(336))
 layers.legend_frequency.font_size = font_small
-layers.legend_frequency.frequencies = [1.0, 0.5, 0.25, 0.125, 0.0625, .01]
+layers.legend_frequency.frequencies = [1.0, 0.5, 0.1]
 layers.legend_frequency.width = font_small * 24
 layers.legend_frequency.height = font_small * (len(layers.legend_frequency.frequencies) + 3)
 layers.legend_frequency.style = 'font-family:sans-serif;'
@@ -779,9 +783,19 @@ all_movie_times = {
         'name': 'part1',
         'type': 'order_range',
         'order_ranges': [
-            (0, 242_879),
+            #(0, 242_879),
             #(0, 1440),
             #(242_600, 242_879),
+            #(0, 240),
+            #(242_700, 242_879),
+            #(242_880, 243_600),
+            #(472_400, 472_559),
+            #(472_560, 472_700),
+            #(736_400, 736_559),
+            #(736_560, 736_700),
+            #(975_000, 975_119),
+            (975_120, 975_300),
+            (1_030_800, 999_999_999),
         ],
     },
     2: {

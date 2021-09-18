@@ -89,26 +89,28 @@ class Database():
                 average_longitude REAL,
                 average_latitude REAL,
                 average_distance_to_average_location REAL,
-                local_counts_match_variant_id INTEGER,
-                populations_match_variant_id INTEGER
+                population_counts_match_variant_id INTEGER
             );
         ''')
 
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS variant_location (
-                variant_id INTEGER,
-                longitude REAL,
-                latitude REAL,
-                local_frequency REAL,
-                PRIMARY KEY (variant_id, longitude, latitude)
-            );
-        ''')
+        #cursor.execute('''
+        #    CREATE TABLE IF NOT EXISTS variant_location (
+        #        variant_id INTEGER,
+        #        longitude REAL,
+        #        latitude REAL,
+        #        local_frequency REAL,
+        #        PRIMARY KEY (variant_id, longitude, latitude)
+        #    );
+        #''')
 
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS population (
                 id INT PRIMARY KEY,
                 source TEXT,
-                name TEXT
+                name TEXT,
+                node_count INTEGER,
+                longitude REAL,
+                latitude REAL
             );
         ''')
 
@@ -116,6 +118,7 @@ class Database():
             CREATE TABLE IF NOT EXISTS variant_population (
                 variant_id INTEGER,
                 population_id INTEGER,
+                node_count INTEGER,
                 PRIMARY KEY (variant_id, population_id)
             );
         ''')
@@ -137,13 +140,8 @@ class Database():
         ''')
 
         cursor.execute('''
-            CREATE INDEX IF NOT EXISTS local_counts_match_variant_id_idx
-                ON variant (local_counts_match_variant_id);
-        ''')
-
-        cursor.execute('''
-            CREATE INDEX IF NOT EXISTS populations_match_variant_id_idx
-                ON variant (populations_match_variant_id);
+            CREATE INDEX IF NOT EXISTS population_counts_match_variant_id_idx
+                ON variant (population_counts_match_variant_id);
         ''')
 
         # We're going to be doing a SELECT DISTINCT on ancestral/derived.
@@ -193,15 +191,15 @@ class Database():
 
         cursor.execute('''
             CREATE INDEX IF NOT EXISTS variant_id_idx
-                ON variant_location (variant_id);
+                ON variant_population (variant_id);
         ''')
 
-        # We're doing SELECT DISTINCT to get our list of locations, so
-        # we should probably index this.
-        cursor.execute('''
-            CREATE INDEX IF NOT EXISTS location_idx
-                ON variant_location (longitude, latitude);
-        ''')
+        ## We're doing SELECT DISTINCT to get our list of locations, so
+        ## we should probably index this.
+        #cursor.execute('''
+        #    CREATE INDEX IF NOT EXISTS location_idx
+        #        ON variant_location (longitude, latitude);
+        #''')
 
         database.commit()
         database.close()
@@ -254,7 +252,13 @@ class Database():
 
         entries = set()
 
+        node_counts = collections.Counter()
+        populations = {}
+
         for individual in self.treeseq.individuals():
+
+            if not individual.metadata:
+                continue
 
             individual_meta = json.loads(individual.metadata)
 
@@ -267,27 +271,65 @@ class Database():
             else:
                 continue
 
-            population = self.treeseq.population(self.treeseq.node(individual.nodes[0]).population)
-            population_meta = json.loads(population.metadata)
+            for node_id in individual.nodes:
+                node = self.treeseq.node(node_id)
+                population = self.treeseq.population(node.population)
+                population_meta = json.loads(population.metadata)
+                longitude, latitude = self.get_location(population, individual)
+
+                # Note that this will set info about individuals
+                # to that of the last listed individual in their population.
+                # Hopefully that's not a problem.  We do know that
+                # locations of SGDP individuals are slightly different
+                # within populations.
+                populations[population.id] = (source, population_meta['name'], longitude, latitude)
+                node_counts[population.id] += 1
+
+        for population_id, (source, name, longitude, latitude) in populations.items():
 
             entries.add((
-                population.id,
+
+                population_id,
+
                 source,
-                population_meta['name'],
+                name,
+                node_counts[population_id],
+                longitude,
+                latitude,
+
                 source,
-                population_meta['name'],
+                name,
+                node_counts[population_id],
+                longitude,
+                latitude,
             ))
+
+            #population = self.treeseq.population(self.treeseq.node(individual.nodes[0]).population)
+            #population_meta = json.loads(population.metadata)
+
+            #populations[source][
+
+            #entries.add((
+            #    population.id,
+            #    source,
+            #    population_meta['name'],
+            #    source,
+            #    population_meta['name'],
+            #))
 
         cursor.executemany('''
             INSERT INTO population
-                (id, source, name)
+                (id, source, name, node_count, longitude, latitude)
             VALUES
-                (?, ?, ?)
+                (?, ?, ?, ?, ?, ?)
             ON CONFLICT
                 (id)
             DO UPDATE SET
                 source=?,
-                name=?
+                name=?,
+                node_count=?,
+                longitude=?,
+                latitude=?
             ''', entries)
 
         database.commit()
@@ -330,12 +372,27 @@ class Database():
         database = sqlite3.connect(self.cfg.database_path)
         cursor = database.cursor()
 
-        # Get sample totals for each location.
-        location_node_counts = collections.Counter()
-        for sample in self.treeseq.samples():
-            location = self.get_location(sample)
-            if location:
-                location_node_counts[location] += 1
+        ## Get sample totals for each location.
+        #location_node_counts = collections.Counter()
+        #for sample in self.treeseq.samples():
+        #    location = self.get_location(sample)
+        #    if location:
+        #        location_node_counts[location] += 1
+
+        populations = {}
+
+        cursor.execute('SELECT id, source, name, node_count, longitude, latitude FROM population')
+
+        for row in cursor:
+            population_id, source, name, node_count, longitude, latitude = row
+            populations[population_id] = {
+                'source': source,
+                'name': name,
+                'node_count': node_count,
+                'longitude': longitude,
+                'latitude': latitude,
+                'location': (longitude, latitude),
+            }
 
         # Only record the first variant ID for which a given combination
         # of local counts occurs, and have the other variants refer back
@@ -344,8 +401,9 @@ class Database():
         # them is a 20-24 hour process on my machine.
         # I'm guessing that this is the memory hog in this script.  This,
         # or not committing the database until everything is done.
-        local_counts_seen = {}
-        populations_seen = {}
+        #local_counts_seen = {}
+        #populations_seen = {}
+        node_counts_in_populations_seen = {}
 
         num_all = 0
         num_used = 0
@@ -374,107 +432,153 @@ class Database():
                     skipped['no mutation'] += 1
                     continue
 
-
-                #num_individuals = len(set(self.treeseq.node(leaf).individual for leaf in tree.leaves(node.id)))
-                #if num_individuals < 2:
-                #    continue
-
-                # Get sample totals for each location for this variant.
-                local_counts = collections.Counter()
-                population_ids = set()
+                node_counts_in_populations = collections.Counter()
                 individual_ids = set()
+                leaf_count = 0
                 for leaf in tree.leaves(node.id):
-                    location = self.get_location(leaf)
-                    if location:
-                        local_counts[location] += 1
-                        leaf_node = self.treeseq.node(leaf)
-                        population_ids.add(leaf_node.population)
-                        individual_ids.add(leaf_node.individual)
+                    leaf_node = self.treeseq.node(leaf)
+                    if leaf_node.population not in populations:
+                        continue
+                    leaf_count += 1
+                    node_counts_in_populations[leaf_node.population] += 1
+                    individual_ids.add(leaf_node.individual)
+
                 if len(individual_ids) < 2:
-                    # If a variant only shows up in one individual, we're
-                    # choosing to ignore it.
+                    # If a variant only shows up in one individual, we choose
+                    # to ignore it.
                     skipped['one individual'] += 1
                     continue
 
-                local_frequencies = frozenset((location, count/location_node_counts[location]) for location, count in local_counts.items())
-                population_ids = frozenset(population_ids)
+                node_counts_in_populations = frozenset((population_id, node_count) for population_id, node_count in node_counts_in_populations.items())
 
-                if local_frequencies in local_counts_seen:
-                    local_counts_match_variant_id = local_counts_seen[local_frequencies]
+                node_frequencies_in_populations = []
+                for population_id, node_count in node_counts_in_populations:
+                    population = populations[population_id]
+                    node_frequencies_in_populations.append((population['location'], node_count/population['node_count']))
+
+                average_longitude, average_latitude, average_distance_to_average_location = self.average_location(node_frequencies_in_populations)
+
+                if node_counts_in_populations in node_counts_in_populations_seen:
+                    population_counts_match_variant_id = node_counts_in_populations_seen[node_counts_in_populations]
                 else:
-                    local_counts_match_variant_id = variant.id
-                    local_counts_seen[local_frequencies] = variant.id
-                    entries = [(variant.id, location[0], location[1], frequency, frequency) for location, frequency in local_frequencies]
-
-                    # FIXME: If a local frequency changes to 0, this won't
+                    population_counts_match_variant_id = variant.id
+                    node_counts_in_populations_seen[node_counts_in_populations] = variant.id
+                    # FIXME: If a population count changes to 0, this won't
                     # delete it from the database.
+                    entries = [(variant.id, population_id, node_count, node_count) for population_id, node_count in node_counts_in_populations]
                     cursor.executemany('''
-                        INSERT INTO variant_location
+                        INSERT INTO variant_population
                             (
                                 variant_id,
-                                longitude,
-                                latitude,
-                                local_frequency
+                                population_id,
+                                node_count
                             )
                         VALUES
-                            (?, ?, ?, ?)
+                            (?, ?, ?)
                         ON CONFLICT
-                            (variant_id, longitude, latitude)
+                            (variant_id, population_id)
                         DO UPDATE SET
-                            local_frequency=?
+                            node_count=?
                     ''', entries)
 
-                if population_ids in populations_seen:
-                    populations_match_variant_id = populations_seen[population_ids]
-                else:
-                    populations_match_variant_id = variant.id
-                    populations_seen[population_ids] = variant.id
-                    entries = [(variant.id, population_id) for population_id in population_ids]
+                ##num_individuals = len(set(self.treeseq.node(leaf).individual for leaf in tree.leaves(node.id)))
+                ##if num_individuals < 2:
+                ##    continue
 
-                    cursor.executemany('''
-                        INSERT OR REPLACE INTO variant_population
-                            (
-                                variant_id,
-                                population_id
-                            )
-                        VALUES
-                            (?, ?)
-                    ''', entries)
+                ## Get sample totals for each location for this variant.
+                #local_counts = collections.Counter()
+                #population_ids = set()
+                #individual_ids = set()
+                #for leaf in tree.leaves(node.id):
+                #    location = self.get_location(leaf)
+                #    if location:
+                #        local_counts[location] += 1
+                #        leaf_node = self.treeseq.node(leaf)
+                #        population_ids.add(leaf_node.population)
+                #        individual_ids.add(leaf_node.individual)
+                #if len(individual_ids) < 2:
+                #    # If a variant only shows up in one individual, we're
+                #    # choosing to ignore it.
+                #    skipped['one individual'] += 1
+                #    continue
 
-                # Is this going to blow up 
-                entries = [(variant.id, population_id) for population_id in population_ids]
+                #local_frequencies = frozenset((location, count/location_node_counts[location]) for location, count in local_counts.items())
+                #population_ids = frozenset(population_ids)
 
-                average_longitude, average_latitude, average_distance_to_average_location = self.average_location(local_frequencies)
+                #if local_frequencies in local_counts_seen:
+                #    local_counts_match_variant_id = local_counts_seen[local_frequencies]
+                #else:
+                #    local_counts_match_variant_id = variant.id
+                #    local_counts_seen[local_frequencies] = variant.id
+                #    entries = [(variant.id, location[0], location[1], frequency, frequency) for location, frequency in local_frequencies]
 
-                #average_location = self.average_location(local_counts.keys())
-                #local_counts = frozenset(local_counts.items())
+                #    # FIXME: If a local frequency changes to 0, this won't
+                #    # delete it from the database.
+                #    cursor.executemany('''
+                #        INSERT INTO variant_location
+                #            (
+                #                variant_id,
+                #                longitude,
+                #                latitude,
+                #                local_frequency
+                #            )
+                #        VALUES
+                #            (?, ?, ?, ?)
+                #        ON CONFLICT
+                #            (variant_id, longitude, latitude)
+                #        DO UPDATE SET
+                #            local_frequency=?
+                #    ''', entries)
 
-                ## Setdefault does exactly what we want (returns the first
-                ## value that we set for this key in the dictionary, or sets
-                ## the new value and returns it if the key isn't already in
-                ## the dictionary), but it took me longer to write out this
-                ## comment than it would've taken to write this as a clearer
-                ## to understand if-else.
-                #local_counts_match_variant_id = seen_local_counts.setdefault(local_counts, variant.id)
+                #if population_ids in populations_seen:
+                #    populations_match_variant_id = populations_seen[population_ids]
+                #else:
+                #    populations_match_variant_id = variant.id
+                #    populations_seen[population_ids] = variant.id
+                #    entries = [(variant.id, population_id) for population_id in population_ids]
+
+                #    cursor.executemany('''
+                #        INSERT OR REPLACE INTO variant_population
+                #            (
+                #                variant_id,
+                #                population_id
+                #            )
+                #        VALUES
+                #            (?, ?)
+                #    ''', entries)
+
+                ## Is this going to blow up 
+                #entries = [(variant.id, population_id) for population_id in population_ids]
+
+                #average_longitude, average_latitude, average_distance_to_average_location = self.average_location(local_frequencies)
+
+                ##average_location = self.average_location(local_counts.keys())
+                ##local_counts = frozenset(local_counts.items())
+
+                ### Setdefault does exactly what we want (returns the first
+                ### value that we set for this key in the dictionary, or sets
+                ### the new value and returns it if the key isn't already in
+                ### the dictionary), but it took me longer to write out this
+                ### comment than it would've taken to write this as a clearer
+                ### to understand if-else.
+                ##local_counts_match_variant_id = seen_local_counts.setdefault(local_counts, variant.id)
+
+                ###
+                ### TODO: Continue modifying from local to population from here.
+                ###
 
                 entry = (
                     variant.id,
                     self.cfg.chromosome,
-                    # Might as well group the .999 ones with the round ones so
-                    # we don't get dumb short routes.
-                    #round(node.time),
                     node.time,
-                    tree.get_num_leaves(node.id)/self.treeseq.num_samples,
-                    #self.treeseq.site(variant.site).ancestral_state,
+                    leaf_count/self.treeseq.num_samples,
                     site.ancestral_state,
                     variant.derived_state,
-                    #int(variant.position),
                     site.position,
                     average_longitude,
                     average_latitude,
                     average_distance_to_average_location,
-                    local_counts_match_variant_id,
-                    populations_match_variant_id
+                    population_counts_match_variant_id,
                 )
 
                 # FIXME: if a variant is deleted, this won't remove it.
@@ -491,11 +595,10 @@ class Database():
                             average_longitude,
                             average_latitude,
                             average_distance_to_average_location,
-                            local_counts_match_variant_id,
-                            populations_match_variant_id
+                            population_counts_match_variant_id
                         )
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT
                         (id)
                     DO UPDATE SET
@@ -508,8 +611,7 @@ class Database():
                             average_longitude=?,
                             average_latitude=?,
                             average_distance_to_average_location=?,
-                            local_counts_match_variant_id=?,
-                            populations_match_variant_id=?
+                            population_counts_match_variant_id=?
                     ''', entry + entry[1:])
 
                 num_used += 1
@@ -521,8 +623,9 @@ class Database():
         sys.stderr.flush()
 
 
-    def get_location(self, node_id, notfound=set()):
-        individual = self.treeseq.individual(self.treeseq.node(node_id).individual)
+    #def get_location(self, node_id, notfound=set()):
+    def get_location(self, population, individual, notfound=set()):
+        #individual = self.treeseq.individual(self.treeseq.node(node_id).individual)
         #if self.cfg.treeseq_type == 'sgdp':
         if any(individual.location):
             # Not sure why all the treeseqs don't store the location
@@ -530,7 +633,8 @@ class Database():
             latitude, longitude = individual.location
         #elif self.cfg.treeseq_type == '1kg':
         else:
-            population_name = json.loads(self.treeseq.population(self.treeseq.node(node_id).population).metadata)['name']
+            #population_name = json.loads(self.treeseq.population(self.treeseq.node(node_id).population).metadata)['name']
+            population_name = json.loads(population.metadata)['name']
             if population_name not in self.population_info:
                 # This seems to successfully rule out ancients.
                 if population_name not in notfound:

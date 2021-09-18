@@ -39,15 +39,19 @@ class Locations():
         return Point(x, y)
 
 
-    def radius(self, proportion):
+    def radius(self, variant_node_count, total_node_count):
         # Scaled by area, minus half stroke width.
         if hasattr(self.layercfg, 'fixed_radius') and self.layercfg.fixed_radius:
             radius = self.layercfg.max_radius
         else:
+            proportion = variant_node_count / total_node_count
+            if hasattr(self.layercfg, 'shrink_below_sample_count') and total_node_count < self.layercfg.shrink_below_sample_count:
+                proportion /= 2
             radius = proportion**.5 * self.layercfg.max_radius - self.layercfg.stroke_width / 2
         # Inkscape gets weird if the radius gets too small.  And very weird if
         # it goes negative.
-        radius = max(radius, 1)
+        min_radius = self.layercfg.min_radius if hasattr(self.layercfg, 'min_radius') else 1
+        radius = max(radius, min_radius)
         return radius
 
     def write_svg_file(self, path, contents):
@@ -66,12 +70,19 @@ class Locations():
         contents = ''
 
         # Add location circles.
-        for longitude, latitude, local_frequency in locations:
-            radius = self.radius(local_frequency)
+        #for longitude, latitude, local_frequency in locations:
+        for longitude, latitude, variant_node_count, total_node_count in locations:
+            #radius = self.radius(local_frequency)
+            radius = self.radius(variant_node_count, total_node_count)
 
             center = self.location_on_image(longitude, latitude)
 
-            contents += f'<circle cx="{center.x}" cy="{center.y}" r="{radius}" stroke-width="{self.layercfg.stroke_width}" style="{self.layercfg.style}"/>\n'
+            if hasattr(self.layercfg, 'shrink_below_sample_count') and total_node_count < self.layercfg.shrink_below_sample_count:
+                style = self.layercfg.shrink_style
+            else:
+                style = self.layercfg.style
+
+            contents += f'<circle cx="{center.x}" cy="{center.y}" r="{radius}" stroke-width="{self.layercfg.stroke_width}" style="{style}"/>\n'
 
         return contents
 
@@ -92,7 +103,20 @@ class Locations():
 
     def trace_locations(self, variant):
         if variant[self.order_key] >= self.cfg.layers.traces.start_order:
-            self.location_cursor.execute('SELECT longitude, latitude FROM variant_location WHERE variant_id=?', (variant['local_counts_match_variant_id'],))
+            #self.location_cursor.execute('SELECT longitude, latitude FROM variant_location WHERE variant_id=?', (variant['local_counts_match_variant_id'],))
+            self.location_cursor.execute('''
+                SELECT
+                    population.longitude AS longitude,
+                    population.latitude AS latitude
+                FROM
+                    population
+                JOIN
+                    variant_population
+                ON
+                    population.id = variant_population.population_id
+                WHERE
+                    variant_population.variant_id = ?
+            ''', (variant['population_counts_match_variant_id'],))
             locations = list(self.location_cursor)
             #if len(locations) == 2:
             #    return locations
@@ -139,11 +163,26 @@ class LocalFrequencies(Locations):
 
     def select(self):
         cursor = self.database.cursor()
-        cursor.execute('SELECT DISTINCT local_counts_match_variant_id FROM variant ORDER BY time DESC')
+        #cursor.execute('SELECT DISTINCT local_counts_match_variant_id FROM variant ORDER BY time DESC')
+        cursor.execute('SELECT DISTINCT population_counts_match_variant_id FROM variant ORDER BY time DESC')
         return cursor
 
     def svg(self, variant):
-        self.location_cursor.execute('SELECT longitude, latitude, local_frequency FROM variant_location WHERE variant_id=?', (variant['local_counts_match_variant_id'],))
+        #self.location_cursor.execute('SELECT longitude, latitude, local_frequency FROM variant_location WHERE variant_id=?', (variant['local_counts_match_variant_id'],))
+        self.location_cursor.execute('''
+            SELECT
+                population.longitude,
+                population.latitude,
+                variant_population.node_count,
+                population.node_count
+            FROM
+                population
+            JOIN
+                variant_population
+            ON
+                population.id = variant_population.population_id
+            WHERE variant_population.variant_id = ?
+        ''', (variant['population_counts_match_variant_id'],))
         locations = self.location_cursor.fetchall()
         return self.circles(locations)
 
@@ -158,10 +197,10 @@ class LocalFrequencies(Locations):
         svg2png.svg2png(self.cfg, svg, png, self.select(), frame_convert=tuple)
 
     def svg_path(self, variant):
-        return str(self.layercfg.svg) % variant['local_counts_match_variant_id']
+        return str(self.layercfg.svg) % variant['population_counts_match_variant_id']
 
     def png_path(self, variant):
-        return str(self.layercfg.png) % variant['local_counts_match_variant_id']
+        return str(self.layercfg.png) % variant['population_counts_match_variant_id']
 
 
 class Traces(Locations):
@@ -245,7 +284,7 @@ class Traces(Locations):
 
     def select(self):
         cursor = self.database.cursor()
-        sql = f'SELECT id, local_counts_match_variant_id, time, average_longitude, average_latitude, {self.order_key}, lap_{self.cfg.order} FROM variant WHERE {self.order_key} >=? ORDER BY {self.order_key}'
+        sql = f'SELECT id, population_counts_match_variant_id, time, average_longitude, average_latitude, {self.order_key}, lap_{self.cfg.order} FROM variant WHERE {self.order_key} >=? ORDER BY {self.order_key}'
         if self.cfg.movie_limit:
             sql += f' LIMIT {self.cfg.movie_limit}'
         cursor.execute(sql, self.layercfg.start_order)
@@ -346,7 +385,7 @@ class AverageLocation(Locations):
             average_longitude, average_latitude = self.pacific_flip(variant, locations)
         else:
             average_longitude, average_latitude = variant['average_longitude'], variant['average_latitude']
-        location = (average_longitude, average_latitude, 1.0)
+        location = (average_longitude, average_latitude, 1, 1)
         return self.circles([location])
 
 
@@ -376,8 +415,9 @@ class MaxLocal(Locations):
 
     def svg(self, variant=None):
         cursor = self.database.cursor()
-        cursor.execute('SELECT DISTINCT longitude, latitude FROM variant_location')
-        locations = [(row['longitude'], row['latitude'], 1.0) for row in cursor]
+        #cursor.execute('SELECT DISTINCT longitude, latitude FROM variant_location')
+        cursor.execute('SELECT longitude, latitude FROM population')
+        locations = [(row['longitude'], row['latitude'], 1, 1) for row in cursor]
         return self.circles(locations)
 
     def write_svg(self):
@@ -431,7 +471,7 @@ class GraticuleVertices(Locations):
         locations = []
         for longitude in range(-180, 181, self.layercfg.spacing):
             for latitude in range(-90, 91, self.layercfg.spacing):
-                locations.append((longitude, latitude, 1.0))
+                locations.append((longitude, latitude, 1, 1))
         return self.circles(locations)
 
     def write_svg(self):
