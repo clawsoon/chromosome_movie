@@ -366,7 +366,7 @@ layers.local_frequencies.shrink_below_sample_count = 20
 #layers.local_frequencies.color = '#ff0000ff'
 
 
-layers.traces.style = 'stroke:orange;stroke-width:5;stroke-linecap:round;fill:none;'
+layers.traces.style = 'stroke:#ffe800;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
 layers.traces.start_order = 975_120
@@ -786,14 +786,14 @@ all_movie_times = {
             #(0, 242_879),
             #(0, 1440),
             #(242_600, 242_879),
-            #(0, 240),
-            #(242_700, 242_879),
-            #(242_880, 243_600),
-            #(472_400, 472_559),
-            #(472_560, 472_700),
-            #(736_400, 736_559),
-            #(736_560, 736_700),
-            #(975_000, 975_119),
+            (0, 240),
+            (242_700, 242_879),
+            (242_880, 243_600),
+            (472_400, 472_559),
+            (472_560, 472_700),
+            (736_400, 736_559),
+            (736_560, 736_700),
+            (975_000, 975_119),
             (975_120, 975_300),
             (1_030_800, 999_999_999),
         ],
