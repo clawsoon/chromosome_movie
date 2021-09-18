@@ -39,14 +39,13 @@ class Locations():
         return Point(x, y)
 
 
-    def radius(self, variant_node_count, total_node_count):
-        # Scaled by area, minus half stroke width.
+    def radius(self, proportion, shrink=False):
         if hasattr(self.layercfg, 'fixed_radius') and self.layercfg.fixed_radius:
             radius = self.layercfg.max_radius
         else:
-            proportion = variant_node_count / total_node_count
-            if hasattr(self.layercfg, 'shrink_below_sample_count') and total_node_count < self.layercfg.shrink_below_sample_count:
-                proportion /= 2
+            if shrink:
+                proportion *= self.cfg.layers.local_frequencies.shrink_factor
+            # Scaled by area, minus half stroke width.
             radius = proportion**.5 * self.layercfg.max_radius - self.layercfg.stroke_width / 2
         # Inkscape gets weird if the radius gets too small.  And very weird if
         # it goes negative.
@@ -72,15 +71,17 @@ class Locations():
         # Add location circles.
         #for longitude, latitude, local_frequency in locations:
         for longitude, latitude, variant_node_count, total_node_count in locations:
-            #radius = self.radius(local_frequency)
-            radius = self.radius(variant_node_count, total_node_count)
+            if hasattr(self.layercfg, 'shrink_below_sample_count') and total_node_count < self.layercfg.shrink_below_sample_count:
+                style = self.layercfg.shrink_style
+                shrink = True
+            else:
+                style = self.layercfg.style
+                shrink = False
+
+            radius = self.radius(variant_node_count/total_node_count, shrink)
 
             center = self.location_on_image(longitude, latitude)
 
-            if hasattr(self.layercfg, 'shrink_below_sample_count') and total_node_count < self.layercfg.shrink_below_sample_count:
-                style = self.layercfg.shrink_style
-            else:
-                style = self.layercfg.style
 
             contents += f'<circle cx="{center.x}" cy="{center.y}" r="{radius}" stroke-width="{self.layercfg.stroke_width}" style="{style}"/>\n'
 
