@@ -41,6 +41,8 @@ class ChromosomePosition():
         # I am 1000% sure that there's a more efficient way to create 14,000
         # single dots than to create a separate file for each one.
 
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         for index, x, y in sorted(self.coordinates):
 
             with open(self.svg_path(variant), 'w') as svg:
@@ -49,6 +51,8 @@ class ChromosomePosition():
                 svg.write('</svg>')
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
 
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)

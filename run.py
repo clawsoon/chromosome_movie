@@ -44,8 +44,8 @@ if __name__ == '__main__':
         preview
         ''')
 
-    for folder in config.folders:
-        folder.mkdir(parents=True, exist_ok=True)
+    #for folder in config.folders:
+    #    folder.mkdir(parents=True, exist_ok=True)
 
     if 'database' in commands or 'all' in commands:
         obj = chromosome_movie.database.Database(config)

@@ -56,6 +56,7 @@ class Movie():
         timestep = 1 / self.cfg.video_framerate
         #durations = {}
         for name, layer in self.layers.items():
+            layer.concat_file.parent.mkdir(parents=True, exist_ok=True)
             #durations[name] = {'frame': None, 'count': 0}
             layer.concat_file = open(layer.concat, 'w')
         for frame, variant in enumerate(cursor):
@@ -89,6 +90,8 @@ class Movie():
 
 
     def write_mp4_old(self):
+
+        self.cfg.movie_mp4.parent.mkdir(parents=True, exist_ok=True)
 
         timidity_command = [
             self.cfg.timidity,
@@ -193,6 +196,8 @@ class Movie():
     #####
 
     def write_mp4(self):
+
+        self.cfg.movie_mp4.parent.mkdir(parents=True, exist_ok=True)
 
         timidity_command = [
             self.cfg.timidity,
@@ -308,6 +313,8 @@ class Movie():
 
     def write_preview(self):
 
+        self.cfg.movie_mp4.parent.mkdir(parents=True, exist_ok=True)
+
         ffmpeg_command = [
             self.cfg.ffmpeg,
             '-y',
@@ -352,6 +359,8 @@ class Movie():
 
 
     def write_bg_fg_mp4(self):
+
+        self.cfg.movie_mp4.parent.mkdir(parents=True, exist_ok=True)
 
         #start_number = 0
         #if self.cfg.movie_time:

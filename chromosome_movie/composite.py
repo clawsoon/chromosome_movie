@@ -100,6 +100,9 @@ class Foreground(Composite):
     #    return cursor
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         #background_path = os.path.relpath(self.cfg.layers.background.svg, self.cfg.layers.composite.svg.parent).replace('\\', '/')
         #for variant in self.select():
         for variant in self.order.select():
@@ -127,6 +130,9 @@ class Foreground(Composite):
                 output.write(svg)
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         #svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png, self.select(), frame_convert=self.index)
         svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png, self.order.select(), frame_convert=self.index)
 
@@ -148,6 +154,9 @@ class Background(Composite):
         self.layercfg = self.cfg.layers.background
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         svg = f'<svg viewBox="0 0 {self.cfg.width} {self.cfg.height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
         if self.cfg.shadows:
             svg += drop_shadow.filter
@@ -164,6 +173,9 @@ class Background(Composite):
             output.write(svg)
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png, inkscape_actions='export-background:white;export-png-color-mode:RGB_8;')
 
     def svg_path(self, variant=None):

@@ -28,12 +28,18 @@ class WorldwideFrequency():
         return svg
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         for i in range(self.steps + 1):
             path = str(self.layercfg.svg) % i
             with open(path, 'w') as svg:
                 svg.write(self.make_svg(i))
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)
         frames = range(self.steps+1)

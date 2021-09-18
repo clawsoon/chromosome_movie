@@ -53,6 +53,8 @@ class Database():
 
     def create_tables(self):
 
+        self.cfg.database_path.parent.mkdir(parents=True, exist_ok=True)
+
         database = sqlite3.connect(self.cfg.database_path)
         cursor = database.cursor()
 

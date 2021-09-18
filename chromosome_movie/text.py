@@ -47,6 +47,9 @@ class Text():
             output.write(svg)
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png, self.select(), frame_convert=self.index)
 
     def svg_path(self, variant):
@@ -105,6 +108,9 @@ class Subtitle(Text):
         return self.text(content) if content else ''
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         # FIXME: This does not match self.svg() if self.layercfg.typing.
         for index, subtitle in enumerate(self.subtitles):
             path = str(self.layercfg.svg) % index
@@ -125,6 +131,9 @@ class Subtitle(Text):
         yield 99999999
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png, self.select())
 
 
@@ -172,6 +181,9 @@ class Date(Text):
         return self.text(text)
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         for variant in self.select():
             self.write_svg_file(self.svg_path(variant), self.svg(variant))
 
@@ -213,6 +225,9 @@ class Variant(Text):
         return svg
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         for variant in self.select():
             self.write_svg_file(self, self.svg_path(variant), self.svg(variant))
 
@@ -270,6 +285,9 @@ class Populations(Text):
         return svg
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         for variant in self.select():
             self.write_svg_file(self, self.svg_path(variant), self.svg(variant))
 

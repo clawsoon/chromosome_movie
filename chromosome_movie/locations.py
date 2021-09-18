@@ -187,10 +187,15 @@ class LocalFrequencies(Locations):
         return self.circles(locations)
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         for variant in self.select():
             self.write_svg_file(self.svg_path(variant), self.svg(variant))
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
 
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)
@@ -316,6 +321,9 @@ class Traces(Locations):
 
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         #location_cursor = self.database.cursor()
         #lap = None
         #contents = collections.deque(maxlen=self.layercfg.deque_length)
@@ -343,6 +351,8 @@ class Traces(Locations):
         return index
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
 
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)
@@ -390,10 +400,15 @@ class AverageLocation(Locations):
 
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         for variant in self.select():
             self.write_svg_file(self.svg_path(variant), self.svg(variant))
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
 
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)
@@ -421,9 +436,15 @@ class MaxLocal(Locations):
         return self.circles(locations)
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         self.write_svg_file(self.svg_path(), self.svg())
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png)
 
     def svg_path(self, variant=None):
@@ -444,6 +465,9 @@ class AllAverageLocations(AverageLocation):
         self.layercfg = self.cfg.layers.all_average_locations
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         import numpy
         import PIL.Image
         data = numpy.full((self.layercfg.height, self.layercfg.width, 4), (0,0,0,0), dtype=numpy.uint8)
@@ -475,9 +499,15 @@ class GraticuleVertices(Locations):
         return self.circles(locations)
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         self.write_svg_file(self.svg_path(), self.svg())
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         svg2png.svg2png(self.cfg, self.layercfg.svg, self.layercfg.png)
 
     def svg_path(self, variant=None):

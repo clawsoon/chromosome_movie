@@ -13,6 +13,9 @@ class Clef():
         self.layercfg = self.cfg.layers.clef
 
     def write_svg(self):
+
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         folder = pathlib.Path(__file__).parent
         template = open(folder/'clef.svg').read()
         tree = ElementTree.parse(folder/'clef.svg')
@@ -39,6 +42,9 @@ class Clef():
                 line.set('style', 'display:none')
 
     def write_png(self):
+
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
+
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)
         frames = self.cfg.audio_notes.values()

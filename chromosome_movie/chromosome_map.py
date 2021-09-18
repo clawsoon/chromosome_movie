@@ -84,6 +84,8 @@ class ChromosomeMap():
 
     def write_svg(self):
 
+        self.layercfg.svg.parent.mkdir(parents=True, exist_ok=True)
+
         svg = f'<svg viewBox="0 0 {self.cfg.width} {self.cfg.height}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
         svg += self.svg()
         svg += '</svg>\n'
@@ -92,6 +94,7 @@ class ChromosomeMap():
             svg.write(self.svg())
 
     def write_png(self):
+        self.layercfg.png.parent.mkdir(parents=True, exist_ok=True)
         svg2png.svg2png(self.cfg, self.svg_path(), self.png_path())
 
     def svg_path(self, variant=None):

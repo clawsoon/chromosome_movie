@@ -37,6 +37,7 @@ class Audio():
         self.cfg = cfg
 
     def write_midi(self):
+        self.cfg.audio_midi.parent.mkdir(parents=True, exist_ok=True)
         track_count = 12
         track = 0
         channel = 0
@@ -86,6 +87,7 @@ class Audio():
         if self.cfg.audio_pipe:
             print('config.audio_pipe is set.  Not creating WAV.')
             return
+        self.cfg.audio_wav.parent.mkdir(parents=True, exist_ok=True)
         command = [
             os.fspath(self.cfg.timidity),
             '-OwS', # Output WAV format, stereo.

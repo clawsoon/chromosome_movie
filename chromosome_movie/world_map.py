@@ -45,6 +45,9 @@ class WorldMap():
         destination = self.path()
         if os.path.exists(source):
             sys.stderr.write(f'Copying {source} -> {destination}\n')
+            parent = os.path.dirname(destination)
+            if not os.path.exists(parent):
+                os.makedirs(parent)
             shutil.copy(source, destination)
 
     def svg_path(self, variant=None):
