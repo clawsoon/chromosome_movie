@@ -101,7 +101,7 @@ shadows = True
 #map_height = h(1024)
 #map_scale = 1
 
-map_image = 'visionscarto_lightblue'
+map_image = 'visionscarto_lightbrown'
 #map_image = 'visionscarto_graticules'
 map_projection = 'bertin'
 map_rotation = (-16.5, -42)
