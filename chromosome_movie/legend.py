@@ -12,7 +12,9 @@ class Legend():
     def __init__(self, cfg):
         self.cfg = cfg
 
-    def radius(self, proportion, cfg):
+    def radius(self, proportion, cfg, shrink=False):
+        if shrink:
+            proportion *= self.cfg.layers.local_frequencies.shrink_factor
         radius = proportion**.5 * cfg.max_radius - cfg.stroke_width / 2
         radius = max(radius, 1)
         return radius
@@ -57,19 +59,79 @@ class Frequency(Legend):
         svg = ''
         shadow = drop_shadow.style if self.cfg.shadows else ''
 
-        for num, frequency in enumerate(self.layercfg.frequencies):
-            percentage = saxutils.escape(f'{frequency*100:g}%')
-            radius = self.radius(frequency, self.frequencycfg)
+        #for num, frequency in enumerate(self.layercfg.frequencies):
+        #    percentage = saxutils.escape(f'{frequency*100:g}%')
+        #    radius = self.radius(frequency, self.frequencycfg)
 
-            circle_x = self.frequencycfg.max_radius * 2
-            circle_y = self.layercfg.font_size * (num + 2)
+        #    circle_x = self.frequencycfg.max_radius * 2
+        #    circle_y = self.layercfg.font_size * (num + 2)
 
-            text_x = self.frequencycfg.max_radius * 5
-            text_y = self.layercfg.font_size * (num + 2)
+        #    text_x = self.frequencycfg.max_radius * 5
+        #    text_y = self.layercfg.font_size * (num + 2)
 
-            svg += f'  <circle cx="{circle_x}" cy="{circle_y}" r="{radius}" stroke-width="{self.frequencycfg.stroke_width}" style="{self.frequencycfg.style}"/>\n'
+        #    svg += f'  <circle cx="{circle_x}" cy="{circle_y}" r="{radius}" stroke-width="{self.frequencycfg.stroke_width}" style="{self.frequencycfg.style}"/>\n'
 
-            svg += f'  <text text-anchor="start" dominant-baseline="middle" x="{text_x}" y="{text_y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">{percentage}</text>\n'
+        #    svg += f'  <text text-anchor="start" dominant-baseline="middle" x="{text_x}" y="{text_y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">{percentage}</text>\n'
+
+        if self.layercfg.orientation == 'horizontal':
+            horizontal_total = len(self.layercfg.frequencies) * len(self.layercfg.legends)
+            vertical_total = 2
+            horizontal_spacing = 3 * self.layercfg.font_size
+        else:
+            horizontal_total = 2
+            vertical_total = len(self.layercfg.frequencies)
+            horizontal_spacing = 2 * self.layercfg.font_size
+
+        if self.layercfg.title:
+            vertical_total += 1
+
+        x = lambda n: (n - (horizontal_total - 1) / 2) * horizontal_spacing + self.layercfg.width / 2
+        y = lambda n: (n - (vertical_total - 1) / 2) * self.layercfg.line_spacing * self.layercfg.font_size + self.layercfg.height / 2
+
+        for num_legend, legend in enumerate(self.layercfg.legends):
+
+            if self.layercfg.orientation == 'horizontal':
+                offset = num_legend * len(self.layercfg.frequencies)
+                title_x = x(offset + (len(self.layercfg.frequencies)-1)/2)
+                title_y = y(0)
+            else:
+                offset = num_legend * vertical_total
+                title_x = x(0)
+                title_y = y(offset)
+
+            if self.layercfg.title:
+                title = saxutils.escape(self.layercfg.title % legend['title'])
+                svg += f'  <text text-anchor="middle" dominant-baseline="middle" x="{title_x}" y="{title_y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">{title}</text>\n'
+
+            for num_frequency, frequency in enumerate(self.layercfg.frequencies):
+
+                percentage = saxutils.escape(f'{frequency*100:g}%')
+                radius = self.radius(frequency, self.frequencycfg, shrink=legend['shrink'])
+
+                if self.layercfg.orientation == 'horizontal':
+                    circle_x = text_x = x(offset + num_frequency)
+                    if self.layercfg.title:
+                        circle_y = y(1)
+                        text_y = y(2)
+                    else:
+                        circle_y = y(0)
+                        text_y = y(1)
+                else:
+                    circle_x = x(-0.5)
+                    text_x = x(0.5)
+                    if self.layercfg.title:
+                        circle_y = text_y = y(offset + num_frequency + 1)
+                    else:
+                        circle_y = text_y = y(offset + num_frequency)
+
+                if legend['shrink']:
+                    style = self.frequencycfg.shrink_style
+                else:
+                    style = self.frequencycfg.style
+
+                svg += f'  <circle cx="{circle_x}" cy="{circle_y}" r="{radius}" stroke-width="{self.frequencycfg.stroke_width}" style="{style}"/>\n'
+
+                svg += f'  <text text-anchor="middle" dominant-baseline="middle" x="{text_x}" y="{text_y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">{percentage}</text>\n'
 
         return svg
 
@@ -93,17 +155,17 @@ class Position(Legend):
 
         ycenter = self.layercfg.height / 2
 
-        # Geographic location
+        ## Geographic location
 
-        y = ycenter - self.layercfg.font_size * 1.25
+        #y = ycenter - self.layercfg.font_size * 1.25
 
-        svg += f'  <circle cx="{x}" cy="{y}" r="{self.frequencycfg.max_radius}" stroke-width="{self.frequencycfg.stroke_width}" style="{self.frequencycfg.style}"/>\n'
+        #svg += f'  <circle cx="{x}" cy="{y}" r="{self.frequencycfg.max_radius}" stroke-width="{self.frequencycfg.stroke_width}" style="{self.frequencycfg.style}"/>\n'
 
-        svg += f'  <text text-anchor="start" dominant-baseline="middle" x="{x}" y="{y}" dx="1em" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Geographic location</text>\n'
+        #svg += f'  <text text-anchor="start" dominant-baseline="middle" x="{x}" y="{y}" dx="1em" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Geographic location</text>\n'
 
         # Geographic center
 
-        y = ycenter
+        y = ycenter + self.layercfg.font_size * 1.25 / 2
 
         # Apparently dx and dy don't work on circles?
         svg += f'<circle cx="{x}" cy="{y}" r="{self.locationcfg.max_radius}" stroke-width="{self.locationcfg.stroke_width}" style="{self.locationcfg.style}"/>\n'
@@ -112,7 +174,7 @@ class Position(Legend):
 
         # Chromosome location
 
-        y = ycenter + self.layercfg.font_size * 1.25
+        y = ycenter - self.layercfg.font_size * 1.25 / 2
 
         # TODO: Make a config for chromosome position circles and use it.
         svg += position.circle(x, y)

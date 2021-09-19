@@ -349,12 +349,12 @@ layers.graticule_vertices.stroke_width = 0
 layers.graticule_vertices.style = 'stroke:none;fill:pink;fill-opacity:1.0;'
 layers.graticule_vertices.spacing = 10 # degrees
 
-layers.average_location.max_radius = h(12)
+layers.average_location.max_radius = h(8)
 layers.average_location.stroke_width = 0
-layers.average_location.style = 'stroke:none;fill:blue;fill-opacity:1.0;'
+layers.average_location.style = 'stroke:none;fill:black;fill-opacity:1.0;'
 
 layers.local_frequencies.max_radius = h(32)
-layers.local_frequencies.min_radius = h(8)
+layers.local_frequencies.min_radius = h(4)
 layers.local_frequencies.fixed_radius = False
 # We need stroke width separated out from the style for calculations.
 layers.local_frequencies.stroke_width = 8
@@ -363,6 +363,7 @@ layers.local_frequencies.stroke_width = 8
 layers.local_frequencies.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-opacity:0.5;'
 layers.local_frequencies.shrink_style = 'stroke:#208cff;stroke-opacity:1.0;fill:#208cff;fill-opacity:0.5;'
 layers.local_frequencies.shrink_below_sample_count = 20
+layers.local_frequencies.shrink_factor = 0.5
 #layers.local_frequencies.color = '#ff0000ff'
 
 
@@ -384,12 +385,12 @@ layers.worldwide_frequency.text_style = 'font-family:sans-serif;'
 # We're measuring clef from top left instead of centre.
 # Maybe it would be easier for ffmpeg setup to use centre for all layers?
 # In which case change this position to a center measurement.
-layers.clef.center = (w(2204), h(624))
+layers.clef.center = (w(2204), h(650))
 #layers.clef.scale = h(280/18000)
 layers.clef.width = h(360)
 layers.clef.height = h(360)
 
-layers.variant.center = (w(1980), h(932))
+layers.variant.center = (w(1950), h(400))
 layers.variant.font_size = font_small
 layers.variant.width = font_small * 24
 layers.variant.height = font_small * 4
@@ -652,14 +653,21 @@ layers.populations.position = {
     ('1KG', 'YRI'): (2, 7, 'Yoruba'),
 }
 
-layers.legend_frequency.center = (w(820), h(336))
+layers.legend_frequency.center = (w(1910), h(930))
 layers.legend_frequency.font_size = font_small
 layers.legend_frequency.frequencies = [1.0, 0.5, 0.1]
-layers.legend_frequency.width = font_small * 24
-layers.legend_frequency.height = font_small * (len(layers.legend_frequency.frequencies) + 3)
+layers.legend_frequency.title = '%s-%s samples'
+layers.legend_frequency.orientation = 'horizontal'
+layers.legend_frequency.legends = [
+    {'title': (0, 9), 'shrink': True},
+    {'title': (10, 200), 'shrink': False},
+]
+layers.legend_frequency.width = font_small * len(layers.legend_frequency.frequencies) * len(layers.legend_frequency.legends) * 6
+layers.legend_frequency.height = font_small * 4
 layers.legend_frequency.style = 'font-family:sans-serif;'
+layers.legend_frequency.line_spacing = 1.2
 
-layers.legend_position.center = (w(2300), h(300))
+layers.legend_position.center = (w(2310), h(260))
 layers.legend_position.font_size = font_small
 layers.legend_position.width = font_small * 24
 layers.legend_position.height = font_small * 4

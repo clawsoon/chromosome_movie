@@ -206,8 +206,8 @@ class Variant(Text):
     def svg(self, variant):
         content = [
             # TODO: Will the other trees have the same site ID?
-            ('Site:', f'22_{int(variant["chromosome_position"])}'),
             ('Count:', f'{variant[self.order_key]+1:,}'),
+            ('Site:', f'22_{int(variant["chromosome_position"])}'),
             #('Position: ', f'{variant["chromosome_position"]:,}'),
         ]
         svg = ''
