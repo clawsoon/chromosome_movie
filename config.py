@@ -84,7 +84,8 @@ folders = [data, images, audio, movie]
 
 database_path = data/f'{treeseq_path.stem}.sqlite'
 database_readonly_uri = f'file:{database_path.as_posix()}?mode=ro'
-weighted_average_locations = False
+#weighted_average_locations = False
+weighted_average_locations = True
 
 # Adds some shadows to text and lines to make lines a little cleaner when
 # movies are resized to arbitrary sizes by the viewer, or when high-resolution
@@ -101,7 +102,7 @@ shadows = True
 #map_height = h(1024)
 #map_scale = 1
 
-map_image = 'visionscarto_lightbrown'
+map_image = 'visionscarto_lightgrey'
 #map_image = 'visionscarto_graticules'
 map_projection = 'bertin'
 map_rotation = (-16.5, -42)
@@ -367,7 +368,8 @@ layers.local_frequencies.shrink_factor = 0.5
 #layers.local_frequencies.color = '#ff0000ff'
 
 
-layers.traces.style = 'stroke:#ffe800;stroke-width:5;stroke-linecap:round;fill:none;'
+#layers.traces.style = 'stroke:#ffe800;stroke-width:5;stroke-linecap:round;fill:none;'
+layers.traces.style = 'stroke:#ecc669;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
 layers.traces.start_order = 975_120
