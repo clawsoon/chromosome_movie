@@ -3,7 +3,7 @@
 import pathlib
 import shutil
 
-part = 1
+part = 2
 
 chromosome = '22'
 
@@ -845,7 +845,7 @@ all_movie_times = {
         ],
     },
     't': {
-        'name': 'part1',
+        'name': 'teaser',
         'type': 'order_range',
         'order_ranges': [
             # 2 million to 75,000.
