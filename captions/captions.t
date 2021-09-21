@@ -29,10 +29,10 @@ to 75,000 years ago.
 Part 2 of the series covers
 from 75,000 years ago
 
-to 20,000 years ago.
+to 25,000 years ago.
 
 Part 3 of the series covers
-from 20,000 years ago
+from 25,000 years ago
 
 to 10,000 years ago.
 
