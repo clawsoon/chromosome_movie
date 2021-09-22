@@ -190,6 +190,17 @@ class Order():
             'average_times': True,
         },
 
+        'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit_average_times': {
+            'description': 'Travelling salesman heuristic from south Atlantic to Bering Strait across Africa and Asia, then back to south Atlantic across North and South America, with max route length of 480.  Use Jaccard distance offset of 20 degrees to make variants which share more locations closer to each other.  Use fixed groups of 480, even if the times in the group do not all match.  Display average time of variants in group.',
+            'start_location': (-30, -30),
+            'end_location': (-169, 65),
+            'max_route_length': 480,
+            'two_world': True,
+            'jaccard_offset': 20,
+            'route_group': 'limit',
+            'average_times': True,
+        },
+
     }
 
     def __init__(self, cfg):

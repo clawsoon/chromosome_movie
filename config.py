@@ -3,7 +3,7 @@
 import pathlib
 import shutil
 
-part = 2
+part = 't'
 
 chromosome = '22'
 
@@ -38,7 +38,8 @@ years_per_generation = 25 # 25 years per generation in latest awohns code.
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max120_round5'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round25'
 #order = 'two_world_jaccard20_30w_30s_169w_65n_max360_round5'
-order = 'two_world_jaccard20_30w_30s_169w_65n_max240_group_limit_average_times'
+#order = 'two_world_jaccard20_30w_30s_169w_65n_max240_group_limit_average_times'
+order = 'two_world_jaccard20_30w_30s_169w_65n_max480_group_limit_average_times'
 
 
 # Video parameters.
@@ -372,7 +373,7 @@ layers.local_frequencies.shrink_factor = 0.5
 layers.traces.style = 'stroke:#ecc669;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
-layers.traces.start_order = 975_120
+layers.traces.start_order = 974_880
 layers.traces.prefer_pacific = False
 
 layers.worldwide_frequency.center = (w(220), h(220))
@@ -794,54 +795,34 @@ all_movie_times = {
         'type': 'order_range',
         'order_ranges': [
             (0, 242_879),
-            #(0, 1440),
-            #(242_600, 242_879),
-            #(0, 240),
-            #(242_700, 242_879),
-            #(242_880, 243_600),
-            #(472_400, 472_559),
-            #(472_560, 472_700),
-            #(736_400, 736_559),
-            #(736_560, 736_700),
-            #(975_000, 975_119),
-            #(975_120, 975_300),
-            #(1_030_800, 999_999_999),
         ],
     },
     2: {
         'name': 'part2',
         'type': 'order_range',
         'order_ranges': [
-            (242_880, 472_559),
-            #(242_880, 243_200),
-            #(472_200, 472_559),
+            (242_880, 472_799),
         ],
     },
     3: {
         'name': 'part3',
         'type': 'order_range',
         'order_ranges': [
-            (472_560, 736_559),
-            #(472_560, 472_900),
-            #(736_200, 736_559),
+            (472_800, 736_319),
         ],
     },
     4: {
         'name': 'part4',
         'type': 'order_range',
         'order_ranges': [
-            (736_560, 975_119),
-            #(736_560, 736_900),
-            #(974_800, 975_119),
+            (736_320, 974_879),
         ],
     },
     5: {
         'name': 'part5',
         'type': 'order_range',
         'order_ranges': [
-            (975_120, 999_999_999),
-            #(975_120, 975_400),
-            #(1_030_600, 999_999_999),
+            (974_880, 999_999_999),
         ],
     },
     't': {
@@ -849,23 +830,23 @@ all_movie_times = {
         'type': 'order_range',
         'order_ranges': [
             # 2 million to 75,000.
-            (0, 239),
-            (242_640, 242_879),
+            (0, 479),
+            (242_400, 242_879),
 
-            # 75,000 to 20,000.
-            (242_880, 243_119),
-            (472_320, 472_559),
+            # 75,000 to 25,000.
+            (242_880, 243_359),
+            (472_320, 472_799),
 
-            # 20,000 to 10,000.
-            (472_560, 472_799),
-            (736_320, 736_559),
+            # 25,000 to 10,000.
+            (472_800, 473_279),
+            (735_840, 736_319),
 
             # 10,000 to 1,000.
-            (736_560, 736_799),
-            (974_880, 975_119),
+            (736_320, 736_799),
+            (974_400, 974_879),
 
             # 1,000 on.
-            (975_120, 975_359),
+            (974_880, 975_359),
         ],
     },
 }

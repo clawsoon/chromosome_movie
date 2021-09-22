@@ -16,30 +16,33 @@ The variants were collected
 from 3,754 people
 
 and their date of origin
-was estimated by Wohns et al.
+was estimated by Wohns et al
 
-by building tree sequences
+by building family trees
+for every tiny snippet
+
+of every chromosome
 from all the samples.
 
 Part 1 of the series covers
-from 2 million years ago
+from 2 million years ago...
 
-to 75,000 years ago.
+...to 75,000 years ago.
 
 Part 2 of the series covers
-from 75,000 years ago
+from 75,000 years ago...
 
-to 25,000 years ago.
+...to 25,000 years ago.
 
 Part 3 of the series covers
-from 25,000 years ago
+from 25,000 years ago...
 
-to 10,000 years ago.
+...to 10,000 years ago.
 
 Part 4 of the series covers
-from 10,000 years ago
+from 10,000 years ago...
 
-to 1,000 years ago.
+...to 1,000 years ago.
 
 Part 5 of the series covers
 the final 1,000 years.
