@@ -208,7 +208,7 @@ class Variant(Text):
 
         # TODO: Make this formatting into a function or something.
         mean = re.sub(r'\+0?', '', f'{self.cfg.years_per_generation * variant["time_mean"]:.1e}')
-        variance = re.sub(r'\+0?', '', f'{self.cfg.years_per_generation * variant["time_variance"]:.1e}')
+        variance = re.sub(r'\+0?', '', f'{self.cfg.years_per_generation * (variant["time_variance"]**.5):.1e}')
 
         content = [
             # TODO: Will the other trees have the same site ID?
