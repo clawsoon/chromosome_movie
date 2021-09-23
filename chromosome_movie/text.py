@@ -1,3 +1,4 @@
+import re
 import datetime
 from xml.sax import saxutils
 import sqlite3
@@ -204,8 +205,14 @@ class Variant(Text):
         return cursor
 
     def svg(self, variant):
+
+        # TODO: Make this formatting into a function or something.
+        mean = re.sub(r'\+0?', '', f'{self.cfg.years_per_generation * variant["time_mean"]:.1e}')
+        variance = re.sub(r'\+0?', '', f'{self.cfg.years_per_generation * variant["time_variance"]:.1e}')
+
         content = [
             # TODO: Will the other trees have the same site ID?
+            ('Raw age:', f'{mean}±{variance}'),
             ('Count:', f'{variant[self.order_key]+1:,}'),
             ('Site:', f'22_{int(variant["chromosome_position"])}'),
             #('Position: ', f'{variant["chromosome_position"]:,}'),

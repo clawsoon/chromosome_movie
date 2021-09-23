@@ -412,12 +412,12 @@ layers.variant_histogram.deque_length = 480
 # We're measuring clef from top left instead of centre.
 # Maybe it would be easier for ffmpeg setup to use centre for all layers?
 # In which case change this position to a center measurement.
-layers.clef.center = (w(2204), h(650))
+layers.clef.center = (w(2204), h(686))
 #layers.clef.scale = h(280/18000)
 layers.clef.width = h(360)
 layers.clef.height = h(360)
 
-layers.variant.center = (w(1950), h(400))
+layers.variant.center = (w(1966), h(430))
 layers.variant.font_size = font_small
 layers.variant.width = font_small * 24
 layers.variant.height = font_small * 4

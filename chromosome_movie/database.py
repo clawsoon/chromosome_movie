@@ -84,6 +84,8 @@ class Database():
                 id INT PRIMARY KEY,
                 chromosome TEXT,
                 time REAL,
+                time_mean REAL,
+                time_variance REAL,
                 worldwide_frequency REAL,
                 ancestral_state TEXT,
                 derived_state TEXT,
@@ -569,10 +571,14 @@ class Database():
                 ### TODO: Continue modifying from local to population from here.
                 ###
 
+                node_meta = json.loads(node.metadata)
+
                 entry = (
                     variant.id,
                     self.cfg.chromosome,
                     node.time,
+                    node_meta['mn'],
+                    node_meta['vr'],
                     leaf_count/self.treeseq.num_samples,
                     site.ancestral_state,
                     variant.derived_state,
@@ -590,6 +596,8 @@ class Database():
                             id,
                             chromosome,
                             time,
+                            time_mean,
+                            time_variance,
                             worldwide_frequency,
                             ancestral_state,
                             derived_state,
@@ -600,12 +608,14 @@ class Database():
                             population_counts_match_variant_id
                         )
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT
                         (id)
                     DO UPDATE SET
                             chromosome=?,
                             time=?,
+                            time_mean=?,
+                            time_variance=?,
                             worldwide_frequency=?,
                             ancestral_state=?,
                             derived_state=?,
