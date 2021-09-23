@@ -4,7 +4,7 @@ import os
 import pathlib
 import sqlite3
 
-from . import chromosome_map, chromosome_position, world_map, locations, worldwide_frequency, clef, text, legend, drop_shadow, svg2png, order
+from . import chromosome_map, chromosome_position, world_map, locations, worldwide_frequency, clef, text, legend, graph, drop_shadow, svg2png, order
 
 class Composite():
 
@@ -21,11 +21,14 @@ class Composite():
             'graticule_vertices': locations.GraticuleVertices,
             'average_location': locations.AverageLocation,
             'local_frequencies': locations.LocalFrequencies,
+            'population_histogram': graph.PopulationHistogram,
             'traces': locations.Traces,
             'worldwide_frequency': worldwide_frequency.WorldwideFrequency,
             'clef': clef.Clef,
+            'variant_histogram': graph.VariantHistogram,
             'variant': text.Variant,
             'populations': text.Populations,
+            'legend_population_histogram': legend.PopulationHistogram,
             'legend_frequency': legend.Frequency,
             'legend_position': legend.Position,
             'date': text.Date,

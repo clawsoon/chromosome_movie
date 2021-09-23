@@ -5,7 +5,7 @@ import subprocess
 
 import sqlite3
 
-from . import chromosome_map, chromosome_position, world_map, locations, worldwide_frequency, clef, text, audio, legend, composite
+from . import chromosome_map, chromosome_position, world_map, locations, worldwide_frequency, clef, text, audio, legend, graph, composite
 
 class Movie():
 
@@ -22,10 +22,13 @@ class Movie():
             'max_local': locations.MaxLocal,
             'average_location': locations.AverageLocation,
             'local_frequencies': locations.LocalFrequencies,
+            'population_histogram': graph.PopulationHistogram,
             'traces': locations.Traces,
             'worldwide_frequency': worldwide_frequency.WorldwideFrequency,
             'clef': clef.Clef,
+            'variant_histogram': graph.VariantHistogram,
             'variant': text.Variant,
+            'legend_population_histogram': legend.PopulationHistogram,
             'legend_frequency': legend.Frequency,
             'legend_position': legend.Position,
             'date': text.Date,

@@ -73,7 +73,7 @@ class Audio():
             if num % 1000 == 0:
                 sys.stderr.write(f'{num}\n')
             volume = int(base_volume + volume_cycle_max * math.sin(num/volume_cycle*math.pi))
-            note_name = self.cfg.audio_notes[(ancestral_state, derived_state)]
+            note_name = self.cfg.audio_notes[(ancestral_state, derived_state)]['note']
             note = self.notes[note_name]
             midi_note = note['pitch']
             track = time % track_count

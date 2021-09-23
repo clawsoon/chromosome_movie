@@ -183,3 +183,27 @@ class Position(Legend):
 
         return svg
 
+
+class PopulationHistogram(Legend):
+
+    def __init__(self, cfg):
+        super().__init__(cfg)
+        self.layercfg = self.cfg.layers.legend_population_histogram
+
+    def svg(self, variant=None):
+
+        svg = ''
+        if variant[f'order_{self.cfg.order}'] >= self.layercfg.start_order:
+
+            shadow = drop_shadow.style if self.cfg.shadows else ''
+
+            position = chromosome_position.ChromosomePosition(self.cfg)
+
+            x = self.layercfg.width / 2
+
+            y = self.layercfg.height / 2
+
+            svg += f'<text text-anchor="middle" dominant-baseline="middle" x="{x}" y="{y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Population counts</text>\n'
+
+        return svg
+

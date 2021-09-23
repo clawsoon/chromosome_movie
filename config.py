@@ -124,10 +124,13 @@ layer_names = [
     'chromosome_map',
     'chromosome_position',
     'worldwide_frequency',
+    'variant_histogram',
     'clef',
     #'note',
     'max_local',
     'graticule_vertices',
+    'population_histogram',
+    'legend_population_histogram',
     'traces',
     'average_location',
     'all_average_locations',
@@ -159,8 +162,11 @@ foreground_layers = [
     'world_map',
     #'graticule_vertices',
     'chromosome_position',
+    'variant_histogram',
     #'note',
     'clef',
+    'legend_population_histogram',
+    'population_histogram',
     'traces',
     'average_location',
     'local_frequencies',
@@ -211,6 +217,7 @@ shadow_layers = set([
     'date',
     'worldwide_frequency',
     'chromosome_map',
+    'legend_population_histogram',
     'legend_frequency',
     'legend_position',
     'clef',
@@ -219,6 +226,8 @@ shadow_layers = set([
 ])
 order_layers = set([
     'count',
+    'variant_histogram',
+    'population_histogram',
     'traces',
     'background',
     'foreground',
@@ -368,6 +377,13 @@ layers.local_frequencies.shrink_below_sample_count = 20
 layers.local_frequencies.shrink_factor = 0.5
 #layers.local_frequencies.color = '#ff0000ff'
 
+layers.population_histogram.center = (w(1280), h(1045))
+layers.population_histogram.width = w(920)
+layers.population_histogram.height = h(430)
+layers.population_histogram.style = 'stroke:none;fill:#ff00fd;'
+layers.population_histogram.bar_width = 4
+layers.population_histogram.bar_height = 1
+layers.population_histogram.deque_length = 480
 
 #layers.traces.style = 'stroke:#ffe800;stroke-width:5;stroke-linecap:round;fill:none;'
 layers.traces.style = 'stroke:#ecc669;stroke-width:5;stroke-linecap:round;fill:none;'
@@ -384,6 +400,14 @@ layers.worldwide_frequency.style = 'stroke:red;stroke-opacity:1.0;fill:red;fill-
 layers.worldwide_frequency.backing_style = 'stroke:none;fill:grey;fill-opacity:0.4;'
 layers.worldwide_frequency.font_size = font_medium
 layers.worldwide_frequency.text_style = 'font-family:sans-serif;'
+
+layers.variant_histogram.center = (w(2180), h(647))
+layers.variant_histogram.width = w(360)
+layers.variant_histogram.height = h(270)
+layers.variant_histogram.style = 'stroke:#ffffff;stroke-width:2px;fill:#29efff;'
+layers.variant_histogram.bar_width = 720
+layers.variant_histogram.bar_height = 22.5
+layers.variant_histogram.deque_length = 480
 
 # We're measuring clef from top left instead of centre.
 # Maybe it would be easier for ffmpeg setup to use centre for all layers?
@@ -802,6 +826,8 @@ all_movie_times = {
         'type': 'order_range',
         'order_ranges': [
             (242_880, 472_799),
+            #(242_880, 243_839),
+            #(242_880, 243_880),
         ],
     },
     3: {
@@ -823,6 +849,7 @@ all_movie_times = {
         'type': 'order_range',
         'order_ranges': [
             (974_880, 999_999_999),
+            #(974_880, 975_360),
         ],
     },
     't': {
@@ -858,6 +885,22 @@ movie_times = all_movie_times[part]
 #    'type': None,
 #}
 
+layers.legend_population_histogram.center = (w(1280), h(1200))
+layers.legend_population_histogram.font_size = font_small
+layers.legend_population_histogram.width = font_small * 24
+layers.legend_population_histogram.height = font_small * 2
+layers.legend_population_histogram.style = 'font-family:sans-serif;fill:#ff00fd;stroke:#ff00fd;'
+if part == 't':
+    population_histogram_buffer = 256
+elif part == 1:
+    population_histogram_buffer = 1680
+else:
+    population_histogram_buffer = 272
+layers.legend_population_histogram.start_order = movie_times['order_ranges'][-1][0] + population_histogram_buffer
+#layers.legend_population_histogram.start_order = movie_times['order_ranges'][0][0] + 256
+#layers.legend_population_histogram.start_order = movie_times['order_ranges'][0][0] + 1152
+
+
 #audio_midi = audio/f'{order}_{movie_time}_{movie_limit}.midi'
 #audio_wav = audio/f'{order}_{movie_time}_{movie_limit}.wav'
 audio_midi = audio/f'{order}_{movie_times["name"]}.midi'
@@ -866,18 +909,18 @@ audio_midi_program = 46
 audio_pipe = True
 
 audio_notes = {
-    ('A', 'C'): 'G5',
-    ('T', 'G'): 'F5',
-    ('G', 'C'): 'E5',
-    ('A', 'G'): 'D5',
-    ('T', 'C'): 'C5',
-    ('A', 'T'): 'B4',
-    ('C', 'T'): 'A4',
-    ('G', 'A'): 'G4',
-    ('C', 'G'): 'F4',
-    ('G', 'T'): 'E4',
-    ('C', 'A'): 'D4',
-    ('T', 'A'): 'C4',
+    ('A', 'C'): {'note': 'G5', 'index': 0},
+    ('T', 'G'): {'note': 'F5', 'index': 1},
+    ('G', 'C'): {'note': 'E5', 'index': 2},
+    ('A', 'G'): {'note': 'D5', 'index': 3},
+    ('T', 'C'): {'note': 'C5', 'index': 4},
+    ('A', 'T'): {'note': 'B4', 'index': 5},
+    ('C', 'T'): {'note': 'A4', 'index': 6},
+    ('G', 'A'): {'note': 'G4', 'index': 7},
+    ('C', 'G'): {'note': 'F4', 'index': 8},
+    ('G', 'T'): {'note': 'E4', 'index': 9},
+    ('C', 'A'): {'note': 'D4', 'index': 10},
+    ('T', 'A'): {'note': 'C4', 'index': 11},
 }
 
 #movie_mp4 = movie/f'{map_image}_{map_projection}_{map_rotation[0]}_{map_rotation[1]}_{order}_{"shadows" if shadows else "noshadows"}_{movie_time}_{movie_limit}.mp4'

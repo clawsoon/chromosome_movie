@@ -41,7 +41,7 @@ class Text():
         svg = f'<svg viewBox="0 0 {self.layercfg.width} {self.layercfg.height}" xmlns="http://www.w3.org/2000/svg">\n'
         if self.cfg.shadows:
             svg += drop_shadow.filter
-        self += contents
+        svg += contents
         svg += '</svg>'
         with open(path, 'w') as output:
             output.write(svg)

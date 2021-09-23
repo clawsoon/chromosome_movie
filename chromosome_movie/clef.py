@@ -27,7 +27,8 @@ class Clef():
             defs = root.find('{http://www.w3.org/2000/svg}defs')
             style = ElementTree.SubElement(defs, '{http://www.w3.org/2000/svg}style')
             style.text = '.shadow {filter:url(#dropshadow);}'
-        for (In, Out), note in self.cfg.audio_notes.items():
+        for (In, Out), info in self.cfg.audio_notes.items():
+            note = info['note']
             node = root.find(f".//*[@id='{note}']")
             content = f'{In}\u2192{Out}'
             node.text = content
@@ -47,12 +48,12 @@ class Clef():
 
         svg = str(self.layercfg.svg)
         png = str(self.layercfg.png)
-        frames = self.cfg.audio_notes.values()
+        frames = [info['note'] for info in self.cfg.audio_notes.values()]
         svg2png.svg2png(self.cfg, svg, png, frames, frame_convert=str)
 
     def index(self, variant):
         key = (variant['ancestral_state'], variant['derived_state'])
-        return self.cfg.audio_notes[key]
+        return self.cfg.audio_notes[key]['note']
 
     def svg(self, variant):
         path = os.path.relpath(self.svg_path(variant), self.cfg.layers.foreground.svg.parent).replace('\\', '/')
