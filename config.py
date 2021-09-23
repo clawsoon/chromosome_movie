@@ -217,7 +217,7 @@ shadow_layers = set([
     'date',
     'worldwide_frequency',
     'chromosome_map',
-    'legend_population_histogram',
+    #'legend_population_histogram',
     'legend_frequency',
     'legend_position',
     'clef',
@@ -378,7 +378,7 @@ layers.local_frequencies.shrink_factor = 0.5
 #layers.local_frequencies.color = '#ff0000ff'
 
 layers.population_histogram.center = (w(1280), h(1045))
-layers.population_histogram.width = w(920)
+layers.population_histogram.width = w(840)
 layers.population_histogram.height = h(430)
 layers.population_histogram.style = 'stroke:none;fill:#ff00fd;'
 layers.population_histogram.bar_width = 4
@@ -887,8 +887,8 @@ movie_times = all_movie_times[part]
 
 layers.legend_population_histogram.center = (w(1280), h(1200))
 layers.legend_population_histogram.font_size = font_small
-layers.legend_population_histogram.width = font_small * 24
-layers.legend_population_histogram.height = font_small * 2
+layers.legend_population_histogram.width = w(840)
+layers.legend_population_histogram.height = h(120)
 layers.legend_population_histogram.style = 'font-family:sans-serif;fill:#ff00fd;stroke:#ff00fd;'
 if part == 't':
     population_histogram_buffer = 256
@@ -897,8 +897,7 @@ elif part == 1:
 else:
     population_histogram_buffer = 272
 layers.legend_population_histogram.start_order = movie_times['order_ranges'][-1][0] + population_histogram_buffer
-#layers.legend_population_histogram.start_order = movie_times['order_ranges'][0][0] + 256
-#layers.legend_population_histogram.start_order = movie_times['order_ranges'][0][0] + 1152
+#layers.legend_population_histogram.start_order = 0
 
 
 #audio_midi = audio/f'{order}_{movie_time}_{movie_limit}.midi'

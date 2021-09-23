@@ -195,15 +195,20 @@ class PopulationHistogram(Legend):
         svg = ''
         if variant[f'order_{self.cfg.order}'] >= self.layercfg.start_order:
 
-            shadow = drop_shadow.style if self.cfg.shadows else ''
-
-            position = chromosome_position.ChromosomePosition(self.cfg)
+            #shadow = drop_shadow.style if self.cfg.shadows else ''
+            shadow = ''
 
             x = self.layercfg.width / 2
 
             y = self.layercfg.height / 2
 
-            svg += f'<text text-anchor="middle" dominant-baseline="middle" x="{x}" y="{y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Population counts</text>\n'
+            svg += f'<text text-anchor="middle" dominant-baseline="middle" x="{x}" y="{y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">Population count</text>\n'
+
+            svg += f'<text text-anchor="end" x="0" dx="-0.2em" y="{self.layercfg.height}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">1</text>\n'
+
+            # FIXME: We shouldn't hardcode the number of populations.  This
+            # should be fetched from the database.
+            svg += f'<text text-anchor="start" x="{self.layercfg.width}" dx="0.2em" y="{self.layercfg.height}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">230</text>\n'
 
         return svg
 
