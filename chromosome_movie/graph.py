@@ -53,6 +53,9 @@ class PopulationHistogram(Graph):
 
         svg = ''
 
+        if variant[self.order_key] < self.cfg.layers.legend_population_histogram.start_order:
+            return svg
+
         cursor = self.database.cursor()
         cursor.execute('''
             SELECT

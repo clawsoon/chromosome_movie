@@ -1,3 +1,5 @@
+Welcome.
+
 The first million years
 of this video series
 
@@ -18,11 +20,11 @@ from 3,754 people
 and their date of origin
 was estimated by Wohns et al
 
-by building family trees
-for every tiny snippet
+by building family trees for
+each snippet of chromosome,
 
-of every chromosome
-from all the samples.
+79,969 family trees
+in total.
 
 Part 1 of the series covers
 from 2 million years ago...
@@ -48,3 +50,4 @@ Part 5 of the series covers
 the final 1,000 years.
 
 Enjoy.
+
