@@ -401,7 +401,7 @@ layers.worldwide_frequency.backing_style = 'stroke:none;fill:grey;fill-opacity:0
 layers.worldwide_frequency.font_size = font_medium
 layers.worldwide_frequency.text_style = 'font-family:sans-serif;'
 
-layers.variant_histogram.center = (w(2180), h(647))
+layers.variant_histogram.center = (w(2180), h(683))
 layers.variant_histogram.width = w(360)
 layers.variant_histogram.height = h(270)
 layers.variant_histogram.style = 'stroke:#ffffff;stroke-width:2px;fill:#29efff;'
