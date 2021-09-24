@@ -195,8 +195,7 @@ class PopulationHistogram(Legend):
         svg = ''
         if variant[f'order_{self.cfg.order}'] >= self.layercfg.start_order:
 
-            #shadow = drop_shadow.style if self.cfg.shadows else ''
-            shadow = ''
+            shadow = drop_shadow.magenta_style if self.cfg.shadows else ''
 
             x = self.layercfg.width / 2
 

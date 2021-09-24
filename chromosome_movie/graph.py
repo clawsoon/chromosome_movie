@@ -2,6 +2,7 @@ import collections
 import sqlite3
 
 from . import svg2png
+from . import drop_shadow
 
 class Graph():
 
@@ -53,6 +54,8 @@ class PopulationHistogram(Graph):
 
         svg = ''
 
+        shadow = drop_shadow.magenta_style if self.cfg.shadows else ''
+
         if variant[self.order_key] < self.cfg.layers.legend_population_histogram.start_order:
             return svg
 
@@ -77,7 +80,7 @@ class PopulationHistogram(Graph):
             x = self.layercfg.bar_width * count
             height = self.layercfg.bar_height * frequency
             y = self.layercfg.height - height
-            svg += f'<rect x="{x}" y="{y}" width="{self.layercfg.bar_width}" height="{height}" style="{self.layercfg.style}"/>\n'
+            svg += f'<rect x="{x}" y="{y}" width="{self.layercfg.bar_width}" height="{height}" style="{self.layercfg.style}{shadow}"/>\n'
 
         return svg
 

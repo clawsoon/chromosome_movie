@@ -3,7 +3,7 @@
 import pathlib
 import shutil
 
-part = 't'
+part = '3'
 
 chromosome = '22'
 
@@ -814,42 +814,44 @@ layers.date.line_spacing = 1
 
 all_movie_times = {
     # Inclusive on both numbers.
-    1: {
+    '1': {
         'name': 'part1',
         'type': 'order_range',
         'order_ranges': [
-            (0, 242_879),
+            #(0, 242_879),
+            (0, 2160),
         ],
     },
-    2: {
+    '2': {
         'name': 'part2',
         'type': 'order_range',
         'order_ranges': [
-            (242_880, 472_799),
-            #(242_880, 243_839),
-            #(242_880, 243_880),
+            #(242_880, 472_799),
+            (242_880, 243_616),
         ],
     },
-    3: {
+    '3': {
         'name': 'part3',
         'type': 'order_range',
         'order_ranges': [
-            (472_800, 736_319),
+            #(472_800, 736_319),
+            (472_800, 473_536),
         ],
     },
-    4: {
+    '4': {
         'name': 'part4',
         'type': 'order_range',
         'order_ranges': [
-            (736_320, 974_879),
+            #(736_320, 974_879),
+            (736_320, 737_056),
         ],
     },
-    5: {
+    '5': {
         'name': 'part5',
         'type': 'order_range',
         'order_ranges': [
-            (974_880, 999_999_999),
-            #(974_880, 975_360),
+            #(974_880, 999_999_999),
+            (974_880, 975_616),
         ],
     },
     't': {
@@ -892,7 +894,7 @@ layers.legend_population_histogram.height = h(120)
 layers.legend_population_histogram.style = 'font-family:sans-serif;fill:#ff00fd;stroke:#ff00fd;'
 if part == 't':
     population_histogram_buffer = 256
-elif part == 1:
+elif part == '1':
     population_histogram_buffer = 1680
 else:
     population_histogram_buffer = 272
