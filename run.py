@@ -24,25 +24,17 @@ assert pathlib.Path(config.timidity).exists()
 
 # And now the stuff we need for this script.
 import sys
+import argparse
 import chromosome_movie
 
 if __name__ == '__main__':
 
-    commands = sys.argv[1:]
-    if not commands:
-        print('Usage: run.py [command]')
-        print('''Command can be any combination of:
-        all
-        database
-        chromosome_map
-        clef
-        background
-        order
-        foreground
-        audio
-        movie
-        preview
-        ''')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('commands', nargs='+',
+            choices=['all', 'database', 'chromosome_map', 'clef', 'world_map', 'background', 'order', 'foreground', 'audio', 'movie', 'preview'])
+    args = parser.parse_args()
+
+    commands = args.commands
 
     #for folder in config.folders:
     #    folder.mkdir(parents=True, exist_ok=True)
