@@ -3,7 +3,7 @@
 import pathlib
 import shutil
 
-part = '1'
+part = 't'
 
 chromosome = '22'
 
@@ -878,6 +878,13 @@ all_movie_times = {
             (974_880, 975_359),
         ],
     },
+    'x': {
+        'name': 'test',
+        'type': 'order_range',
+        'order_ranges': [
+            (0, 480),
+        ],
+    },
 }
 
 movie_times = all_movie_times[part]
@@ -887,12 +894,14 @@ movie_times = all_movie_times[part]
 #    'type': None,
 #}
 
-layers.legend_population_histogram.center = (w(1280), h(1200))
+layers.legend_population_histogram.center = (w(1280), h(1155))
 layers.legend_population_histogram.font_size = font_small
 layers.legend_population_histogram.width = w(840)
-layers.legend_population_histogram.height = h(120)
+layers.legend_population_histogram.height = h(210)
 layers.legend_population_histogram.style = 'font-family:sans-serif;fill:#ff00fd;stroke:#ff00fd;'
-if part == 't':
+if part == 'x':
+    population_histogram_buffer = 0
+elif part == 't':
     population_histogram_buffer = 256
 elif part == '1':
     population_histogram_buffer = 1680

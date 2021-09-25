@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sqlite3
 from xml.sax import saxutils
 
 from . import svg2png
@@ -190,10 +191,15 @@ class PopulationHistogram(Legend):
         super().__init__(cfg)
         self.layercfg = self.cfg.layers.legend_population_histogram
 
+        database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
+        cursor = database.cursor()
+        cursor.execute('SELECT COUNT(*) FROM population')
+        self.population_count = cursor.fetchone()[0]
+
     def svg(self, variant=None):
 
         svg = ''
-        if variant[f'order_{self.cfg.order}'] >= self.layercfg.start_order:
+        if not variant or variant[f'order_{self.cfg.order}'] >= self.layercfg.start_order:
 
             shadow = drop_shadow.magenta_style if self.cfg.shadows else ''
 
@@ -205,9 +211,7 @@ class PopulationHistogram(Legend):
 
             svg += f'<text text-anchor="end" x="0" dx="-0.2em" y="{self.layercfg.height}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">1</text>\n'
 
-            # FIXME: We shouldn't hardcode the number of populations.  This
-            # should be fetched from the database.
-            svg += f'<text text-anchor="start" x="{self.layercfg.width}" dx="0.2em" y="{self.layercfg.height}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">230</text>\n'
+            svg += f'<text text-anchor="start" x="{self.layercfg.width}" dx="0.2em" y="{self.layercfg.height}" font-size="{self.layercfg.font_size}" style="{self.layercfg.style}{shadow}">{self.population_count}</text>\n'
 
         return svg
 

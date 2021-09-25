@@ -1,4 +1,5 @@
 import collections
+import math
 import sqlite3
 
 from . import svg2png
@@ -78,7 +79,9 @@ class PopulationHistogram(Graph):
 
         for count, frequency in self.frequencies.items():
             x = self.layercfg.bar_width * count
-            height = self.layercfg.bar_height * frequency
+            #height = self.layercfg.bar_height * frequency
+            # FIXME: Magic numbers to give log-ish-but-not-really scaling.
+            height = 60 * math.asinh(frequency/14)
             y = self.layercfg.height - height
             svg += f'<rect x="{x}" y="{y}" width="{self.layercfg.bar_width}" height="{height}" style="{self.layercfg.style}{shadow}"/>\n'
 
