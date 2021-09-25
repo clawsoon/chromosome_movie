@@ -51,11 +51,29 @@ class PopulationHistogram(Graph):
         sql = f'SELECT population_counts_match_variant_id FROM variant ORDER BY {self.order_key}'
         return cursor
 
+    def scale(self, proportion):
+        # Magic numbers to give log-ish-but-not-really scaling.
+        # FIXME: We should really calculate the magic numbers in the init
+        # by solving:
+        # m * asinh(n) = bar_height_max
+        # m * asinh(n/deque_length) = bar_height_min
+        # Unfortunately, I don't know how to do that.
+        return 58 * math.asinh(proportion*33)
+
     def svg(self, variant):
 
         svg = ''
 
         shadow = drop_shadow.magenta_style if self.cfg.shadows else ''
+
+        # TODO: Should this be part of the legend?  This should probably
+        # be part of the legend.  We'd just have to duplicate or import
+        # the scale function over there.
+        for proportion in self.layercfg.scale_frequencies:
+            x = self.layercfg.width
+            y = self.layercfg.height - self.scale(proportion)
+            # Not doing shadows since the text is so small.
+            svg += f'<text text-anchor="start" dominant-baseline="middle" x="{x}" dx="0.5em" y="{y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.scale_style}">{proportion:.0%}</text>'
 
         if variant[self.order_key] < self.cfg.layers.legend_population_histogram.start_order:
             return svg
@@ -80,8 +98,8 @@ class PopulationHistogram(Graph):
         for count, frequency in self.frequencies.items():
             x = self.layercfg.bar_width * count
             #height = self.layercfg.bar_height * frequency
-            # FIXME: Magic numbers to give log-ish-but-not-really scaling.
-            height = 60 * math.asinh(frequency/14)
+            proportion = frequency / self.layercfg.deque_length
+            height = self.scale(proportion)
             y = self.layercfg.height - height
             svg += f'<rect x="{x}" y="{y}" width="{self.layercfg.bar_width}" height="{height}" style="{self.layercfg.style}{shadow}"/>\n'
 
@@ -109,9 +127,22 @@ class VariantHistogram(Graph):
         sql = f'SELECT ancestral_state, derived_state FROM variant ORDER BY {self.order_key}'
         return cursor
 
+    def scale(self, proportion):
+        return self.layercfg.bar_width * proportion
+
     def svg(self, variant):
 
         svg = ''
+
+        # TODO: Should this be part of the legend?  This should probably
+        # be part of the legend.  We'd just have to duplicate or import
+        # the scale function over there.
+        for proportion in self.layercfg.scale_frequencies:
+            x = self.layercfg.width - self.scale(proportion)
+            y = 0
+            # Not doing shadows since the text is so small.
+            svg += f'<text text-anchor="middle" dominant-baseline="middle" x="{x}" y="{y}" dy="-0.6em" font-size="{self.layercfg.font_size}" style="{self.layercfg.scale_style}">{proportion:.0%}</text>'
+
 
         if len(self.window) == self.layercfg.deque_length:
             popped_state = self.window.popleft()
@@ -121,7 +152,7 @@ class VariantHistogram(Graph):
         self.window.append(state)
 
         for state, frequency in self.frequencies.items():
-            width = self.layercfg.bar_width * (frequency / self.layercfg.deque_length)
+            width = self.scale(frequency / self.layercfg.deque_length)
             x = self.layercfg.width - width
             y = self.layercfg.bar_height * self.cfg.audio_notes[state]['index']
             svg += f'<rect x="{x}" y="{y}" width="{width}" height="{self.layercfg.bar_height}" style="{self.layercfg.style}"/>\n'

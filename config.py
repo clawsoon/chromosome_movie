@@ -382,8 +382,13 @@ layers.population_histogram.width = w(840)
 layers.population_histogram.height = h(430)
 layers.population_histogram.style = 'stroke:none;fill:#ff00fd;'
 layers.population_histogram.bar_width = 4
-layers.population_histogram.bar_height = 1
+# FIXME: bar_height_[min|max] are not yet used.  See graph.py.
+layers.population_histogram.bar_height_max = 244
+layers.population_histogram.bar_height_min = 4
 layers.population_histogram.deque_length = 480
+layers.population_histogram.scale_frequencies = [.05, .1, .2, .4, .6, .8]
+layers.population_histogram.scale_style = 'font-family:sans-serif;stroke:#ff00fd;fill:#ff00fd;'
+layers.population_histogram.font_size = font_miniscule
 
 #layers.traces.style = 'stroke:#ffe800;stroke-width:5;stroke-linecap:round;fill:none;'
 layers.traces.style = 'stroke:#ecc669;stroke-width:5;stroke-linecap:round;fill:none;'
@@ -408,6 +413,9 @@ layers.variant_histogram.style = 'stroke:#ffffff;stroke-width:2px;fill:#29efff;'
 layers.variant_histogram.bar_width = 720
 layers.variant_histogram.bar_height = 22.5
 layers.variant_histogram.deque_length = 480
+layers.variant_histogram.scale_frequencies = [0, .1, .2]
+layers.variant_histogram.scale_style = 'font-family:sans-serif;stroke:#29efff;fill:#29efff;'
+layers.variant_histogram.font_size = font_miniscule
 
 # We're measuring clef from top left instead of centre.
 # Maybe it would be easier for ffmpeg setup to use centre for all layers?
