@@ -20,7 +20,7 @@ filter = '''
          operator="over"
          result="composite2" />
     </filter>
-    <filter style="color-interpolation-filters:sRGB;" id="magentashadow">
+    <filter style="color-interpolation-filters:sRGB;" id="magentashadow" x="-300%" y="-300%" width="700%" height="700%">
       <feFlood
          flood-opacity="0.5"
          flood-color="#ff00fd"

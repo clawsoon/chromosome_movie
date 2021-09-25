@@ -3,7 +3,7 @@
 import pathlib
 import shutil
 
-part = 't'
+part = '1'
 
 chromosome = '22'
 
