@@ -64,6 +64,9 @@ class PopulationHistogram(Graph):
 
         svg = ''
 
+        if variant[self.order_key] < self.cfg.layers.legend_population_histogram.start_order:
+            return svg
+
         shadow = drop_shadow.magenta_style if self.cfg.shadows else ''
 
         # TODO: Should this be part of the legend?  This should probably
@@ -74,9 +77,6 @@ class PopulationHistogram(Graph):
             y = self.layercfg.height - self.scale(proportion)
             # Not doing shadows since the text is so small.
             svg += f'<text text-anchor="start" dominant-baseline="middle" x="{x}" dx="0.5em" y="{y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.scale_style}">{proportion:.0%}</text>'
-
-        if variant[self.order_key] < self.cfg.layers.legend_population_histogram.start_order:
-            return svg
 
         cursor = self.database.cursor()
         cursor.execute('''
