@@ -1,0 +1,15 @@
+asciitree==0.3.3
+attrs==21.2.0
+fasteners==0.16.3
+humanize==3.11.0
+jsonschema==3.2.0
+MIDIUtil==1.2.1
+numcodecs==0.9.1
+numpy==1.21.2
+pyrsistent==0.18.0
+six==1.16.0
+srt==3.4.1
+svgwrite==1.4.1
+tskit==0.3.7
+tszip==0.1.0
+zarr==2.9.5
