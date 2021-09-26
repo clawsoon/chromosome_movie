@@ -394,7 +394,7 @@ layers.population_histogram.font_size = font_miniscule
 layers.traces.style = 'stroke:#ecc669;stroke-width:5;stroke-linecap:round;fill:none;'
 # How long to keep a trace around before removing it.
 layers.traces.deque_length = 480
-layers.traces.start_order = 974_880
+layers.traces.start_order = 1_162_560
 layers.traces.prefer_pacific = False
 
 layers.worldwide_frequency.center = (w(220), h(220))
