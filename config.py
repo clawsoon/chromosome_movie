@@ -3,7 +3,11 @@
 import pathlib
 import shutil
 
-part = 't'
+import os
+
+part = os.environ.get('PART')
+if not part:
+    part = '4'
 
 chromosome = '22'
 
@@ -266,8 +270,12 @@ for name in layer_names:
     else:
         frame_suffix = '.%08d'
 
-    layer.svg = basefolder/name/'svg'/f'{name}{frame_suffix}.svg'
-    layer.png = basefolder/name/'png'/f'{name}{frame_suffix}.png'
+    if name == 'foreground':
+        layer.svg = basefolder/f'{name}-{part}'/'svg'/f'{name}{frame_suffix}.svg'
+        layer.png = basefolder/f'{name}-{part}'/'png'/f'{name}{frame_suffix}.png'
+    else:
+        layer.svg = basefolder/name/'svg'/f'{name}{frame_suffix}.svg'
+        layer.png = basefolder/name/'png'/f'{name}{frame_suffix}.png'
     layer.concat = movie/order/f'{name}.concat'
 
     folders.append(layer.svg.parent)
