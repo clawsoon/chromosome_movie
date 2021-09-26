@@ -19,7 +19,7 @@ for a long time.
 50
 00:00:16,000 --> 00:00:19,000
 This is a teaser for a
-5 part, 36 hour video series
+5 part, 42 hour video series
 
 60
 00:00:19,000 --> 00:00:22,000
@@ -43,8 +43,8 @@ each snippet of chromosome,
 
 100
 00:00:32,000 --> 00:00:35,000
-79,969 family trees
-in total.
+79,969 trees in total
+for chromosome 22.
 
 110
 00:00:36,000 --> 00:00:59,000

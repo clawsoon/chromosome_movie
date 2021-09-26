@@ -9,7 +9,7 @@ Really.  It's like this
 for a long time.
 
 This is a teaser for a
-5 part, 36 hour video series
+5 part, 42 hour video series
 
 mapping 1,228,178 genetic
 variants from chromosome 22.
@@ -23,8 +23,8 @@ was estimated by Wohns et al
 by building family trees for
 each snippet of chromosome,
 
-79,969 family trees
-in total.
+79,969 trees in total
+for chromosome 22.
 
 Part 1 of the series covers
 from 2 million years ago...
