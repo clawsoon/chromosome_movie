@@ -102,7 +102,7 @@ a 5-part video series
 
 220
 00:01:12,000 --> 00:01:15,000
-mapping 1,030,937 genetic
+mapping 1,228,178 genetic
 variants from chromosome 22.
 
 230
@@ -176,8 +176,8 @@ in only one individual
 
 370
 00:02:03,000 --> 00:02:06,000
-or whose derived and
-ancestral states were equal
+(about 2 million
+of them)
 
 380
 00:02:06,000 --> 00:02:09,000

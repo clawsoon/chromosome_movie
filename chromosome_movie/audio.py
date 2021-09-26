@@ -58,22 +58,22 @@ class Audio():
 
         #database = sqlite3.connect(self.cfg.database_readonly_uri, uri=True)
         #cursor = database.cursor()
-        #select = f'SELECT ancestral_state, derived_state FROM variant'
+        #select = f'SELECT parent_state, derived_state FROM variant'
         #if self.cfg.movie_time:
         #    select += f' WHERE time={self.cfg.movie_time}'
         #select += f' ORDER BY order_{self.cfg.order}'
         #if self.cfg.movie_limit:
         #    select += f' LIMIT {self.cfg.movie_limit}'
         #cursor.execute(select)
-        #for num, (ancestral_state, derived_state) in enumerate(cursor):
+        #for num, (parent_state, derived_state) in enumerate(cursor):
         self.order = order.Order(self.cfg)
         for num, variant in enumerate(self.order.select()):
-            ancestral_state = variant['ancestral_state']
+            parent_state = variant['parent_state']
             derived_state = variant['derived_state']
             if num % 1000 == 0:
                 sys.stderr.write(f'{num}\n')
             volume = int(base_volume + volume_cycle_max * math.sin(num/volume_cycle*math.pi))
-            note_name = self.cfg.audio_notes[(ancestral_state, derived_state)]['note']
+            note_name = self.cfg.audio_notes[(parent_state, derived_state)]['note']
             note = self.notes[note_name]
             midi_note = note['pitch']
             track = time % track_count

@@ -36,7 +36,7 @@ class Clef():
             if note == 'C4':
                 line = root.find(f".//*[@id='line{note}']")
                 line.set('style', 'display:inline')
-            variant = {'ancestral_state': In, 'derived_state': Out}
+            variant = {'parent_state': In, 'derived_state': Out}
             tree.write(self.svg_path(variant), encoding='utf8', xml_declaration=True)
             node.set('style', 'display:none')
             if note == 'C4':
@@ -52,7 +52,7 @@ class Clef():
         svg2png.svg2png(self.cfg, svg, png, frames, frame_convert=str)
 
     def index(self, variant):
-        key = (variant['ancestral_state'], variant['derived_state'])
+        key = (variant['parent_state'], variant['derived_state'])
         return self.cfg.audio_notes[key]['note']
 
     def svg(self, variant):

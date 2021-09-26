@@ -124,7 +124,7 @@ class VariantHistogram(Graph):
 
     def select(self):
         cursor = self.database.cursor()
-        sql = f'SELECT ancestral_state, derived_state FROM variant ORDER BY {self.order_key}'
+        sql = f'SELECT parent_state, derived_state FROM variant ORDER BY {self.order_key}'
         return cursor
 
     def scale(self, proportion):
@@ -147,7 +147,7 @@ class VariantHistogram(Graph):
         if len(self.window) == self.layercfg.deque_length:
             popped_state = self.window.popleft()
             self.frequencies[popped_state] -= 1
-        state = (variant['ancestral_state'], variant['derived_state'])
+        state = (variant['parent_state'], variant['derived_state'])
         self.frequencies[state] += 1
         self.window.append(state)
 

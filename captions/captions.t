@@ -11,7 +11,7 @@ for a long time.
 This is a teaser for a
 5 part, 36 hour video series
 
-mapping 1,030,937 genetic
+mapping 1,228,178 genetic
 variants from chromosome 22.
 
 The variants were collected

@@ -87,7 +87,7 @@ class Database():
                 time_mean REAL,
                 time_variance REAL,
                 worldwide_frequency REAL,
-                ancestral_state TEXT,
+                parent_state TEXT,
                 derived_state TEXT,
                 chromosome_position INTEGER,
                 average_longitude REAL,
@@ -148,10 +148,10 @@ class Database():
                 ON variant (population_counts_match_variant_id);
         ''')
 
-        # We're going to be doing a SELECT DISTINCT on ancestral/derived.
+        # We're going to be doing a SELECT DISTINCT on parent/derived.
         cursor.execute('''
             CREATE INDEX IF NOT EXISTS variant_type_idx
-                ON variant (ancestral_state, derived_state);
+                ON variant (parent_state, derived_state);
         ''')
 
 
@@ -428,11 +428,13 @@ class Database():
                 node = self.treeseq.node(variant.node)
                 site = self.treeseq.site(variant.site)
 
-                if site.ancestral_state == variant.derived_state:
-                    # I'm not sure why some mutations are equal to the
-                    # original state - change and change back, I guess?
-                    # - but whatever the reason, we're not including
-                    # them.
+                if variant.parent == -1:
+                    parent_state = site.ancestral_state
+                else:
+                    parent = self.treeseq.mutation(variant.parent)
+                    parent_state = parent.derived_state
+
+                if parent_state == variant.derived_state:
                     skipped['no mutation'] += 1
                     continue
 
@@ -580,7 +582,7 @@ class Database():
                     node_meta['mn'],
                     node_meta['vr'],
                     leaf_count/self.treeseq.num_samples,
-                    site.ancestral_state,
+                    parent_state,
                     variant.derived_state,
                     site.position,
                     average_longitude,
@@ -599,7 +601,7 @@ class Database():
                             time_mean,
                             time_variance,
                             worldwide_frequency,
-                            ancestral_state,
+                            parent_state,
                             derived_state,
                             chromosome_position,
                             average_longitude,
@@ -617,7 +619,7 @@ class Database():
                             time_mean=?,
                             time_variance=?,
                             worldwide_frequency=?,
-                            ancestral_state=?,
+                            parent_state=?,
                             derived_state=?,
                             chromosome_position=?,
                             average_longitude=?,

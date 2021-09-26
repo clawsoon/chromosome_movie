@@ -23,7 +23,7 @@ This is a teaser for a
 
 60
 00:00:19,000 --> 00:00:22,000
-mapping 1,030,937 genetic
+mapping 1,228,178 genetic
 variants from chromosome 22.
 
 70

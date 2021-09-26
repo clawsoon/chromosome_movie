@@ -143,8 +143,8 @@ def svg2png(cfg, svg_template, png_template, frames=None, frame_convert=int, ink
 
     else:
 
-        thread_count = os.cpu_count() - 1
-        #thread_count = 1
+        #thread_count = os.cpu_count() - 1
+        thread_count = 1
         threads = []
         actions_queue = queue.Queue(1)
 
