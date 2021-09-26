@@ -72,11 +72,11 @@ class PopulationHistogram(Graph):
         # TODO: Should this be part of the legend?  This should probably
         # be part of the legend.  We'd just have to duplicate or import
         # the scale function over there.
-        for proportion in self.layercfg.scale_frequencies:
-            x = self.layercfg.width
-            y = self.layercfg.height - self.scale(proportion)
-            # Not doing shadows since the text is so small.
-            svg += f'<text text-anchor="start" dominant-baseline="middle" x="{x}" dx="0.5em" y="{y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.scale_style}">{proportion:.0%}</text>'
+        for x, dx, anchor in ((self.layercfg.width, '0.5em', 'start'), (0, '-0.5em', 'end')):
+            for proportion in self.layercfg.scale_frequencies:
+                y = self.layercfg.height - self.scale(proportion)
+                # Not doing shadows since the text is so small.
+                svg += f'<text text-anchor="{anchor}" dominant-baseline="middle" x="{x}" dx="{dx}" y="{y}" font-size="{self.layercfg.font_size}" style="{self.layercfg.scale_style}">{proportion:.0%}</text>'
 
         cursor = self.database.cursor()
         cursor.execute('''
