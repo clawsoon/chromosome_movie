@@ -169,16 +169,16 @@ class Date(Text):
         return cursor
 
     def svg(self, variant):
-        #if variant['time'] < 1:
-        #    #text = 'Present'
-        #    #text = 'Recent'
-        #    #text = 'Recent\n(&lt;200 years)'
-        #    #text = '&lt;200\nyears ago'
-        #    #text = 'Last two\ncenturies'
-        #    text = f'Less than\n{self.cfg.years_per_generation} years'
-        #else:
-        #    text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
-        text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
+        if variant['time'] < 1:
+            #text = 'Present'
+            #text = 'Recent'
+            #text = 'Recent\n(&lt;200 years)'
+            #text = '&lt;200\nyears ago'
+            #text = 'Last two\ncenturies'
+            text = f'Less than\n{self.cfg.years_per_generation} years'
+        else:
+            text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
+        #text = f'{int(round(self.cfg.years_per_generation*variant["time"])):,}\nyears ago'
         return self.text(text)
 
     def write_svg(self):
@@ -282,7 +282,7 @@ class Populations(Text):
         ''', (variant['population_counts_match_variant_id'],))
 
         for source, name in cursor:
-            column, row, name = self.layercfg.position[(source, name)]
+            column, row, name, region = self.layercfg.position[(source, name)]
             left = self.layercfg.source[source]['left'] + self.layercfg.source[source]['column'][column]
             top = self.layercfg.source[source]['top'] + (2 + row) * self.layercfg.line_spacing * self.layercfg.font_size
             name = saxutils.escape(name)

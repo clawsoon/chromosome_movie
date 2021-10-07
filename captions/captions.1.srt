@@ -1,205 +1,200 @@
 10
-00:00:00,000 --> 00:00:03,000
+00:00:01,000 --> 00:00:04,000
 Welcome.
 
 20
-00:00:04,000 --> 00:00:07,000
+00:00:05,000 --> 00:00:08,000
 The first million years
 of this video series
 
 30
-00:00:07,000 --> 00:00:10,000
+00:00:08,000 --> 00:00:11,000
 are pretty boring.
 
 40
-00:00:11,000 --> 00:00:14,000
+00:00:12,000 --> 00:00:15,000
 That's because most
 human genetic variation
 
 50
-00:00:14,000 --> 00:00:17,000
+00:00:15,000 --> 00:00:18,000
 is pretty boring.
 
 60
-00:00:18,000 --> 00:00:21,000
+00:00:19,000 --> 00:00:22,000
 Almost every common
 genetic variant
 
 70
-00:00:21,000 --> 00:00:24,000
+00:00:22,000 --> 00:00:25,000
 has a tiny effect,
 or no effect at all.
 
 80
-00:00:25,000 --> 00:00:28,000
+00:00:26,000 --> 00:00:29,000
 It takes hundreds of common
 variants added together
 
 90
-00:00:28,000 --> 00:00:31,000
+00:00:29,000 --> 00:00:32,000
 to explain a fraction of the
 variance in complex traits
 
 100
-00:00:31,000 --> 00:00:34,000
+00:00:32,000 --> 00:00:35,000
 like height, weight, schooling,
 or psychiatric diagnosis.
 
 110
-00:00:35,000 --> 00:00:38,000
+00:00:36,000 --> 00:00:39,000
 Each genetic variant by itself
 makes a tiny contribution.
 
 120
-00:00:39,000 --> 00:00:42,000
+00:00:40,000 --> 00:00:43,000
 Since most common variants
 have a tiny effect
 
 130
-00:00:42,000 --> 00:00:45,000
+00:00:43,000 --> 00:00:46,000
 they're free to spread
 more-or-less randomly.
 
 140
-00:00:46,000 --> 00:00:49,000
+00:00:47,000 --> 00:00:50,000
 That's what we're mostly
 looking at right now:
 
 150
-00:00:49,000 --> 00:00:52,000
+00:00:50,000 --> 00:00:53,000
 Genetic variants which
 don't do much
 
 160
-00:00:52,000 --> 00:00:55,000
+00:00:53,000 --> 00:00:56,000
 but which have gotten
 lucky again and again
 
 170
-00:00:55,000 --> 00:00:58,000
+00:00:56,000 --> 00:00:59,000
 and spread across
 the entire globe.
 
 180
-00:00:59,000 --> 00:01:02,000
+00:01:00,000 --> 00:01:03,000
 Later in the video series
 we'll see genetic variants
 
 190
-00:01:02,000 --> 00:01:05,000
+00:01:03,000 --> 00:01:06,000
 which haven't
 been as lucky
 
 200
-00:01:05,000 --> 00:01:08,000
+00:01:06,000 --> 00:01:09,000
 or haven't had as
 much time to spread.
 
 210
-00:01:09,000 --> 00:01:12,000
+00:01:10,000 --> 00:01:13,000
 This is part 1 of
 a 5-part video series
 
 220
-00:01:12,000 --> 00:01:15,000
-mapping 1,228,178 genetic
+00:01:13,000 --> 00:01:16,000
+mapping 703,579 genetic
 variants from chromosome 22.
 
 230
-00:01:16,000 --> 00:01:19,000
+00:01:17,000 --> 00:01:20,000
 This part covers variants from
-2 million to 75,000 years ago.
+2 million to 100,000 years ago.
 
 240
-00:01:20,000 --> 00:01:23,000
+00:01:21,000 --> 00:01:24,000
 These genetic variants were
 collected from 3,754 people
 
 250
-00:01:23,000 --> 00:01:26,000
+00:01:24,000 --> 00:01:27,000
 by the Human Genome
 Diversity Project,
 
 260
-00:01:26,000 --> 00:01:29,000
+00:01:27,000 --> 00:01:30,000
 the Simons Genome
 Diversity Project,
 
 270
-00:01:29,000 --> 00:01:32,000
+00:01:30,000 --> 00:01:33,000
 and the 1000
 Genomes Project.
 
 280
-00:01:33,000 --> 00:01:36,000
+00:01:34,000 --> 00:01:37,000
 Dates when the variants
 first appeared in humans
 
 290
-00:01:36,000 --> 00:01:39,000
+00:01:37,000 --> 00:01:40,000
 were estimated by
 Wohns et al. in their paper
 
 300
-00:01:39,000 --> 00:01:42,000
+00:01:40,000 --> 00:01:43,000
 "A unified genealogy of
 modern and ancient genomes."
 
 310
-00:01:42,000 --> 00:01:45,000
+00:01:43,000 --> 00:01:46,000
 The map shows where
 the variants were found
 
 320
-00:01:45,000 --> 00:01:48,000
+00:01:46,000 --> 00:01:49,000
 in modern populations.
 
 330
-00:01:49,000 --> 00:01:52,000
+00:01:50,000 --> 00:01:53,000
 The video's border is a map
 of the chromosome itself.
 
 340
-00:01:53,000 --> 00:01:56,000
+00:01:54,000 --> 00:01:57,000
 Date estimates may change
 as more data is collected
 
 350
-00:01:56,000 --> 00:01:59,000
+00:01:57,000 --> 00:02:00,000
 and analytical techniques
 are refined.
 
 360
-00:02:00,000 --> 00:02:03,000
+00:02:01,000 --> 00:02:04,000
 Genetic variants found
 in only one individual
 
 370
-00:02:03,000 --> 00:02:06,000
-(about 2 million
-of them)
-
-380
-00:02:06,000 --> 00:02:09,000
+00:02:04,000 --> 00:02:07,000
 have not been included
 in these videos,
 
-390
-00:02:09,000 --> 00:02:12,000
+380
+00:02:07,000 --> 00:02:10,000
 and dates have
 been rounded.
 
-400
-00:02:13,000 --> 00:02:16,000
+390
+00:02:11,000 --> 00:02:14,000
 Many human groups are
 not represented
 
-410
-00:02:16,000 --> 00:02:19,000
+400
+00:02:14,000 --> 00:02:17,000
 so be aware of gaps
 in the data.
 
-420
-00:02:20,000 --> 00:02:23,000
+410
+00:02:18,000 --> 00:02:21,000
 Enjoy.
 

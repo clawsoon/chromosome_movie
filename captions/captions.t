@@ -11,7 +11,7 @@ for a long time.
 This is a teaser for a
 5 part, 42 hour video series
 
-mapping 1,228,178 genetic
+mapping 703,579 genetic
 variants from chromosome 22.
 
 The variants were collected
@@ -29,10 +29,10 @@ for chromosome 22.
 Part 1 of the series covers
 from 2 million years ago...
 
-...to 75,000 years ago.
+...to 100,000 years ago.
 
 Part 2 of the series covers
-from 75,000 years ago...
+from 100,000 years ago...
 
 ...to 25,000 years ago.
 

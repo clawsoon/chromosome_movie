@@ -23,7 +23,7 @@ This is a teaser for a
 
 60
 00:00:19,000 --> 00:00:22,000
-mapping 1,228,178 genetic
+mapping 703,579 genetic
 variants from chromosome 22.
 
 70
@@ -53,12 +53,12 @@ from 2 million years ago...
 
 120
 00:01:00,000 --> 00:01:59,000
-...to 75,000 years ago.
+...to 100,000 years ago.
 
 130
 00:02:00,000 --> 00:02:59,000
 Part 2 of the series covers
-from 75,000 years ago...
+from 100,000 years ago...
 
 140
 00:03:00,000 --> 00:03:59,000
